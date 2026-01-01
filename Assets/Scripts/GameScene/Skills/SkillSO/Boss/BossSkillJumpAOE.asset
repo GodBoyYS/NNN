@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
+  m_Name: BossSkillJumpAOE
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
+  SkillName: 
+  coolDown: 10
+  animationName: Idle
+  chargeDuration: 2
+  chargeAnimationName: Idle
+  warningPrefab: {fileID: 4656544023448678609, guid: 11d9ed38e18361d45bb518f52ff6c4f4, type: 3}
+  isSelfCentered: 1
+  effects:
+  - rid: 3250261512817737801
+  - rid: 3250261512817737802
+  - rid: 3250261512817737803
+  - rid: 3250261512817737805
+  - rid: 3250261512817737807
+  - rid: 3250261533355933964
+  references:
+    version: 2
+    RefIds:
+    - rid: 3250261512817737801
+      type: {class: BossJumpEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u8DF3\u8DC3"
+        height: 3
+        duration: 1
+        isLanding: 0
+    - rid: 3250261512817737802
+      type: {class: DelayEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u6D6E\u7A7A"
+        duration: 2
+    - rid: 3250261512817737803
+      type: {class: BossJumpEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u843D\u5730"
+        height: 0
+        duration: 1
+        isLanding: 1
+    - rid: 3250261512817737805
+      type: {class: AreaEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: AOE
+        radius: 10
+        delay: 0
+        damage: 10
+        vfxPrefab: {fileID: 1033562339999979874, guid: 1855076d3492bc8438ba6f53f254ce93, type: 3}
+    - rid: 3250261512817737807
+      type: {class: KnockbackEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u51FB\u9000"
+        radius: 10
+        force: 10
+        stunTime: 1
+    - rid: 3250261533355933964
+      type: {class: CameraShakeEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u9707\u5C4F"
+        shakeForce: 0.5
+        onlyLocalPlayer: 0

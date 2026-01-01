@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
+  m_Name: PlayerESkill
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
+  SkillName: ESkill
+  coolDown: 2
+  animationName: Attack03_SwordAndShiled
+  effects:
+  - rid: 3250261351905886278
+  references:
+    version: 2
+    RefIds:
+    - rid: 3250261351905886278
+      type: {class: TeleportEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: GOOO!
+        distance: 5
+        isDash: 1
+        duration: 0.5

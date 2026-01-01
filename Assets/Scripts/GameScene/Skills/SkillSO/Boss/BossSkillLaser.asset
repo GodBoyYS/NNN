@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
+  m_Name: BossSkillLaser
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
+  SkillName: 
+  coolDown: 10
+  animationName: Walk
+  chargeDuration: 2
+  chargeAnimationName: Idle
+  warningPrefab: {fileID: 0}
+  isSelfCentered: 1
+  effects:
+  - rid: 3250261512817737810
+  - rid: 3250261533355933966
+  references:
+    version: 2
+    RefIds:
+    - rid: 3250261512817737810
+      type: {class: DynamicLaserEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: "\u52A8\u6001\u96F7\u5C04\u5149"
+        _laserPrefab: {fileID: 4221380462291607635, guid: 55a5e120506ef2a41b3cb7e6cf940db2, type: 3}
+        baseConeAngle: 90
+        rayCount: 3
+        sweepSpeed: 1
+        sweepAmplitude: 15
+        syncRotationWithBoss: 1
+        startLength: 1
+        maxLength: 20
+        growthTime: 1
+        totalDuration: 5
+        rayWidth: 0.5
+        damagePerTick: 2
+        damageInterval: 1
+    - rid: 3250261533355933966
+      type: {class: CameraShakeEffect, ns: , asm: Assembly-CSharp}
+      data:
+        effectName: 
+        shakeForce: 2
+        onlyLocalPlayer: 1
