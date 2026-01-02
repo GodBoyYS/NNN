@@ -7,7 +7,8 @@ using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(NetworkObject))]
-public class EnemyController : NetworkBehaviour
+public class EnemyController : NetworkBehaviour,
+    IDamageable
 {
     public enum NPCMotionState
     {
@@ -45,6 +46,19 @@ public class EnemyController : NetworkBehaviour
         );
     public NetworkVariable<NPCMotionState> Motion => _currentEnmeyState;
     public NPCMotionState MotionStateVar => _currentEnmeyState.Value;
+    private NetworkVariable<int> _currentHealth = new NetworkVariable<int>(
+        100,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+        );
+    // 同理
+    public int MaxHealth => _maxHealth;
+    public int CurrentHealth => _currentHealth.Value;
+    [SerializeField] private int _maxHealth = 100;
+    #endregion
+
+    #region public events
+    public event Action<int, int> OnHealthChanged; // 事件
     #endregion
     public override void OnNetworkSpawn()
     {
@@ -56,6 +70,7 @@ public class EnemyController : NetworkBehaviour
             _agent.enabled = true;
             _currentEnmeyState.Value = NPCMotionState.Idle;
             //_currentBossState.Value = BossMotionState.Idle;
+            _currentHealth.Value = _maxHealth;
         }
         else
         {
@@ -64,6 +79,8 @@ public class EnemyController : NetworkBehaviour
             // 客户端如果不需要跑状态机逻辑（纯表现），可以不初始化 _currenState
             // 或者初始化一个只负责播放特效的 dummy state
         }
+        _currentHealth.OnValueChanged += (prev, curr) => OnHealthChanged?.Invoke(curr, _maxHealth);
+        OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
     private void Update()
     {
@@ -240,14 +257,16 @@ public class EnemyController : NetworkBehaviour
             _target = bestTarget;
         }
     }
- 
+
+    public void TakeDamage(int amount, ulong attackerId)
+    {
+        if (!IsServer) return;
+        int newHealth = _currentHealth.Value - amount;
+        if (newHealth < 0) newHealth = 0;
+        _currentHealth.Value = newHealth;
+        if (newHealth <= 0)
+        {
+            // Die logic
+        }
+    }
 }
-
-
-/*
-     * 怪物状态明确：（暂时不加入巡逻状态）
-     * 怪物最初在idle状态：不断检测玩家，直到->1.玩家出现在自己的检测范围内，大于攻击范围-->切换到追逐状态；2.玩家出现在攻击范围内->切换到攻击状态；
-     * 怪物进入追逐状态：持续追逐敌人，直到-->1.玩家进入攻击范围，切换到攻击状态；2.玩家逃脱追逐范围，切换到idle状态
-     * 怪物进入攻击状态：持续攻击敌人，直到-->1.玩家死亡，切换到idle状态；2.玩家跑出攻击范围，切换到追逐状态；
-     */
-

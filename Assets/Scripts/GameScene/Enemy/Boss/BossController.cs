@@ -50,7 +50,9 @@ public class BossController : NetworkBehaviour, IDamageable
     private NetworkVariable<int> _currentSkillIndex = new NetworkVariable<int>(
         0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
-
+    // 确保有公共属性访问器
+    public int MaxHealth => _maxHealth; // 如果之前没有，加上这个
+    public int CurrentHealth => _currentHealth.Value; // 加上这个，让 Binder 初始化时能读到
     public BossMotionState MotionState => _currentBossState.Value;
     public int CurrentSkillIdx => _currentSkillIndex.Value;
     public SkillDataSO CurrentSkillData => (_skills != null && CurrentSkillIdx >= 0 && CurrentSkillIdx < _skills.Length) ? _skills[CurrentSkillIdx] : null;
@@ -58,6 +60,9 @@ public class BossController : NetworkBehaviour, IDamageable
     public event Action OnBossDied;
     private BossStateMachine _stateMachine;
 
+    #region public events
+    public event Action<int, int> OnHealthChanged; // <Current, Max>
+    #endregion
     private void Awake()
     {
         if (_view == null) _view = GetComponent<BossPresentation>();
@@ -82,14 +87,18 @@ public class BossController : NetworkBehaviour, IDamageable
 
         // 核心：监听网络变量变化，驱动本地状态机
         _currentBossState.OnValueChanged += OnStateNetworkValueChanged;
-
         // 初始化初始状态
         SyncStateFromNetwork(_currentBossState.Value);
+        // [新增] 监听网络变量变化
+        _currentHealth.OnValueChanged += OnHealthNetworkChanged;
+        // [新增] 初始触发一次
+        OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
 
     public override void OnNetworkDespawn()
     {
         _currentBossState.OnValueChanged -= OnStateNetworkValueChanged;
+        _currentHealth.OnValueChanged -= OnHealthNetworkChanged;
     }
 
     private void Update()
@@ -117,12 +126,15 @@ public class BossController : NetworkBehaviour, IDamageable
     }
 
     // --- 状态同步逻辑 ---
-
     private void OnStateNetworkValueChanged(BossMotionState oldState, BossMotionState newState)
     {
         SyncStateFromNetwork(newState);
     }
-
+    // 4. [新增] 处理网络变量变化的回调
+    private void OnHealthNetworkChanged(int prev, int curr)
+    {
+        OnHealthChanged?.Invoke(curr, _maxHealth);
+    }
     private void SyncStateFromNetwork(BossMotionState state)
     {
         switch (state)
