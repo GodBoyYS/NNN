@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1982881086708988895}
   - component: {fileID: 7659913512701356229}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: FlyingBullte
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

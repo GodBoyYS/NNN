@@ -18,23 +18,25 @@ public class EnemyController : NetworkBehaviour,
         Die = 3
     }
     [SerializeField] private float _chaseRange = 10f;
-    [SerializeField] private float _attackRange = 5f;
+    //[SerializeField] private float _attackRange = 5f;
     [SerializeField] private LayerMask _chaseLayer;
     // 优化：计时器，避免每帧重复计算路径
     private float _repathTimer = 0f;
     private float _repathInterval = 0.2f;
     private float _attackTimer = 0f;
     private float _attackInterval = 0.833f;
-    private bool _isAttacking = false;
     public LayerMask ChaseLayer => _chaseLayer;
     private NavMeshAgent _agent;
     private NetworkObject _target;
-    
+
+    [Header("Skill Settings")]
+    [SerializeField] private SkillDataSO _skillData; // 核心：配置技能数据
+    [SerializeField] private float _triggerAttackRange = 5f;
 
 
     #region public property
     public NavMeshAgent Agent => _agent;
-    public float AttackRange => _attackRange;
+    //public float AttackRange => _attackRange;
     public float ChaseRange => _chaseRange;
     #endregion
 
@@ -56,6 +58,12 @@ public class EnemyController : NetworkBehaviour,
     public int CurrentHealth => _currentHealth.Value;
     [SerializeField] private int _maxHealth = 100;
     #endregion
+    
+    private float _skillTimer = 0f; // 技能冷却计时器
+    public string GetSkillAnimationName()
+    {
+        return _skillData.skillActiveAnimationName;
+    }
 
     #region public events
     public event Action<int, int> OnHealthChanged; // 事件
@@ -71,6 +79,9 @@ public class EnemyController : NetworkBehaviour,
             _currentEnmeyState.Value = NPCMotionState.Idle;
             //_currentBossState.Value = BossMotionState.Idle;
             _currentHealth.Value = _maxHealth;
+
+            // 初始化 CD，避免怪物一出生就秒放技能，可以给一点随机延迟
+            _skillTimer = 1.0f;
         }
         else
         {
@@ -85,6 +96,8 @@ public class EnemyController : NetworkBehaviour,
     private void Update()
     {
         if (!IsServer) return;
+        // 更新技能冷却
+        if (_skillTimer > 0) _skillTimer -= Time.deltaTime;
         // 【优化】不要每帧都先 Detect 再 Chase
         // 而是根据当前状态决定行为
         switch (_currentEnmeyState.Value)
@@ -104,14 +117,12 @@ public class EnemyController : NetworkBehaviour,
 
     private void LogicIdle()
     {
-        DetectPlayer(); // 只有 Idle 时才需要不断寻找目标
-                        // 如果找到了目标，DetectPlayer 内部已经赋值了 _target
+        DetectPlayer();
         if (_target != null)
         {
-            // 找到了目标，根据距离决定直接攻击还是追逐
             float distance = Vector3.Distance(transform.position, _target.transform.position);
-
-            if (distance <= _attackRange)
+            // 使用配置的触发距离
+            if (distance <= _triggerAttackRange)
             {
                 ChangeStateToAttack();
             }
@@ -124,27 +135,28 @@ public class EnemyController : NetworkBehaviour,
 
     private void LogicChase()
     {
-        // 1. 丢失目标检测
         if (_target == null)
         {
             ChangeStateToIdle();
             return;
         }
-        // 2. 距离检测
+
         float distance = Vector3.Distance(transform.position, _target.transform.position);
-        // 如果超出追逐范围 -> 变回 Idle
-        if (distance > _chaseRange * 1.2f) // 1.2倍容错
+
+        // 这里的脱战距离可以稍微大一点
+        if (distance > _chaseRange * 1.5f)
         {
             ChangeStateToIdle();
             return;
         }
-        // 如果进入攻击范围 -> 变为 Attack
-        if (distance <= _attackRange)
+
+        // 进入攻击范围
+        if (distance <= _triggerAttackRange)
         {
             ChangeStateToAttack();
             return;
         }
-        // 3. 执行移动 (只有在 Chase 状态才移动)
+
         ChasePlayerMovement();
     }
 
@@ -155,16 +167,41 @@ public class EnemyController : NetworkBehaviour,
             ChangeStateToIdle();
             return;
         }
-        // 1. 距离检测：如果玩家跑远了，变回追逐
-        // 给一点容错，比如攻击范围是2米，玩家跑到2.5米再切换回追逐，防止在临界点鬼畜切换
+
         float distance = Vector3.Distance(transform.position, _target.transform.position);
-        if (distance > _attackRange * 1.1f)
+
+        // 如果玩家跑远了，切换回追击
+        if (distance > _triggerAttackRange * 1.2f)
         {
             ChangeStateToChase();
             return;
         }
-        // 2. 执行攻击逻辑
-        AttackPlayerBehavior();
+
+        // 停止移动
+        if (_agent.isOnNavMesh) _agent.ResetPath();
+
+        // 1. 始终面向目标 (这一步很重要，特别是远程怪)
+        Vector3 direction = (_target.transform.position - transform.position).normalized;
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 10f * Time.deltaTime);
+        }
+
+        // 2. 尝试释放技能
+        if (_skillTimer <= 0 && _skillData != null)
+        {
+            // 重置 CD
+            _skillTimer = _skillData.coolDown;
+
+            // 调用技能系统的 Cast
+            // 注意：Cast 会在本地启动 Coroutine 处理 DelayEffect 等
+            // 如果技能是 FlyingBullet，它会生成子弹 NetworkObject
+            // 如果技能是 DamageEffect，它会直接造成伤害
+            _skillData.Cast(gameObject, _target.gameObject, _target.transform.position);
+
+            Debug.Log($"Enemy Cast Skill: {_skillData.name}");
+        }
     }
 
     // --- 状态切换辅助方法 (把状态赋值和副作用分开) ---
