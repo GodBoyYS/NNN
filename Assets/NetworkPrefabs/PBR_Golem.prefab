@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3394051332
+  GlobalObjectIdHash: 1500559190
   InScenePlacedSourceGlobalObjectIdHash: 1500559190
   DeferredDespawnTick: 0
   Ownership: 1
@@ -238,17 +238,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   ShowTopMostFoldoutHeaderGroup: 1
-  _maxHealth: 100
-  _chaseRange: 20
-  _basicAttackRange: 5
-  _chaseLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  _view: {fileID: 7721159412951348067}
   _skills:
   - {fileID: 11400000, guid: eb9092bca05d2df499a77d14e5e51269, type: 2}
   - {fileID: 11400000, guid: 9303b4ea36bf8a64ea64024d600e7c50, type: 2}
   - {fileID: 11400000, guid: 69587fb529ff7f348abf4790ceabd7a9, type: 2}
   - {fileID: 11400000, guid: b1ae9c5aa9e0adc40b0a425691dde72e, type: 2}
+  _maxHealth: 100
+  ChaseRange: 30
+  BasicAttackRange: 3.5
+  ChaseLayer:
+    serializedVersion: 2
+    m_Bits: 64
   _specialSkillInterval: 15
 --- !u!114 &7721159412951348067
 MonoBehaviour:
@@ -262,6 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b9d28c8862c1094fb3ca88dad1aa989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossPresentation
+  Animator: {fileID: 95380085654935804}
+  Agent: {fileID: 7619697430154779848}
 --- !u!114 &7861059781057016721
 MonoBehaviour:
   m_ObjectHideFlags: 0

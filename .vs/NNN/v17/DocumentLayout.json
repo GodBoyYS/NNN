@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "C:\\UnityProjects\\NNN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3A501590-3661-D008-FEA2-05229DC28B84}|Assembly-CSharp-Editor.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\editor\\codecopyer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3A501590-3661-D008-FEA2-05229DC28B84}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\scripts\\editor\\codecopyer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bosspresentation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bosspresentation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\boss\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CodeCopyer.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\Editor\\CodeCopyer.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Editor\\CodeCopyer.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\Editor\\CodeCopyer.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Editor\\CodeCopyer.cs",
-              "ViewState": "AgIAAA8BAAAAAAAAAAAIwBUBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-01T15:49:35.939Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{5a4e9529-b6a0-46b5-be4f-0f0b239bc0eb}"
@@ -55,51 +26,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BossPresentation.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossPresentation.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossPresentation.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossPresentation.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossPresentation.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAmwEwAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-01T07:34:07.911Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BossStateCharge.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAswCEAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-01T08:22:04.586Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BossController.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAgwGwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-01T13:30:22.246Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "StateMachine.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",
               "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-01T13:24:36.531Z",
               "EditorCaption": ""

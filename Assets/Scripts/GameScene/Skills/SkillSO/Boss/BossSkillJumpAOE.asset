@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: BossSkillJumpAOE
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  SkillName: 
   coolDown: 10
-  animationName: Idle
   chargeDuration: 2
   chargeAnimationName: Idle
   warningPrefab: {fileID: 4656544023448678609, guid: 11d9ed38e18361d45bb518f52ff6c4f4, type: 3}
-  isSelfCentered: 1
+  chargeVisualPrefabs: []
+  skillActiveAnimationName: Idle
   effects:
   - rid: 3250261512817737801
   - rid: 3250261512817737802
@@ -26,6 +25,8 @@ MonoBehaviour:
   - rid: 3250261512817737805
   - rid: 3250261512817737807
   - rid: 3250261533355933964
+  isSelfCentered: 1
+  skillRecoveryAnimationName: 
   references:
     version: 2
     RefIds:

@@ -20,10 +20,12 @@ MonoBehaviour:
   warningPrefab: {fileID: 4656544023448678609, guid: 11d9ed38e18361d45bb518f52ff6c4f4, type: 3}
   chargeVisualPrefabs:
   - {fileID: 3711392659470160833, guid: f8cc8eba189977543a023a040e0e0bf4, type: 3}
-  isSelfCentered: 0
+  skillActiveAnimationName: UltimateEnd
   effects:
   - rid: 3250261512817737808
   - rid: 3250261533355933963
+  isSelfCentered: 1
+  skillRecoveryAnimationName: 
   references:
     version: 2
     RefIds:

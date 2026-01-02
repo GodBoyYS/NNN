@@ -9,9 +9,9 @@ public class SkillDataSO : ScriptableObject
 {
     
     [Header("技能基础")]
-    public string SkillName;
+    //public string SkillName;
     public float coolDown = 1.0f;
-    public string animationName = "Skill1"; // 攻击动作
+    //public string animationName = "Skill1"; // 攻击动作
 
     [Header("阶段一，前摇")]
     [Tooltip("蓄力时间（秒），对应预警圈的时间")]

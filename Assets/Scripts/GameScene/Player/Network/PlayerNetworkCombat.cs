@@ -45,8 +45,8 @@ public class PlayerNetworkCombat : NetworkBehaviour
     // 冷却计时器数组 (对应 _skillSlots 的索引)
     private float[] _cooldownTimers;
 
-    public string GetSkillAnimationName() => _skillSlots[_currentSkillIndex.Value].animationName;
-
+    //public string GetSkillAnimationName() => _skillSlots[_currentSkillIndex.Value].animationName;
+    public string GetSkillAnimationName() => _skillSlots[_currentSkillIndex.Value].skillActiveAnimationName;
     // 对外只读属性
     public int CurrentSkillIndex => _currentSkillIndex.Value;
     public int SkillCount => _skillSlots.Count;
