@@ -280,7 +280,7 @@ public class EnemyController : NetworkBehaviour,
         foreach (Collider collider in colliderInfos)
         {
             if (collider.gameObject == gameObject) continue;
-            if (!collider.TryGetComponent<NetworkObject>(out NetworkObject netObj)) continue;
+            if (!collider.TryGetComponent<PlayerDataContainer>(out PlayerDataContainer playerData)) continue;
 
             // 简单的可见性检查（防止隔墙吸仇恨，可选）
             // if (Physics.Linecast(transform.position + Vector3.up, collider.transform.position + Vector3.up, GroundLayer)) continue;
@@ -289,7 +289,7 @@ public class EnemyController : NetworkBehaviour,
             if (d < minDistance)
             {
                 minDistance = d;
-                bestTarget = netObj;
+                bestTarget = playerData.GetComponent<NetworkObject>();
             }
         }
 

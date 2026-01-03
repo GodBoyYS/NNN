@@ -8,7 +8,7 @@ public class GameLifecycleManager : NetworkBehaviour
 {
     [SerializeField] private BossController bossInstance;
 
-    private List<PlayerNetworkCore> activePlayers = new List<PlayerNetworkCore>();
+    private List<PlayerMainController> activePlayers = new List<PlayerMainController>();
     private bool isGameEnded = false;
 
     public static GameLifecycleManager Instance { get; private set; }
@@ -32,8 +32,8 @@ public class GameLifecycleManager : NetworkBehaviour
         {
             if (client.PlayerObject != null)
             {
-                var playerCore = client.PlayerObject.GetComponent<PlayerNetworkCore>();
-                RegisterPlayer(playerCore);
+                var player = client.PlayerObject.GetComponent<PlayerMainController>();
+                RegisterPlayer(player);
             }
         }
 
@@ -54,25 +54,25 @@ public class GameLifecycleManager : NetworkBehaviour
         }
     }
 
-    public void RegisterPlayer(PlayerNetworkCore player)
+    public void RegisterPlayer(PlayerMainController player)
     {
         if (!IsServer || player == null) return;
 
         if (!activePlayers.Contains(player))
         {
             activePlayers.Add(player);
-            player.OnPlayerDied += HandlePlayerDeath;
+            player.DataContainer.OnDied += HandlePlayerDeath;
             Debug.Log($"[Manager] Player Registered. ID: {player.OwnerClientId}. Total Players: {activePlayers.Count}");
         }
     }
 
-    public void UnregisterPlayer(PlayerNetworkCore player)
+    public void UnregisterPlayer(PlayerMainController player)
     {
         if (!IsServer || player == null) return;
 
         if (activePlayers.Contains(player))
         {
-            player.OnPlayerDied -= HandlePlayerDeath;
+            player.DataContainer.OnDied -= HandlePlayerDeath;
             activePlayers.Remove(player);
             Debug.Log($"[Manager] Player Unregistered. ID: {player.OwnerClientId}. Remaining: {activePlayers.Count}");
 
@@ -81,7 +81,7 @@ public class GameLifecycleManager : NetworkBehaviour
         }
     }
 
-    private void HandlePlayerDeath(PlayerNetworkCore deadPlayer)
+    private void HandlePlayerDeath(PlayerDataContainer deadPlayer)
     {
         if (isGameEnded) return;
 
@@ -91,7 +91,7 @@ public class GameLifecycleManager : NetworkBehaviour
         foreach (var p in activePlayers)
         {
             // 确保只统计未死亡且对象还存在的玩家
-            if (p != null && !p.IsDead)
+            if (p != null && !p.DataContainer.IsDead)
             {
                 aliveCount++;
             }
@@ -112,7 +112,7 @@ public class GameLifecycleManager : NetworkBehaviour
         {
             if (client.PlayerObject != null)
             {
-                RegisterPlayer(client.PlayerObject.GetComponent<PlayerNetworkCore>());
+                RegisterPlayer(client.PlayerObject.GetComponent<PlayerMainController>());
             }
         }
     }

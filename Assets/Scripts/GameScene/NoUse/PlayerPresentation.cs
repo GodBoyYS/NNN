@@ -52,7 +52,7 @@ public class PlayerPresentation : NetworkBehaviour
             // 绑定 UI
             if (GameHUDView.Instance != null)
             {
-                GameHUDView.Instance.BindToLocalPlayer(_health, _combat, _core);
+                //GameHUDView.Instance.BindToLocalPlayer(_health, _combat, _core);
             }
 
             // --- 增加调试日志 ---

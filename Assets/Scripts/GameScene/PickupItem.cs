@@ -20,15 +20,16 @@ public class PickupItem : NetworkBehaviour, IInteractable
             if (Vector3.Distance(transform.position, sourceNetObj.transform.position) > 3.0f) return;
             // 获取玩家核心组件
             // 增加分数 + 物品入背包
-            if (sourceNetObj.TryGetComponent<PlayerNetworkCore>(out var core))
+            //if (sourceNetObj.TryGetComponent<PlayerNetworkCore>(out var playerdata))
+            if (sourceNetObj.TryGetComponent<PlayerDataContainer>(out var playerdata))
             {
-                // 直接调用 Server 端方法加分
-                core.AddPointsServer(points);
-                // 调用 server 端方法入背包
-                core.AddItem(gameObject.name);
+            // 直接调用 Server 端方法加分
+            playerdata.AddPointsServer(points);
+            // 调用 server 端方法入背包
+            playerdata.AddItemServer(gameObject.name);
 
-                // 销毁药水
-                GetComponent<NetworkObject>().Despawn();
+            // 销毁药水
+            GetComponent<NetworkObject>().Despawn();
             }
         }
     }

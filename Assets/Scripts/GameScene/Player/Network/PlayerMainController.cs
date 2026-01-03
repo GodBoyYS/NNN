@@ -39,6 +39,24 @@ public class PlayerMainController : NetworkBehaviour
             GameCameraManager.Instance.SetFollowTarget(transform);
         }
     }
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            GameHUDView.Instance.BindToLocalPlayer(_dataContainer, _combat);
+        }
+        if (IsServer)
+        {
+            GameLifecycleManager.Instance.RegisterPlayer(this);
+        }
+    }
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            GameLifecycleManager.Instance.UnregisterPlayer(this);
+        }
+    }
 
     private void Update()
     {

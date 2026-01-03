@@ -49,7 +49,7 @@ public class BossStateIdle : BossBaseState
         var hits = Physics.OverlapSphere(_controller.transform.position, _controller.ChaseRange, _controller.ChaseLayer);
         foreach (var hit in hits)
         {
-            if (hit.TryGetComponent<PlayerNetworkCore>(out var playerCore) && !playerCore.IsDead)
+            if (hit.TryGetComponent<PlayerDataContainer>(out var playerData) && !playerData.IsDead)
             {
                 _controller.SetTarget(hit.GetComponent<Unity.Netcode.NetworkObject>());
                 return;

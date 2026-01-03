@@ -31,7 +31,7 @@ public class PlayerNetworkCore : NetworkBehaviour
     public PlayerNetworkStates.MotionState Motion => _motionState.Value;
     public NetworkVariable<PlayerNetworkStates.MotionState> MotionVar => _motionState;
     public bool IsDead => _lifeState.Value == PlayerNetworkStates.LifeState.Dead;
-    
+
     // ======NV points
     private readonly NetworkVariable<int> _points = new NetworkVariable<int>(
         0,
@@ -87,14 +87,14 @@ public class PlayerNetworkCore : NetworkBehaviour
         }
         if (GameLifecycleManager.Instance != null)
         {
-            GameLifecycleManager.Instance.RegisterPlayer(this);
+            //GameLifecycleManager.Instance.RegisterPlayer(this);
         }
         else
         {
             // 如果 Instance 还没准备好（这种情况很少见，因为我们在Manager里修复了主动扫描），
             // 但为了保险，可以用 FindObject 兜底
             var manager = FindFirstObjectByType<GameLifecycleManager>();
-            if (manager != null) manager.RegisterPlayer(this);
+            //if (manager != null) manager.RegisterPlayer(this);
         }
         // 可选：通知子模块“复位”
         _movement?.ServerReset();
@@ -112,10 +112,10 @@ public class PlayerNetworkCore : NetworkBehaviour
         // 【修复】先检查 Instance 是否存在
         if (GameLifecycleManager.Instance != null)
         {
-            GameLifecycleManager.Instance.UnregisterPlayer(this);
+            //GameLifecycleManager.Instance.UnregisterPlayer(this);
         }
         var gameManager = GameLifecycleManager.Instance;
-        gameManager.UnregisterPlayer(this);
+        //gameManager.UnregisterPlayer(this);
     }
 
     private void Update()

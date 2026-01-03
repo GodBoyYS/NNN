@@ -3,7 +3,8 @@ using Unity.Netcode;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class PlayerNetworkMovement : NetworkBehaviour, IKnockBackable
+public class PlayerNetworkMovement : NetworkBehaviour, 
+    IKnockBackable
 {
     [Header("Settings")][SerializeField] private float moveSpeed = 6f; [SerializeField] private float rotateSpeed = 15f; [SerializeField] private float smoothTime = 0.15f;
 
@@ -138,4 +139,12 @@ public class PlayerNetworkMovement : NetworkBehaviour, IKnockBackable
     public void ServerReset() { }
 
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other != null)
+        {
+            other.GetComponent<IInteractable>().Interact(gameObject);
+        }
+    }
 }

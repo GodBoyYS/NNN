@@ -19,9 +19,10 @@ public class GameHUDView : MonoBehaviour
     public Image item3;
 
     //[SerializeField] GameHUDViewModel _vm;
-    private PlayerNetworkHealth _pnHealth;
+    //private PlayerNetworkHealth _pnHealth;
     private PlayerNetworkCombat _pnCombat;
-    private PlayerNetworkCore _core;
+    //private PlayerNetworkCore _core;
+    private PlayerDataContainer _playerData;
 
     public static GameHUDView Instance { get; private set; } // 简单的单例
 
@@ -32,26 +33,33 @@ public class GameHUDView : MonoBehaviour
     }
 
     // 提供一个公开的 Bind 方法，接收具体的玩家实例
-    public void BindToLocalPlayer(PlayerNetworkHealth health, PlayerNetworkCombat combat, PlayerNetworkCore core)
+    //public void BindToLocalPlayer(PlayerNetworkHealth health, PlayerNetworkCombat combat, PlayerNetworkCore core)
+    public void BindToLocalPlayer(PlayerDataContainer container, PlayerNetworkCombat combat)
     {
-        _pnHealth = health;
+        _playerData = container;
+        //_pnHealth = health;
         _pnCombat = combat;
-        _core = core;
+        //_core = core;
         BindView();
     }
     public void BindView()
     {
-        _pnHealth.CurrentHealthVar.OnValueChanged += UpdateHealthSlider;
+        _playerData.CurrentHealthVar.OnValueChanged += UpdateHealthSlider;
+        //_pnHealth.CurrentHealthVar.OnValueChanged += UpdateHealthSlider;
 
         _pnCombat.QSkillActiveVar.OnValueChanged += UpdateQSkill;
         _pnCombat.WSkillActiveVar.OnValueChanged += UpdateWSkill;
         _pnCombat.ESkillActiveVar.OnValueChanged += UpdateESkill;
 
-        _core.PointVar.OnValueChanged += UpdatePoints;
-        _core.ItemsVar.OnListChanged += UpdateItems;
+        //_core.PointVar.OnValueChanged += UpdatePoints;
+        //_core.ItemsVar.OnListChanged += UpdateItems;
+
+        _playerData.PointVar.OnValueChanged += UpdatePoints;
+        _playerData.ItemsVar.OnListChanged += UpdateItems;
 
         // 3. 立即刷新一次 UI 到最新状态
-        UpdateHealthSlider(_pnHealth.MaxHealth, _pnHealth.MaxHealth);
+        UpdateHealthSlider(_playerData.MaxHealth, _playerData.MaxHealth);
+        //UpdateHealthSlider(_pnHealth.MaxHealth, _pnHealth.MaxHealth);
         UpdateQSkill(true, _pnCombat.QSkillActiveVar.Value);
         UpdateWSkill(true, _pnCombat.WSkillActiveVar.Value);
         UpdateESkill(true, _pnCombat.ESkillActiveVar.Value);
@@ -60,7 +68,8 @@ public class GameHUDView : MonoBehaviour
     {
         if (HealthSlider == null) return;
         //Debug.Log($"prehealth = {preHealth}, currenthealth = {currentHealth}");
-        HealthSlider.value = (float)currentHealth / (float)_pnHealth.MaxHealth;
+        //HealthSlider.value = (float)currentHealth / (float)_pnHealth.MaxHealth;
+        HealthSlider.value = (float)currentHealth / (float)_playerData.MaxHealth;
     }
     public void UpdateQSkill(bool ignore, bool active)
     {
@@ -83,12 +92,11 @@ public class GameHUDView : MonoBehaviour
     {
         // ❌ 错误写法：直接拿结构体和 null 比较会导致崩溃
         // item1.sprite = changeEvent.Value == null ? itemIcon : null;
-
         // ✅ 正确逻辑：根据列表中当前的元素数量，决定显示几个图标
         // 我们不关心这次是 Add 还是 Remove，我们只关心现在背包里有几个东西
-
         // 获取当前背包里的物品数量
-        int count = _core.ItemsVar.Count;
+        //int count = _core.ItemsVar.Count;
+        int count = _playerData.ItemsVar.Count;
         // 格子 1：如果数量 >= 1，显示图标，否则隐藏
         if (count >= 1)
         {
