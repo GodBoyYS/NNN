@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: NPCSkillRemote
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  coolDown: 1
+  coolDown: 5
+  castRadius: 10
   chargeDuration: 1.5
   chargeAnimationName: Idle
   warningPrefab: {fileID: 0}
@@ -29,8 +30,9 @@ MonoBehaviour:
       type: {class: FlyingBullet, ns: , asm: Assembly-CSharp}
       data:
         effectName: "\u8FDC\u7A0B\u653B\u51FB"
-        _bulletPrefab: {fileID: 7659913512701356229, guid: e9633357dbd6a0d419ed9aac502c831b, type: 3}
+        _bulletPrefab: {fileID: -7491833152956958145, guid: 4e269f86c4d3c074098b18e34c00b32f, type: 3}
         speed: 10
         maxDistance: 20
         damage: 15
         radius: 1
+        modelRotationOffset: {x: 90, y: 0, z: 0}

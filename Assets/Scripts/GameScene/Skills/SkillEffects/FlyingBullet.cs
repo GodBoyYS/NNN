@@ -1,4 +1,3 @@
-// 技能积木，生成物体
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,78 +6,52 @@ using System.Collections;
 [Serializable]
 public class FlyingBullet : SkillEffect
 {
-    [Header("投掷物参数")]
-    [SerializeField] private NetworkObject _bulletPrefab; // 必须是 NetworkObject
+    [Header("投射物配置")]
+    [SerializeField] private NetworkObject _bulletPrefab;
     public float speed = 10f;
     public float maxDistance = 20f;
     public int damage = 15;
-    public float radius = 1f; // 碰撞半径
+    public float radius = 1f;
+
+    [Header("模型修正")]
+    [Tooltip("如果箭矢方向不对（例如朝上），尝试设置为 (90, 0, 0) 或 (-90, 0, 0) 以修正朝向")]
+    public Vector3 modelRotationOffset = Vector3.zero;
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // 1. 计算方向
-        Vector3 spawnPos = caster.transform.position + Vector3.up * 1.5f; // 稍微抬高一点
+        // 计算生成位置
+        Vector3 spawnPos = caster.transform.position + Vector3.up * 1.5f;
+
+        // 计算飞行方向 (水平)
         Vector3 direction = (position - caster.transform.position).normalized;
-        direction.y = 0; // 水平发射
+        direction.y = 0;
 
-        // 2. 生成物体
-        var bulletInstance = GameObject.Instantiate(_bulletPrefab, spawnPos, Quaternion.LookRotation(direction));
-        bulletInstance.Spawn(); // 网络生成
+        // 计算旋转 (包含模型修正)
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        Quaternion finalRotation = lookRotation * Quaternion.Euler(modelRotationOffset);
 
-        // 3. 驱动飞行逻辑 (完全在 Effect 代码中控制，无需给 Prefab 挂脚本)
-        // 借用 Caster 跑协程
-        caster.GetComponent<NetworkBehaviour>().StartCoroutine(
-            BulletLogic(caster, bulletInstance.gameObject, direction, spawnPos)
-        );
-    }
+        // 生成物体
+        var bulletInstance = GameObject.Instantiate(_bulletPrefab, spawnPos, finalRotation);
 
-    // 所有的飞行、碰撞、伤害逻辑都封装在这个函数里
-    private IEnumerator BulletLogic(GameObject caster, GameObject bullet, Vector3 direction, Vector3 startPos)
-    {
-        float traveled = 0f;
-        ulong attackerId = caster.GetComponent<NetworkObject>().OwnerClientId;
-
-        while (traveled < maxDistance && bullet != null)
+        // 关键修改：获取控制器并初始化，不再使用协程
+        if (bulletInstance.TryGetComponent<ProjectileController>(out var projectile))
         {
-            float step = speed * Time.deltaTime;
+            bulletInstance.Spawn(); // 先 Spawn，保证 NetworkBehaviour 激活
 
-            // 1. 移动
-            bullet.transform.position += direction * step;
-            traveled += step;
-
-            // 2. 手动射线/球形检测 (代替 OnTriggerEnter，控制权更强)
-            if (Physics.CheckSphere(bullet.transform.position, radius, LayerMask.GetMask("Player", "Enemy")))
+            ulong attackerId = 0;
+            if (caster.TryGetComponent<NetworkObject>(out var casterNet))
             {
-                Collider[] hits = Physics.OverlapSphere(bullet.transform.position, radius);
-                bool hitValidTarget = false;
-
-                foreach (var hit in hits)
-                {
-                    if (hit.gameObject == caster) continue; // 忽略自己
-                    if (hit.gameObject == bullet) continue;
-
-                    if (hit.TryGetComponent<IDamageable>(out var damageCmp))
-                    {
-                        damageCmp.TakeDamage(damage, attackerId);
-                        //health.RequestTakeDamage(damage, attackerId);
-                        hitValidTarget = true;
-                    }
-                }
-
-                if (hitValidTarget)
-                {
-                    // 撞到了就销毁，跳出循环
-                    break;
-                }
+                attackerId = casterNet.OwnerClientId;
             }
 
-            yield return null; // 等待下一帧
+            // 将数据传递给箭矢自己去处理
+            projectile.Initialize(direction, speed, maxDistance, damage, radius, attackerId, caster);
         }
-
-        // 销毁子弹
-        if (bullet != null && bullet.GetComponent<NetworkObject>().IsSpawned)
+        else
         {
-            bullet.GetComponent<NetworkObject>().Despawn();
+            Debug.LogError($"[FlyingBullet] Prefab {bulletInstance.name} 缺少 ProjectileController 脚本！请挂载。");
+            // 为了防止报错卡死，如果没有脚本就直接销毁
+            GameObject.Destroy(bulletInstance.gameObject);
         }
     }
 }

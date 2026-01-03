@@ -175,7 +175,7 @@ public class EnemyStateIdle : IEnemyState
 //        if (_target == null) return false;
 //        if (Vector3.Distance(_target.transform.position, _enemy.transform.position) > _enemy.AttackRange ) return false;
 
-//        _enemy.ChangeState(new EnemyStateAttack(_enemy, _target));
+//        _enemy.ChangeState(new EnemyStateSkillActive(_enemy, _target));
 //        return true;
 //    }
 //    private void DetectPlayer()

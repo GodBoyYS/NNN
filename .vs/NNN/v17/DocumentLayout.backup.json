@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\UnityProjects\\NNN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\npc\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skilleffects\\flyingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skilleffects\\flyingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\projectilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\npc\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\npc\\enemycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\npc\\enemypresentation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\skills\\skillso\\skilldataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skillso\\skilldataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\npc\\enemypresentation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\npc\\enemypresentation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateattack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateattack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateskillactive.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateskillactive.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateskillcharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\npc\\enemystate\\enemystateskillcharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{20046964-1D45-8DDB-1BE1-BA63CD057EB0}|Assembly-CSharp.csproj|C:\\UnityProjects\\NNN\\assets\\scripts\\gamescene\\combat\\damageflash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,32 +74,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "EnemyPresentation.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAUwDAAAABHAAAAAAAAAA==",
+              "Title": "ProjectileController.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\ProjectileController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\ProjectileController.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\ProjectileController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\ProjectileController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-02T14:18:35.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EnemyStateAttack.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateAttack.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateAttack.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateAttack.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateAttack.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-02T14:16:31.925Z",
+              "WhenOpened": "2026-01-03T07:29:29.835Z",
               "EditorCaption": ""
             },
             {
@@ -96,19 +99,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PlayerNetworkHealth.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAADwv1wAAAAZAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "FlyingBullet.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FlyingBullet.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FlyingBullet.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FlyingBullet.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FlyingBullet.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAwCAAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-02T10:27:03.869Z"
+              "WhenOpened": "2026-01-03T06:53:36.705Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "SkillDataSO.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAADwvysAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T06:37:14.138Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EnemyStateSkillCharge.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillCharge.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillCharge.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillCharge.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillCharge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-03T06:08:14.862Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnemyPresentation.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyPresentation.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAIwDAAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T14:18:35.435Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EnemyStateSkillActive.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillActive.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillActive.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillActive.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyState\\EnemyStateSkillActive.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAwwA0AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T14:16:31.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "DamageFlash.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Combat\\DamageFlash.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Combat\\DamageFlash.cs",
@@ -120,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "HitStopManager.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Combat\\HitStopManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Combat\\HitStopManager.cs",
@@ -132,20 +184,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "EnemyController.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
               "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
               "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAA+wEAAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-02T06:35:32.269Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-02T06:35:32.269Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
+              "Title": "PlayerNetworkHealth.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkHealth.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAADwv1wAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-02T10:27:03.869Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "PlayerNetworkMovement.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
@@ -157,7 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "UnitHealthBinder.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\UnitHealthBinder.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\UnitHealthBinder.cs",
@@ -169,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "BossController.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
@@ -181,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "UIBillboard.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\UIBillboard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\UIBillboard.cs",
@@ -193,7 +256,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "BufferedHealthBar.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\BufferedHealthBar.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\BufferedHealthBar.cs",
@@ -205,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "StateMachine.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\StateMachine.cs",

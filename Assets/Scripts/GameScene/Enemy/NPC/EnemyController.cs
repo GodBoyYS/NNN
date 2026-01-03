@@ -4,40 +4,36 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(NetworkObject))]
-public class EnemyController : NetworkBehaviour,
+public class EnemyController : NetworkBehaviour, 
     IDamageable
 {
-    public enum NPCMotionState
-    {
-        Idle = 0,
-        Chase = 1,
-        Attack = 2,
-        Die = 3
-    }
-    [SerializeField] private float _chaseRange = 10f;
-    //[SerializeField] private float _attackRange = 5f;
+    public enum NPCMotionState { Idle = 0, Chase = 1, Attack = 2, Die = 3 }
+
+    [Header("Detection Settings")]
+    [SerializeField] private float _chaseRange = 10f; // 仅保留追逐（索敌）范围
     [SerializeField] private LayerMask _chaseLayer;
-    // 优化：计时器，避免每帧重复计算路径
+
+    [Header("Skill Settings")]
+    [SerializeField] private SkillDataSO _skillData;
+    // _triggerAttackRange 已移除，现在使用 _skillData.castRadius
+
     private float _repathTimer = 0f;
     private float _repathInterval = 0.2f;
+
+    // 攻击间隔计时器（防止无CD技能连续播放动画太快）
     private float _attackTimer = 0f;
     private float _attackInterval = 0.833f;
+
     public LayerMask ChaseLayer => _chaseLayer;
     private NavMeshAgent _agent;
     private NetworkObject _target;
 
-    [Header("Skill Settings")]
-    [SerializeField] private SkillDataSO _skillData; // 核心：配置技能数据
-    [SerializeField] private float _triggerAttackRange = 5f;
-
-
     #region public property
     public NavMeshAgent Agent => _agent;
-    //public float AttackRange => _attackRange;
     public float ChaseRange => _chaseRange;
+    public SkillDataSO SkillData => _skillData;
     #endregion
 
     #region network variable
@@ -45,61 +41,65 @@ public class EnemyController : NetworkBehaviour,
         NPCMotionState.Idle,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
-        );
+    );
     public NetworkVariable<NPCMotionState> Motion => _currentEnmeyState;
     public NPCMotionState MotionStateVar => _currentEnmeyState.Value;
+
     private NetworkVariable<int> _currentHealth = new NetworkVariable<int>(
         100,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
-        );
-    // 同理
+    );
     public int MaxHealth => _maxHealth;
     public int CurrentHealth => _currentHealth.Value;
     [SerializeField] private int _maxHealth = 100;
     #endregion
-    
-    private float _skillTimer = 0f; // 技能冷却计时器
+
+    private float _skillTimer = 0f;
+
     public string GetSkillAnimationName()
     {
-        return _skillData.skillActiveAnimationName;
+        return _skillData != null ? _skillData.skillActiveAnimationName : "Attack";
     }
 
     #region public events
-    public event Action<int, int> OnHealthChanged; // 事件
+    public event Action<int, int> OnHealthChanged;
     #endregion
+
     public override void OnNetworkSpawn()
     {
         _agent = GetComponent<NavMeshAgent>();
         if (IsServer)
         {
-            // 服务器：启用寻路，初始化状态机
             _target = null;
             _agent.enabled = true;
             _currentEnmeyState.Value = NPCMotionState.Idle;
-            //_currentBossState.Value = BossMotionState.Idle;
             _currentHealth.Value = _maxHealth;
+            _skillTimer = 0f; // 初始可以直接释放技能
 
-            // 初始化 CD，避免怪物一出生就秒放技能，可以给一点随机延迟
-            _skillTimer = 1.0f;
+            // 动态设置 NavMeshAgent 的停止距离，防止远程怪一定要走到脸上才停
+            if (_skillData != null)
+            {
+                // 稍微设置得比技能半径小一点点，确保能进入判定范围
+                _agent.stoppingDistance = Mathf.Max(1.0f, _skillData.castRadius - 0.5f);
+            }
         }
         else
         {
-            // 客户端，必须关闭自动寻路，防止于networktransform冲突
             _agent.enabled = false;
-            // 客户端如果不需要跑状态机逻辑（纯表现），可以不初始化 _currenState
-            // 或者初始化一个只负责播放特效的 dummy state
         }
+
         _currentHealth.OnValueChanged += (prev, curr) => OnHealthChanged?.Invoke(curr, _maxHealth);
         OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
+
     private void Update()
     {
         if (!IsServer) return;
-        // 更新技能冷却
+
+        // 冷却时间更新
         if (_skillTimer > 0) _skillTimer -= Time.deltaTime;
-        // 【优化】不要每帧都先 Detect 再 Chase
-        // 而是根据当前状态决定行为
+
         switch (_currentEnmeyState.Value)
         {
             case NPCMotionState.Idle:
@@ -113,16 +113,17 @@ public class EnemyController : NetworkBehaviour,
                 break;
         }
     }
-    // --- 各状态的具体逻辑 ---
 
     private void LogicIdle()
     {
         DetectPlayer();
+
         if (_target != null)
         {
             float distance = Vector3.Distance(transform.position, _target.transform.position);
-            // 使用配置的触发距离
-            if (distance <= _triggerAttackRange)
+            float requiredRange = GetRequiredAttackRange();
+
+            if (distance <= requiredRange)
             {
                 ChangeStateToAttack();
             }
@@ -143,20 +144,23 @@ public class EnemyController : NetworkBehaviour,
 
         float distance = Vector3.Distance(transform.position, _target.transform.position);
 
-        // 这里的脱战距离可以稍微大一点
+        // 1. 如果超出最大追击距离（仇恨范围），放弃
         if (distance > _chaseRange * 1.5f)
         {
             ChangeStateToIdle();
             return;
         }
 
-        // 进入攻击范围
-        if (distance <= _triggerAttackRange)
+        // 2. 核心修改：判断是否进入技能释放半径
+        float requiredRange = GetRequiredAttackRange();
+
+        if (distance <= requiredRange)
         {
             ChangeStateToAttack();
             return;
         }
 
+        // 3. 否则继续追击
         ChasePlayerMovement();
     }
 
@@ -169,18 +173,24 @@ public class EnemyController : NetworkBehaviour,
         }
 
         float distance = Vector3.Distance(transform.position, _target.transform.position);
+        float requiredRange = GetRequiredAttackRange();
 
-        // 如果玩家跑远了，切换回追击
-        if (distance > _triggerAttackRange * 1.2f)
+        // 1. 距离判定：给予一点缓冲空间 (Hysteresis)，防止在临界点反复抽搐
+        // 如果玩家跑出了 (技能半径 * 1.1)，则重新开始追
+        if (distance > requiredRange * 1.1f)
         {
             ChangeStateToChase();
             return;
         }
 
-        // 停止移动
-        if (_agent.isOnNavMesh) _agent.ResetPath();
+        // 2. 攻击时确保停止移动
+        if (_agent.isOnNavMesh && !_agent.isStopped)
+        {
+            _agent.isStopped = true;
+            _agent.ResetPath();
+        }
 
-        // 1. 始终面向目标 (这一步很重要，特别是远程怪)
+        // 3. 始终朝向目标
         Vector3 direction = (_target.transform.position - transform.position).normalized;
         direction.y = 0;
         if (direction != Vector3.zero)
@@ -188,99 +198,93 @@ public class EnemyController : NetworkBehaviour,
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 10f * Time.deltaTime);
         }
 
-        // 2. 尝试释放技能
+        // 4. 尝试释放技能
         if (_skillTimer <= 0 && _skillData != null)
         {
-            // 重置 CD
+            // 重置冷却
             _skillTimer = _skillData.coolDown;
 
-            // 调用技能系统的 Cast
-            // 注意：Cast 会在本地启动 Coroutine 处理 DelayEffect 等
-            // 如果技能是 FlyingBullet，它会生成子弹 NetworkObject
-            // 如果技能是 DamageEffect，它会直接造成伤害
+            // 释放技能
             _skillData.Cast(gameObject, _target.gameObject, _target.transform.position);
-
             Debug.Log($"Enemy Cast Skill: {_skillData.name}");
         }
     }
 
-    // --- 状态切换辅助方法 (把状态赋值和副作用分开) ---
+    // 辅助方法：获取当前配置的攻击距离，如果没有配置则给个默认值
+    private float GetRequiredAttackRange()
+    {
+        if (_skillData != null)
+        {
+            return _skillData.castRadius;
+        }
+        return 2.0f; // 默认近战距离
+    }
+
     private void ChangeStateToIdle()
     {
+        if (_currentEnmeyState.Value == NPCMotionState.Idle) return;
         _currentEnmeyState.Value = NPCMotionState.Idle;
         _target = null;
-        if (_agent.isOnNavMesh) _agent.ResetPath(); // 停止寻路
+        if (_agent.isOnNavMesh) _agent.ResetPath();
     }
 
     private void ChangeStateToChase()
     {
+        if (_currentEnmeyState.Value == NPCMotionState.Chase) return;
         _currentEnmeyState.Value = NPCMotionState.Chase;
-        if (_agent.isOnNavMesh) _agent.isStopped = false; // 确保Agent开启
+
+        // 确保 NavMeshAgent 参数匹配当前的技能距离
+        if (_agent.isOnNavMesh && _skillData != null)
+        {
+            // 停止距离设置为技能半径的一半或者稍微短一点，保证能走进射程
+            // 如果是远程怪(castRadius=10)，它会在距离玩家8-9米处停下
+            float stopDist = Mathf.Max(0.5f, _skillData.castRadius * 0.8f);
+            _agent.stoppingDistance = stopDist;
+            _agent.isStopped = false;
+        }
     }
 
     private void ChangeStateToAttack()
     {
+        if (_currentEnmeyState.Value == NPCMotionState.Attack) return;
         _currentEnmeyState.Value = NPCMotionState.Attack;
-        if (_agent.isOnNavMesh) _agent.ResetPath(); // 【重要】攻击时必须停下脚步！
-        //_isAttacking = false; // 重置攻击计时器状态
-        _attackTimer = _attackInterval; // 可选：让它进入状态后立即可以攻击一次
+        if (_agent.isOnNavMesh) _agent.ResetPath();
+
+        // 进入攻击状态时不立即重置计时器，而是依赖 Update 中的冷却判断
+        // 这样可以支持进入攻击范围后稍微有一点反应时间，或者立即攻击（取决于之前的冷却）
     }
-    // --- 具体的行为方法 (把Update里原来的代码搬过来) ---
 
     private void ChasePlayerMovement()
     {
-        // 原来的 ChasePlayer 代码，去掉 target 为空的判断（外层判断过了）
         _repathTimer += Time.deltaTime;
         if (_repathTimer > _repathInterval)
         {
             _repathTimer = 0f;
-            if (_agent.isOnNavMesh)
+            if (_agent.isOnNavMesh && _target != null)
             {
                 _agent.SetDestination(_target.transform.position);
             }
         }
     }
 
-    private void AttackPlayerBehavior()
-    {
-        // 处理攻击CD
-        _attackTimer += Time.deltaTime;
-        if (_attackTimer > _attackInterval)
-        {
-            _attackTimer = 0f;
-            Debug.Log($"对 {_target.name} 发起攻击！");
-            // 这里执行具体的扣血逻辑
-            if(_target.TryGetComponent<PlayerNetworkCore>(out PlayerNetworkCore targetAuth))
-            {
-                // 请求服务器对玩家造成伤害
-                targetAuth.ApplyDamageServer(10, NetworkObjectId);
-            }
-        }
-    }
-
-    // ========== 状态处理方法 =========
-    // 检测玩家
     private void DetectPlayer()
     {
-        if (_target != null) return;    // 防止重复检测
-        // 1. 获取范围内物体
+        if (_target != null) return;
+
         var colliderInfos = Physics.OverlapSphere(transform.position, _chaseRange, _chaseLayer);
         if (colliderInfos.Length <= 0) return;
-        Debug.Log($"检测到{colliderInfos.Length}个对象");
-        // 【关键修复 3】: 绝对不要用 colliderInfos[0] !!!
-        // OverlapSphere 返回顺序是不确定的。
-        // 如果索引 [0] 是怪物自己（如果层级设置重叠），或者是一个死掉的玩家，逻辑就会出错。
-        // 必须遍历寻找“最近的、有效的”玩家。
+
         NetworkObject bestTarget = null;
         float minDistance = float.MaxValue;
+
         foreach (Collider collider in colliderInfos)
         {
-            // 排除自己
             if (collider.gameObject == gameObject) continue;
-            // 尝试获取 NetworkObject
             if (!collider.TryGetComponent<NetworkObject>(out NetworkObject netObj)) continue;
-            Debug.Log($"netobject.id -> [{netObj.NetworkObjectId}]");
-            // 简单的距离比对，找最近的
+
+            // 简单的可见性检查（防止隔墙吸仇恨，可选）
+            // if (Physics.Linecast(transform.position + Vector3.up, collider.transform.position + Vector3.up, GroundLayer)) continue;
+
             float d = Vector3.Distance(collider.transform.position, transform.position);
             if (d < minDistance)
             {
@@ -288,9 +292,9 @@ public class EnemyController : NetworkBehaviour,
                 bestTarget = netObj;
             }
         }
+
         if (bestTarget != null)
         {
-            Debug.Log($"锁定目标: {bestTarget.name}");
             _target = bestTarget;
         }
     }
@@ -301,9 +305,19 @@ public class EnemyController : NetworkBehaviour,
         int newHealth = _currentHealth.Value - amount;
         if (newHealth < 0) newHealth = 0;
         _currentHealth.Value = newHealth;
+
+        // 简单的反击逻辑：如果在挨打且没有目标，将攻击者设为目标
+        if (_target == null && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attackerObj))
+        {
+            _target = attackerObj;
+            ChangeStateToChase();
+        }
+
         if (newHealth <= 0)
         {
-            // Die logic
+            // Die logic here
+            // _currentEnmeyState.Value = NPCMotionState.Die;
+            GetComponent<NetworkObject>().Despawn();
         }
     }
 }

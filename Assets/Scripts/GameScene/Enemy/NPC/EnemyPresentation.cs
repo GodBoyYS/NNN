@@ -11,7 +11,7 @@ public class EnemyPresentation : MonoBehaviour
 
     public Animator Animator => _animator;
     private string _skillAnimationName;
-    public string SkillAnimationName { get; private set; }
+    public string SkillAnimationName => _skillAnimationName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,9 +45,9 @@ public class EnemyPresentation : MonoBehaviour
                 ChangeState(new EnemyStateMove(this));
                 break;
             case EnemyController.NPCMotionState.Attack:
-                if(_currentState is EnemyStateAttack) return;
+                if(_currentState is EnemyStateSkillActive) return;
                 _skillAnimationName = _controller.GetSkillAnimationName();
-                ChangeState(new EnemyStateAttack(this));
+                ChangeState(new EnemyStateSkillActive(this));
                 break;
             default:
                 break;

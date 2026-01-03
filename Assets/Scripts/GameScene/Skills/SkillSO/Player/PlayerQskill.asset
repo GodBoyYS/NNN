@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: PlayerQskill
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  SkillName: QSkill
   coolDown: 2
-  animationName: QSkill
+  castRadius: 2
+  chargeDuration: 1.5
+  chargeAnimationName: Idle
+  warningPrefab: {fileID: 0}
+  chargeVisualPrefabs: []
+  skillActiveAnimationName: 
   effects:
   - rid: 3250261351905886276
+  isSelfCentered: 0
+  skillRecoveryAnimationName: 
   references:
     version: 2
     RefIds:
@@ -24,8 +30,9 @@ MonoBehaviour:
       type: {class: FlyingBullet, ns: , asm: Assembly-CSharp}
       data:
         effectName: FlyingFireball
-        _bulletPrefab: {fileID: 7659913512701356229, guid: e9633357dbd6a0d419ed9aac502c831b, type: 3}
-        speed: 10
+        _bulletPrefab: {fileID: 9138270591894416711, guid: 1187a0af334e20347a9e975e3796f3d8, type: 3}
+        speed: 15
         maxDistance: 20
         damage: 15
         radius: 3
+        modelRotationOffset: {x: 90, y: 0, z: 0}
