@@ -18,7 +18,7 @@ MonoBehaviour:
   chargeAnimationName: Idle
   warningPrefab: {fileID: 0}
   chargeVisualPrefabs: []
-  skillActiveAnimationName: 
+  skillActiveAnimationName: QSkill
   effects:
   - rid: 3250261351905886276
   isSelfCentered: 0

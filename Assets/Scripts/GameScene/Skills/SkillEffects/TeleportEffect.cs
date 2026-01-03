@@ -30,6 +30,6 @@ public class TeleportEffect : SkillEffect
         // 或者是瞬移逻辑
         Debug.Log($"[Effect] 位移: {caster.name} 向 {direction} 移动 {distance}米");
 
-        movement.ServerForceDash(direction, distance, duration);
+        //movement.ServerForceDash(direction, distance, duration);
     }
 }

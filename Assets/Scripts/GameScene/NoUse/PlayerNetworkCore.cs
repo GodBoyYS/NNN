@@ -134,7 +134,7 @@ public class PlayerNetworkCore : NetworkBehaviour
         _lifeState.Value = PlayerNetworkStates.LifeState.Dead;
         OnPlayerDied?.Invoke(this);
         // 死亡时统一收口：让模块停工（避免残留 chase/attack/move）
-        _movement?.ServerForceStop();
+        //_movement?.ServerForceStop();
         //_combat?.ServerForceCancelAll();
 
         _deathTimerRunning = true;

@@ -11,11 +11,11 @@ public class PlayerStateDie : IPlayerState
 
     public void Enter()
     {
-        if(_view.CapsuleCollider != null)
+        if (_view.CapsuleCollider != null)
         {
             _view.CapsuleCollider.enabled = false;
         }
-        if(_view.Rigidbody != null)
+        if (_view.Rigidbody != null)
         {
             _view.Rigidbody.isKinematic = true;
         }

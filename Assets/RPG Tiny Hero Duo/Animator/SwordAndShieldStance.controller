@@ -55,7 +55,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack02_SwordAndShiled
+  m_Name: QSkill
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -422,13 +422,13 @@ AnimatorStateMachine:
     m_Position: {x: -790, y: -270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8096094531446714739}
-    m_Position: {x: -500, y: -270, z: 0}
+    m_Position: {x: -510, y: -370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5776952599368333743}
-    m_Position: {x: -500, y: -210, z: 0}
+    m_Position: {x: -510, y: -260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1871567119455281485}
-    m_Position: {x: -510, y: -330, z: 0}
+    m_Position: {x: -510, y: -310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5097090657044752649}
     m_Position: {x: 525.26794, y: 368.46887, z: 0}
@@ -605,7 +605,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack01_SwordAndShiled
+  m_Name: Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -729,7 +729,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: QSkill
+  m_Name: WSkill
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -968,7 +968,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack03_SwordAndShiled
+  m_Name: ESkill
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

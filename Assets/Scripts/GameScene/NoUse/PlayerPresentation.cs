@@ -13,7 +13,7 @@ public class PlayerPresentation : NetworkBehaviour
     public string SkillAnimationName => _skillAnimationName;
 
     public Rigidbody Rigidbody { get; private set; }
-    public CapsuleCollider CapsuleCollider {  get; private set; }
+    public CapsuleCollider CapsuleCollider { get; private set; }
     public Animator Animator { get; private set; }
 
     private void Awake()
@@ -27,7 +27,7 @@ public class PlayerPresentation : NetworkBehaviour
     }
     public override void OnNetworkSpawn()
     {
-        if( _core != null)
+        if (_core != null)
         {
             _core.LifeVar.OnValueChanged += OnLifeChanged;
             _core.MotionVar.OnValueChanged += OnMotionChanged;
@@ -35,14 +35,14 @@ public class PlayerPresentation : NetworkBehaviour
         // 【新增】监听技能索引变化
         if (_combat != null)
         {
-            _combat.OnSkillIndexChanged += OnSkillIndexChanged;
+            //_combat.OnSkillIndexChanged += OnSkillIndexChanged;
         }
         RefreshStateFromNet();
         //if(IsOwner && _health != null)
         //{
         //    BindLocalPlayerUI();
         //}
-        if(_health != null)
+        if (_health != null)
         {
             _health.OnDamaged += OnDamagedLocal; // everyone都可以播放被打表现
         }
@@ -73,9 +73,9 @@ public class PlayerPresentation : NetworkBehaviour
     }
     public override void OnNetworkDespawn()
     {
-        if( _core != null)
+        if (_core != null)
         {
-            _core.LifeVar.OnValueChanged-= OnLifeChanged;
+            _core.LifeVar.OnValueChanged -= OnLifeChanged;
             _core.MotionVar.OnValueChanged -= OnMotionChanged;
         }
         // 【新增】移除监听
@@ -88,7 +88,7 @@ public class PlayerPresentation : NetworkBehaviour
         {
             _health.OnHealthChanged -= HealthBarUI.Instance.UpdateViewHealth;
             _health.OnDamaged -= OnDamagedLocal;
-        } 
+        }
     }
     // 【新增】当技能索引变化时，如果当前是Skill状态，说明数据更新了，重新刷新一下动画
     private void OnSkillIndexChanged(int newIndex)
@@ -125,7 +125,7 @@ public class PlayerPresentation : NetworkBehaviour
     {
         if (_core == null) return;
         // life优先级最高：dead覆盖motion
-        if(_core.Life == PlayerNetworkStates.LifeState.Dead)
+        if (_core.Life == PlayerNetworkStates.LifeState.Dead)
         {
             if (_currentState is PlayerStateDie) return;
             ChangeState(new PlayerStateDie(this));
@@ -138,11 +138,11 @@ public class PlayerPresentation : NetworkBehaviour
                 ChangeState(new PlayerStateMove(this));
                 break;
             case PlayerNetworkStates.MotionState.Idle:
-                if(_currentState is PlayerStateIdle) return;
+                if (_currentState is PlayerStateIdle) return;
                 ChangeState(new PlayerStateIdle(this));
                 break;
             case PlayerNetworkStates.MotionState.Skill:
-                _skillAnimationName = _combat.GetSkillAnimationName();
+                //_skillAnimationName = _combat.GetSkillAnimationName();
                 ChangeState(new PlayerStateSkill(this));
                 break;
             default:
@@ -159,12 +159,12 @@ public class PlayerPresentation : NetworkBehaviour
     private void BindLocalPlayerUI()
     {
         var ui = HealthBarUI.Instance;
-        if(ui == null)
+        if (ui == null)
         {
             Debug.LogError("场景存在玩家但是没有 血量条");
             return;
         }
-        if(_health == null)
+        if (_health == null)
         {
             Debug.LogError("玩家没有血量组件");
             return;
