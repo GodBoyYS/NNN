@@ -1,20 +1,20 @@
-﻿using System;
+﻿
 using Unity.Netcode;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class PlayerNetworkMovement : NetworkBehaviour, 
-    IKnockBackable, 
-    ITeleportable
+public class PlayerNetworkMovement : NetworkBehaviour, IKnockBackable, ITeleportable
 {
     [Header("Settings")]
-    [SerializeField] private float moveSpeed = 6f; 
-    [SerializeField] private float rotateSpeed = 15f; 
+    [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float rotateSpeed = 15f;
     [SerializeField] private float smoothTime = 0.15f;
 
     [Header("Physics")]
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float drag = 2.0f;
+    [SerializeField] private LayerMask groundLayer; // 【新增】务必在 Inspector 中赋值！
+    [SerializeField] private float groundCheckOffset = 2.0f; // 【新增】射线检测高度偏移
 
     private Vector3 _serverTargetPosition;
     private Vector3 _smoothDampVelocity;
@@ -43,7 +43,6 @@ public class PlayerNetworkMovement : NetworkBehaviour,
     }
 
     #region Public API
-
     public void RequestMove(Vector3 worldPos)
     {
         if (IsOwner)
@@ -59,16 +58,15 @@ public class PlayerNetworkMovement : NetworkBehaviour,
             RequestStopServerRpc();
         }
     }
-
     #endregion
 
     #region Server Logic
-
     [ServerRpc]
     private void RequestMoveServerRpc(Vector3 pos)
     {
         if (_isKnockedBack) return;
-        _serverTargetPosition = new Vector3(pos.x, transform.position.y, pos.z);
+        // 【修改】接受点击点的真实位置，虽然我们主要还是靠射线检测地形
+        _serverTargetPosition = pos;
     }
 
     [ServerRpc]
@@ -77,19 +75,14 @@ public class PlayerNetworkMovement : NetworkBehaviour,
         ServerStopMove();
     }
 
-    /// <summary>
-    /// 服务器端强制停止移动
-    /// </summary>
     public void ServerStopMove()
     {
         if (!IsServer) return;
         _serverTargetPosition = transform.position;
         _smoothDampVelocity = Vector3.zero;
+        _velocity = Vector3.zero;
     }
 
-    /// <summary>
-    /// 服务器端强制看向目标点
-    /// </summary>
     public void ServerLookAt(Vector3 targetPos)
     {
         if (!IsServer) return;
@@ -103,22 +96,22 @@ public class PlayerNetworkMovement : NetworkBehaviour,
 
     private void ProcessMovementServer()
     {
-        float currentY = transform.position.y;
+        // 1. 计算平面（X/Z）的下一个位置
         Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 targetPosFlat = new Vector3(_serverTargetPosition.x, 0, _serverTargetPosition.z);
 
-        // 如果非常接近目标点，则停止计算，避免抖动，且允许其他逻辑（如Skill）控制旋转
         if (Vector3.SqrMagnitude(targetPosFlat - currentPosFlat) < 0.01f) return;
 
-        // 旋转
         Vector3 directionToTarget = targetPosFlat - currentPosFlat;
+
+        // 旋转
         if (directionToTarget.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(directionToTarget.normalized);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotateSpeed * Time.deltaTime);
         }
 
-        // 移动
+        // 移动 X 和 Z
         Vector3 newPosFlat = Vector3.SmoothDamp(
             currentPosFlat,
             targetPosFlat,
@@ -127,7 +120,26 @@ public class PlayerNetworkMovement : NetworkBehaviour,
             moveSpeed
         );
 
-        transform.position = new Vector3(newPosFlat.x, currentY, newPosFlat.z);
+        // 2. 计算高度（Y）：贴地逻辑
+        float newY = transform.position.y;
+
+        // 从新位置的上方发射射线向下检测地面
+        // 注意：groundCheckOffset 要足够高，以防坡度太陡
+        Vector3 rayOrigin = new Vector3(newPosFlat.x, transform.position.y + groundCheckOffset, newPosFlat.z);
+
+        // 建议射线长度设长一点，以防掉坑里检测不到
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 20.0f, groundLayer))
+        {
+            newY = hit.point.y;
+        }
+        else
+        {
+            // 如果你也想在非 Knockback 状态下应用重力（例如走下悬崖），可以在这里写
+            // newY += gravity * Time.deltaTime;
+        }
+
+        // 3. 应用最终位置
+        transform.position = new Vector3(newPosFlat.x, newY, newPosFlat.z);
     }
 
     public void ApplyKnockbackServer(Vector3 forceDir, float forceStrength)
@@ -141,7 +153,6 @@ public class PlayerNetworkMovement : NetworkBehaviour,
     public void TeleportServer(Vector3 position)
     {
         if (!IsServer) return;
-        // 瞬移逻辑：直接设置位置，并重置目标点和速度，防止回弹
         transform.position = position;
         _serverTargetPosition = position;
         _smoothDampVelocity = Vector3.zero;
@@ -157,20 +168,25 @@ public class PlayerNetworkMovement : NetworkBehaviour,
 
         Vector3 horizontalVel = new Vector3(_velocity.x, 0, _velocity.z);
         horizontalVel = Vector3.Lerp(horizontalVel, Vector3.zero, drag * dt);
+
         _velocity = new Vector3(horizontalVel.x, _velocity.y, horizontalVel.z);
 
-        transform.position += _velocity * dt;
+        Vector3 nextPos = transform.position + _velocity * dt;
 
-        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 0.6f))
+        // 简单的地面碰撞检测
+        if (Physics.Raycast(nextPos + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 1.0f, groundLayer))
         {
-            if (_velocity.y < 0)
+            if (_velocity.y < 0 && nextPos.y <= hit.point.y)
             {
                 _isKnockedBack = false;
                 _velocity = Vector3.zero;
-                transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+                transform.position = new Vector3(nextPos.x, hit.point.y, nextPos.z);
                 _serverTargetPosition = transform.position;
+                return;
             }
         }
+
+        transform.position = nextPos;
     }
 
     public void ServerReset()
@@ -180,7 +196,6 @@ public class PlayerNetworkMovement : NetworkBehaviour,
         _velocity = Vector3.zero;
         _isKnockedBack = false;
     }
-
     #endregion
 
     private void OnTriggerEnter(Collider other)

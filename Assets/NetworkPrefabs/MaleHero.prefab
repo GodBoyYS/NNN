@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 8536400024412836332}
   m_Layer: 6
   m_Name: MaleHero
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -673,6 +673,10 @@ MonoBehaviour:
   smoothTime: 0.15
   gravity: -9.81
   drag: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckOffset: 1
 --- !u!114 &8974165769790432538
 MonoBehaviour:
   m_ObjectHideFlags: 0

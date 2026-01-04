@@ -64,6 +64,7 @@ public class EnemyController : NetworkBehaviour,
 
     #region public events
     public event Action<int, int> OnHealthChanged;
+    public event Action<NetworkObject> OnDied;
     #endregion
 
     public override void OnNetworkSpawn()
@@ -317,6 +318,7 @@ public class EnemyController : NetworkBehaviour,
         {
             // Die logic here
             // _currentEnmeyState.Value = NPCMotionState.Die;
+            OnDied?.Invoke(NetworkObject);
             GetComponent<NetworkObject>().Despawn();
         }
     }

@@ -1,51 +1,63 @@
-// [FILE START: Assets\Scripts\GameScene\UI\UnitHealthBinder.cs]
 using Unity.Netcode;
 using UnityEngine;
 
-public class UnitHealthBinder : NetworkBehaviour
+// 【重要修改】不再继承 NetworkBehaviour，而是 MonoBehaviour
+// 这样它就不需要 NetworkObject，也就不会报错 Nested NetworkObjects 了
+public class UnitHealthBinder : MonoBehaviour
 {
     [Header("UI Reference")]
     [SerializeField] private BufferedHealthBar _healthBar;
 
     [Header("Unit References")]
-    // 依然保留这两个引用，用于自动获取或手动指定
     [SerializeField] private BossController _bossController;
     [SerializeField] private EnemyController _enemyController;
 
-    // 不再使用 Start()
-    // Start() 运行时，NetworkVariable 可能还没同步完成
-
-    public override void OnNetworkSpawn()
+    private void Awake()
     {
-        // 1. 获取组件 (如果 Inspector 没拖)
+        // 尝试自动获取引用
         if (_bossController == null) _bossController = GetComponentInParent<BossController>();
         if (_enemyController == null) _enemyController = GetComponentInParent<EnemyController>();
+    }
 
-        // 2. 绑定事件并强制初始化 UI
-        // 注意：这里需要确保 Controller 公开了 CurrentHealth 和 MaxHealth 的读取权限
+    // 当对象池取出怪物时（SetActive(true)），这个方法会执行
+    private void OnEnable()
+    {
+        // 1. 强制重置 UI 为满血状态（修复复活时血条残缺/不显示的问题）
+        if (_healthBar != null)
+        {
+            // 假设默认最大血量是 100，或者你可以从 controller 获取
+            // 这里我们先让它显示满，稍后绑定事件时会同步真实数据
+            _healthBar.ForceReset(100);
+        }
 
+        // 2. 绑定事件
+        BindEvents();
+    }
+
+    // 当对象池回收怪物时（SetActive(false)），这个方法会执行
+    private void OnDisable()
+    {
+        UnbindEvents();
+    }
+
+    private void BindEvents()
+    {
         if (_bossController != null)
         {
             _bossController.OnHealthChanged += HandleHealthChanged;
-
-            // 【关键修正】: 主动拉取一次当前值。
-            // 因为 OnNetworkSpawn 发生时，NetworkVariable 已经有了最新值。
-            // 假设 BossController 暴露了 CurrentHealth 属性（见下文补充）
+            // 初始化同步一次当前真实数值
             HandleHealthChanged(_bossController.CurrentHealth, _bossController.MaxHealth);
         }
 
         if (_enemyController != null)
         {
             _enemyController.OnHealthChanged += HandleHealthChanged;
-            // 同理，初始化 Enemy 血条
             HandleHealthChanged(_enemyController.CurrentHealth, _enemyController.MaxHealth);
         }
     }
 
-    public override void OnNetworkDespawn()
+    private void UnbindEvents()
     {
-        // 3. 安全清理
-        // 当对象被放回对象池或销毁时触发，比 OnDestroy 更适合网络对象
         if (_bossController != null) _bossController.OnHealthChanged -= HandleHealthChanged;
         if (_enemyController != null) _enemyController.OnHealthChanged -= HandleHealthChanged;
     }
@@ -58,4 +70,3 @@ public class UnitHealthBinder : NetworkBehaviour
         }
     }
 }
-// [FILE END]

@@ -710,7 +710,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5237593986078492793}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3040420323
+  GlobalObjectIdHash: 3264651305
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1439,9 +1439,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5171381418780529280, guid: 1f3021b9b449d4448830aa51dd19769d, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 701346090
+      value: 1735001046
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5171381418780529280, guid: 1f3021b9b449d4448830aa51dd19769d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
