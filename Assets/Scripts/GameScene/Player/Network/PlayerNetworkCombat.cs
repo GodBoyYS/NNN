@@ -14,20 +14,23 @@ public class PlayerNetworkCombat : NetworkBehaviour
     private readonly NetworkVariable<bool> _qSkillReady = new NetworkVariable<bool>(true);
     private readonly NetworkVariable<bool> _wSkillReady = new NetworkVariable<bool>(true);
     private readonly NetworkVariable<bool> _eSkillReady = new NetworkVariable<bool>(true);
-    private readonly NetworkVariable<int> _currentSkillIndex = new NetworkVariable<int>(0); // 只要用于同步给其他客户端播放动画
+
+    // 0 = Attack, no netvar needed usually, but for consistency we track index
+    private readonly NetworkVariable<int> _currentSkillIndex = new NetworkVariable<int>(0);
 
     public NetworkVariable<bool> QSkillActiveVar => _qSkillReady;
     public NetworkVariable<bool> WSkillActiveVar => _wSkillReady;
     public NetworkVariable<bool> ESkillActiveVar => _eSkillReady;
 
-    // 这是一个事件，用于通知表现层（如果有的话）
     public event Action<int> OnSkillIndexChanged;
     #endregion
 
     private float[] _cooldownTimers;
+    private PlayerNetworkMovement _movement;
 
     private void Awake()
     {
+        _movement = GetComponent<PlayerNetworkMovement>();
         _cooldownTimers = new float[_skillSlots.Count];
         for (int i = 0; i < _skillSlots.Count; i++)
         {
@@ -67,11 +70,26 @@ public class PlayerNetworkCombat : NetworkBehaviour
         return null;
     }
 
-    // [关键修复] 返回正确的动画名称供 StateMachine 使用
     public string GetSkillAnimationName(int index)
     {
         var data = GetSkillDataByIndex(index);
         return data != null ? data.skillActiveAnimationName : "Attack";
+    }
+
+    /// <summary>
+    /// 客户端检查技能是否可用
+    /// </summary>
+    public bool IsSkillReadyClient(int index)
+    {
+        // 基础攻击 (Index 0) 默认总是可用，或者可以添加本地计时器。
+        // 为了简化，假设普攻总是可用的。
+        if (index == 0) return true;
+
+        if (index == 1) return _qSkillReady.Value;
+        if (index == 2) return _wSkillReady.Value;
+        if (index == 3) return _eSkillReady.Value;
+
+        return false;
     }
 
     public void RequestCastSkill(int index, Vector3 aimPosition)
@@ -89,19 +107,25 @@ public class PlayerNetworkCombat : NetworkBehaviour
     {
         if (index < 0 || index >= _skillSlots.Count) return;
 
-        // CD 检查
+        // 服务器再次校验CD
         if (_cooldownTimers[index] > 0) return;
 
-        // 消耗 CD
+        // 1. 停止移动 (解决滑步问题)
+        if (_movement != null)
+        {
+            _movement.ServerStopMove();
+            // 2. 强制朝向施法点 (解决朝向问题)
+            _movement.ServerLookAt(aimPosition);
+        }
+
+        // 设置CD
         _cooldownTimers[index] = _skillSlots[index].coolDown;
         if (index == 1) _qSkillReady.Value = false;
         if (index == 2) _wSkillReady.Value = false;
         if (index == 3) _eSkillReady.Value = false;
 
-        // 记录当前技能 Index，如果需要网络同步动画状态
         _currentSkillIndex.Value = index;
 
-        // 执行技能逻辑
         ExecuteSkillLogic(index, aimPosition);
     }
 

@@ -30,28 +30,17 @@ public class FlyingBullet : SkillEffect
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         Quaternion finalRotation = lookRotation * Quaternion.Euler(modelRotationOffset);
 
-        // 生成物体
-        var bulletInstance = GameObject.Instantiate(_bulletPrefab, spawnPos, finalRotation);
-
-        // 关键修改：获取控制器并初始化，不再使用协程
-        if (bulletInstance.TryGetComponent<ProjectileController>(out var projectile))
+        var bulletNetObj = NetworkObjectPool.Instance.GetNetworkObject(_bulletPrefab.gameObject, spawnPos, finalRotation);
+        if(bulletNetObj != null && bulletNetObj.TryGetComponent<ProjectileController>(out var projectileController))
         {
-            bulletInstance.Spawn(); // 先 Spawn，保证 NetworkBehaviour 激活
-
-            ulong attackerId = 0;
-            if (caster.TryGetComponent<NetworkObject>(out var casterNet))
-            {
-                attackerId = casterNet.OwnerClientId;
-            }
-
-            // 将数据传递给箭矢自己去处理
-            projectile.Initialize(direction, speed, maxDistance, damage, radius, attackerId, caster);
-        }
-        else
-        {
-            Debug.LogError($"[FlyingBullet] Prefab {bulletInstance.name} 缺少 ProjectileController 脚本！请挂载。");
-            // 为了防止报错卡死，如果没有脚本就直接销毁
-            GameObject.Destroy(bulletInstance.gameObject);
+            projectileController.Initialize(
+                direction, 
+                speed, 
+                50f,
+                damage, 
+                radius, 
+                caster.GetComponent<NetworkObject>().NetworkObjectId, 
+                caster);
         }
     }
 }

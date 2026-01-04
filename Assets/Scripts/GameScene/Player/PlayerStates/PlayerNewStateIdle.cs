@@ -6,9 +6,7 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     public override void OnEnter()
     {
-        // 播放待机动画
         _controller.Animator.Play("Idle_Battle_SwordAndShield");
-        // 确保停止移动
         if (_controller.IsOwner)
         {
             _controller.Movement.RequestStop();
@@ -17,8 +15,7 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     public override void OnUpdate()
     {
-        base.OnUpdate(); // 检查死亡 & 更新Input
-
+        base.OnUpdate();
         if (_controller.IsOwner)
         {
             StateLogic();
@@ -27,18 +24,17 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     protected override void StateLogic()
     {
-        // 结构清晰的判断链
         if (ChangeStateToSkill()) return;
         if (ChangeStateToMove()) return;
     }
 
     #region Checks
+
     private bool ChangeStateToMove()
     {
-        // 玩家右键点击地面 -> 切换到移动状态
         if (_currentInput.InteractDown && _currentInput.HasMouseTarget)
         {
-            Debug.Log("在idle状态按下了移动输入，并且有点击目标，请求切换到移动状态");
+            Debug.Log("在 idle状态检测到移动输入，且有点击的目标，准备切换到 移动状态");
             _controller.StateMachine.ChangeState(_controller.StateMachine.StateMove);
             return true;
         }
@@ -47,14 +43,31 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     private bool ChangeStateToSkill()
     {
-        // 任何技能键按下 -> 切换到技能状态
-        if (_currentInput.AttackDown || _currentInput.SkillQDown || _currentInput.SkillWDown || _currentInput.SkillEDown)
+        int skillIdx = -1;
+
+        // 优先检测按键，并获取对应的技能索引
+        if (_currentInput.AttackDown) skillIdx = 0;
+        else if (_currentInput.SkillQDown) skillIdx = 1;
+        else if (_currentInput.SkillWDown) skillIdx = 2;
+        else if (_currentInput.SkillEDown) skillIdx = 3;
+
+        if (skillIdx != -1)
         {
-            Debug.Log("按下了技能键");
-            _controller.StateMachine.ChangeState(_controller.StateMachine.StateSkill);
-            return true;
+            // 关键修改：在切换状态前检查 Client 端的 CD 是否就绪
+            if (_controller.Combat.IsSkillReadyClient(skillIdx))
+            {
+                Debug.Log($"[Idle] 释放技能 {skillIdx}，CD就绪，切换状态");
+                _controller.StateMachine.ChangeState(_controller.StateMachine.StateSkill);
+                return true;
+            }
+            else
+            {
+                // Debug.Log($"[Idle] 技能 {skillIdx} 冷却中...");
+            }
         }
+
         return false;
     }
+
     #endregion
 }

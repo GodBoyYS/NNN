@@ -87,9 +87,20 @@ public class ProjectileController : NetworkBehaviour
 
     private void DespawnObject()
     {
-        if (NetworkObject != null && NetworkObject.IsSpawned)
+        if (!IsServer) return;
+        // 检查是否有池子在运行
+        if (NetworkObjectPool.Instance != null)
         {
-            NetworkObject.Despawn();
+            // 通过池子回收
+            NetworkObjectPool.Instance.ReturnNetworkObject(NetworkObject);
+        }
+        else
+        {
+            // 如果没有池子（比如测试场景忘记放了），还是走老路
+            if (NetworkObject != null && NetworkObject.IsSpawned)
+            {
+                NetworkObject.Despawn();
+            }
         }
     }
 }
