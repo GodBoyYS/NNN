@@ -69,13 +69,6 @@ public class PlayerNetworkCombat : NetworkBehaviour
         if (index >= 0 && index < _skillSlots.Count) return _skillSlots[index];
         return null;
     }
-
-    public string GetSkillAnimationName(int index)
-    {
-        var data = GetSkillDataByIndex(index);
-        return data != null ? data.skillActiveAnimationName : "Attack";
-    }
-
     /// <summary>
     /// 客户端检查技能是否可用
     /// </summary>
@@ -91,6 +84,7 @@ public class PlayerNetworkCombat : NetworkBehaviour
 
         return false;
     }
+
 
     public void RequestCastSkill(int index, Vector3 aimPosition)
     {
@@ -138,4 +132,19 @@ public class PlayerNetworkCombat : NetworkBehaviour
             skillData.Cast(gameObject, null, aimPosition);
         }
     }
+    // get animations
+    public string GetSkillChargeAnimation(int index)
+    {
+        return _skillSlots[index].chargeAnimationName;
+    }
+    public string GetSkillAnimationName(int index)
+    {
+        return _skillSlots[index].activeAnimationName;
+    }
+    public string GetSkillRecoveryAnimation(int index)
+    {
+        return _skillSlots[index].recoveryAnimationName;
+    }
+
+    
 }

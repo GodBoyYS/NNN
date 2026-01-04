@@ -4,8 +4,20 @@ public class PlayerStateMachine
 {
     public PlayerNewStateIdle StateIdle; 
     public PlayerNewStateMove StateMove; 
+    public PlayerNewStateCharge StateCharge;
     public PlayerNewStateSkill StateSkill; 
+    public PlayerNewStateRecovery StateRecovery;
     public PlayerNewStateDie StateDie;
+
+    // 新增：用于在不同状态间传递“当前是哪个技能”
+    public int PendingSkillIndex { get; set; } = -1;
+
+    private float _chargeTime;
+    private float _skillTime;
+    private float _recoveryTime;
+    public float ChargeTime => _chargeTime;
+    public float SkillTime => _skillTime;
+    public float RecoveryTime => _recoveryTime;
 
     // 公开属性方便调试
     public PlayerBaseState CurrentState => _currentState;
@@ -20,7 +32,9 @@ public class PlayerStateMachine
         // 1. 实例化所有状态
         StateIdle = new PlayerNewStateIdle(_controller);
         StateMove = new PlayerNewStateMove(_controller);
+        StateCharge = new PlayerNewStateCharge(_controller);
         StateSkill = new PlayerNewStateSkill(_controller);
+        StateRecovery = new PlayerNewStateRecovery(_controller);
         StateDie = new PlayerNewStateDie(_controller);
 
         // 2. [关键修复] 初始化默认状态！
@@ -53,5 +67,12 @@ public class PlayerStateMachine
 
         _currentState = nextState;
         _currentState.OnEnter();
+    }
+
+    public void SetAnimationTimes(float chargeTime,  float skillTime, float recoveryTime)
+    {
+        _chargeTime = chargeTime;
+        _skillTime = skillTime;
+        _recoveryTime = recoveryTime;
     }
 }

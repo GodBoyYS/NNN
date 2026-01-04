@@ -6,7 +6,7 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     public override void OnEnter()
     {
-        _controller.Animator.Play("Idle_Battle_SwordAndShield");
+        _controller.Animator.CrossFade("Idle_Battle_SwordAndShield", 0.05f);
         if (_controller.IsOwner)
         {
             _controller.Movement.RequestStop();
@@ -24,7 +24,7 @@ public class PlayerNewStateIdle : PlayerBaseState
 
     protected override void StateLogic()
     {
-        if (ChangeStateToSkill()) return;
+        if (ChangeStateToCharge()) return;
         if (ChangeStateToMove()) return;
     }
 
@@ -41,7 +41,7 @@ public class PlayerNewStateIdle : PlayerBaseState
         return false;
     }
 
-    private bool ChangeStateToSkill()
+    private bool ChangeStateToCharge()
     {
         int skillIdx = -1;
 
@@ -57,12 +57,9 @@ public class PlayerNewStateIdle : PlayerBaseState
             if (_controller.Combat.IsSkillReadyClient(skillIdx))
             {
                 Debug.Log($"[Idle] 释放技能 {skillIdx}，CD就绪，切换状态");
-                _controller.StateMachine.ChangeState(_controller.StateMachine.StateSkill);
+                //_controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
+                _controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
                 return true;
-            }
-            else
-            {
-                // Debug.Log($"[Idle] 技能 {skillIdx} 冷却中...");
             }
         }
 

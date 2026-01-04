@@ -42,7 +42,7 @@ public class PlayerNewStateMove : PlayerBaseState
 
     protected override void StateLogic()
     {
-        if (ChangeStateToSkill()) return;
+        if (ChangeStateToCharge()) return;
         if (ChangeStateToIdle()) return;
     }
 
@@ -79,7 +79,7 @@ public class PlayerNewStateMove : PlayerBaseState
         return false;
     }
 
-    private bool ChangeStateToSkill()
+    private bool ChangeStateToCharge()
     {
         int skillIdx = -1;
 
@@ -93,7 +93,8 @@ public class PlayerNewStateMove : PlayerBaseState
             // ¹Ø¼üÐÞ¸Ä£º¼ì²éCD
             if (_controller.Combat.IsSkillReadyClient(skillIdx))
             {
-                _controller.StateMachine.ChangeState(_controller.StateMachine.StateSkill);
+                //_controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
+                _controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
                 return true;
             }
         }

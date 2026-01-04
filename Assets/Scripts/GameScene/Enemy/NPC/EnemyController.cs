@@ -59,7 +59,7 @@ public class EnemyController : NetworkBehaviour,
 
     public string GetSkillAnimationName()
     {
-        return _skillData != null ? _skillData.skillActiveAnimationName : "Attack";
+        return _skillData != null ? _skillData.activeAnimationName : "Attack";
     }
 
     #region public events

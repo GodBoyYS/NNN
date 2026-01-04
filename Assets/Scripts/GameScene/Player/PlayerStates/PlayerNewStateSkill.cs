@@ -2,56 +2,43 @@ using UnityEngine;
 
 public class PlayerNewStateSkill : PlayerBaseState
 {
-    private bool _skillFinished;
-
+    private bool _stateFinished;
+    private Coroutine _timerCoroutine;
     public PlayerNewStateSkill(PlayerMainController controller) : base(controller) { }
 
     public override void OnEnter()
     {
-        _skillFinished = false;
+        _stateFinished = false;
 
         if (_controller.IsOwner)
         {
-            // 立即读取输入（同 Move 状态的修复逻辑）
-            var input = _controller.Input;
-            int skillIndex = -1;
-
-            if (input.AttackDown) skillIndex = 0;
-            else if (input.SkillQDown) skillIndex = 1;
-            else if (input.SkillWDown) skillIndex = 2;
-            else if (input.SkillEDown) skillIndex = 3;
-
+            // 【修改】不再检测 Input，而是直接读取状态机缓存的 Index
+            int skillIndex = _controller.StateMachine.PendingSkillIndex;
             if (skillIndex != -1)
             {
                 // 1. 获取并播放动画
                 string animName = _controller.Combat.GetSkillAnimationName(skillIndex);
-                _controller.Animator.Play(animName);
+                _controller.Animator.CrossFade(animName, 0.05f);
 
                 // 2. 获取技能数据以计算持续时间
                 var skillData = _controller.Combat.GetSkillDataByIndex(skillIndex);
-                float duration = skillData != null ? 0.8f : 0.5f; // 建议从 SkillDataSO 中读取 AnimationDuration
-
-                // 3. 计算瞄准位置
-                Vector3 aimPos = input.HasMouseTarget ? input.MouseWorldPos : _controller.transform.position + _controller.transform.forward;
-
-                // 4. 发送网络请求
-                _controller.Combat.RequestCastSkill(skillIndex, aimPos);
-
+                float duration = skillData.activeDuration;
                 // 5. 启动结束协程
-                _controller.StartCoroutine(EndSkillRoutine(duration));
+                _timerCoroutine = _controller.StartCoroutine(EndSkillRoutine(duration));
             }
             else
             {
                 // 如果没有检测到按键（异常情况），直接退出
-                _skillFinished = true;
+                _stateFinished = true;
             }
         }
     }
 
+    // 下面的方法需要更新名称为：EndStateRoutine
     private System.Collections.IEnumerator EndSkillRoutine(float time)
     {
         yield return new WaitForSeconds(time);
-        _skillFinished = true;
+        _stateFinished = true;
     }
 
     public override void OnUpdate()
@@ -62,17 +49,26 @@ public class PlayerNewStateSkill : PlayerBaseState
             StateLogic();
         }
     }
+    public override void OnExit()
+    {
+        // 杀掉协程
+        if (_timerCoroutine != null)
+        {
+            _controller.StopCoroutine(_timerCoroutine);
+            _timerCoroutine = null;
+        }
+    }
 
     protected override void StateLogic()
     {
-        if (ChangeStateToIdle()) return;
+        if (ChangeStateToCharge()) return;
     }
 
-    private bool ChangeStateToIdle()
+    private bool ChangeStateToCharge()
     {
-        if (_skillFinished)
+        if (_stateFinished)
         {
-            _controller.StateMachine.ChangeState(_controller.StateMachine.StateIdle);
+            _controller.StateMachine.ChangeState(_controller.StateMachine.StateRecovery);
             return true;
         }
         return false;

@@ -12,7 +12,7 @@ public class BossStateSkill : BossBaseState
     {
         var skillData = _controller.CurrentSkillData;
         //string animName = skillData != null ? skillData.animationName : "Attack";
-        string animName = skillData != null ? skillData.skillActiveAnimationName : "Attack";
+        string animName = skillData != null ? skillData.activeAnimationName : "Attack";
 
         // [╠Мож]
         _view.PlayAnimation(animName);
