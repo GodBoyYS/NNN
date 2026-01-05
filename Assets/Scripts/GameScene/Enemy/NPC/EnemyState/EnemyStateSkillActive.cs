@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyStateSkillActive : IEnemyState
 {
@@ -10,17 +10,17 @@ public class EnemyStateSkillActive : IEnemyState
 
     public void Enter()
     {
-        // ´Ó Controller »ñÈ¡ÅäÖÃµÄ¼¼ÄÜ¶¯»­Ãû
+        // ä» Controller è·å–é…ç½®çš„æŠ€èƒ½åŠ¨ç”»å
         _view.Animator.CrossFade(_view.SkillAnimationName, 0.1f);
     }
 
     public void Exit()
     {
-        // ¿ÉÒÔÖØÖÃ¶¯»­×´Ì¬µÈ
+        // å¯ä»¥é‡ç½®åŠ¨ç”»çŠ¶æ€ç­‰
     }
 
     public void Update()
     {
-        // ±íÏÖ²ã¿ÉÄÜ²»ĞèÒª×öÌ«¶à Update Âß¼­£¬Ö÷ÒªÓÉ Controller µÄ NetVar Çı¶¯
+        // è¡¨ç°å±‚å¯èƒ½ä¸éœ€è¦åšå¤ªå¤š Update é€»è¾‘ï¼Œä¸»è¦ç”± Controller çš„ NetVar é©±åŠ¨
     }
 }

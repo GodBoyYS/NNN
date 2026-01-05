@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerStateMachine
 {
@@ -9,7 +9,7 @@ public class PlayerStateMachine
     public PlayerNewStateRecovery StateRecovery;
     public PlayerNewStateDie StateDie;
 
-    // ÐÂÔö£ºÓÃÓÚÔÚ²»Í¬×´Ì¬¼ä´«µÝ¡°µ±Ç°ÊÇÄÄ¸ö¼¼ÄÜ¡±
+    // æ–°å¢žï¼šç”¨äºŽåœ¨ä¸åŒçŠ¶æ€é—´ä¼ é€’â€œå½“å‰æ˜¯å“ªä¸ªæŠ€èƒ½â€
     public int PendingSkillIndex { get; set; } = -1;
 
     private float _chargeTime;
@@ -19,17 +19,19 @@ public class PlayerStateMachine
     public float SkillTime => _skillTime;
     public float RecoveryTime => _recoveryTime;
 
-    // ¹«¿ªÊôÐÔ·½±ãµ÷ÊÔ
+    // å…¬å¼€å±žæ€§æ–¹ä¾¿è°ƒè¯•
     public PlayerBaseState CurrentState => _currentState;
 
     private PlayerBaseState _currentState;
     private PlayerMainController _controller;
+    // æ–°å¢žï¼šç”¨äºŽå­˜å‚¨æŠ€èƒ½é‡Šæ”¾æ—¶çš„ç›®æ ‡ä½ç½®ï¼ˆé¼ æ ‡ç‚¹å‡»ç‚¹ï¼‰
+    public Vector3 PendingAimPosition { get; set; }
 
     public PlayerStateMachine(PlayerMainController controller)
     {
         _controller = controller;
 
-        // 1. ÊµÀý»¯ËùÓÐ×´Ì¬
+        // 1. å®žä¾‹åŒ–æ‰€æœ‰çŠ¶æ€
         StateIdle = new PlayerNewStateIdle(_controller);
         StateMove = new PlayerNewStateMove(_controller);
         StateCharge = new PlayerNewStateCharge(_controller);
@@ -37,12 +39,12 @@ public class PlayerStateMachine
         StateRecovery = new PlayerNewStateRecovery(_controller);
         StateDie = new PlayerNewStateDie(_controller);
 
-        // 2. [¹Ø¼üÐÞ¸´] ³õÊ¼»¯Ä¬ÈÏ×´Ì¬£¡
-        // Ö±½Ó¸³Öµ²¢ÊÖ¶¯µ÷ÓÃ Enter£¬±ÜÃâµ÷ÓÃ ChangeState µ¼ÖÂ¿ÕÒýÓÃÒì³£
+        // 2. [å…³é”®ä¿®å¤] åˆå§‹åŒ–é»˜è®¤çŠ¶æ€ï¼
+        // ç›´æŽ¥èµ‹å€¼å¹¶æ‰‹åŠ¨è°ƒç”¨ Enterï¼Œé¿å…è°ƒç”¨ ChangeState å¯¼è‡´ç©ºå¼•ç”¨å¼‚å¸¸
         _currentState = StateIdle;
         _currentState.OnEnter();
 
-        Debug.Log($"[StateMachine] ³õÊ¼»¯Íê³É£¬µ±Ç°×´Ì¬: {_currentState}");
+        Debug.Log($"[StateMachine] åˆå§‹åŒ–å®Œæˆï¼Œå½“å‰çŠ¶æ€: {_currentState}");
     }
 
     public void Update()
@@ -54,16 +56,16 @@ public class PlayerStateMachine
     {
         if (nextState == null) return;
 
-        // [ÓÅ»¯] ·ÀÖ¹ÖØ¸´½øÈëÏàÍ¬×´Ì¬
+        // [ä¼˜åŒ–] é˜²æ­¢é‡å¤è¿›å…¥ç›¸åŒçŠ¶æ€
         // if (_currentState == nextState) return; 
 
-        // 3. [°²È«¼ì²é] Ö»ÓÐµ±Ç°×´Ì¬²»Îª¿ÕÊ±²Åµ÷ÓÃ Exit
+        // 3. [å®‰å…¨æ£€æŸ¥] åªæœ‰å½“å‰çŠ¶æ€ä¸ä¸ºç©ºæ—¶æ‰è°ƒç”¨ Exit
         if (_currentState != null)
         {
             _currentState.OnExit();
         }
 
-        Debug.Log($"[StateMachine] ÇÐ»»×´Ì¬: {_currentState} -> {nextState}");
+        Debug.Log($"[StateMachine] åˆ‡æ¢çŠ¶æ€: {_currentState} -> {nextState}");
 
         _currentState = nextState;
         _currentState.OnEnter();

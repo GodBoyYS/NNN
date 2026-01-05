@@ -1,10 +1,12 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerDataContainer : NetworkBehaviour, IDamageable
+public class PlayerDataContainer : NetworkBehaviour, 
+    IDamageable,
+    IDamageMitigator
 {
     [Header("Stats")]
     [SerializeField] private int _maxHealth = 100;
@@ -33,12 +35,15 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
     public NetworkList<FixedString32Bytes> ItemsVar => _items;
     #endregion
 
-    // UI ÏÔÊ¾ÓÃµÄÊÂ¼ş
+    // UI æ˜¾ç¤ºç”¨çš„äº‹ä»¶
     public event Action<int, int> OnHealthChanged;
-    // ÊÜÉËÌØĞ§ÊÂ¼ş
+    // å—ä¼¤ç‰¹æ•ˆäº‹ä»¶
     public event Action<int, ulong> OnDamaged;
-    // ËÀÍöÊÂ¼ş (¹© StateMachine ¼àÌı)
+    // æ­»äº¡äº‹ä»¶ (ä¾› StateMachine ç›‘å¬)
     public event Action<PlayerDataContainer> OnDied;
+
+    private float _damageReductionPercentage = 0f;
+    private Coroutine _reductionCoroutine;
 
     #region public properties
     public int MaxHealth => _maxHealth;
@@ -54,7 +59,7 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
             _currentHealth.Value = _maxHealth;
         }
 
-        // ³õÊ¼»¯UI
+        // åˆå§‹åŒ–UI
         OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
 
@@ -80,11 +85,17 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
         if (!IsServer) return;
         if (IsDead) return;
 
-        int newHealth = Mathf.Clamp(_currentHealth.Value - amount, 0, _maxHealth);
+        // è®¡ç®—å‡ä¼¤
+        float reducedAmountFloat = amount * (1.0f - _damageReductionPercentage);
+        int finalDamage = Mathf.RoundToInt(reducedAmountFloat);
+
+        // ä¿è¯æœ€å°ä¼¤å®³ä¸º1 (é™¤éæ˜¯æ— æ•Œæˆ–è€…åŸä¼¤å®³å°±æ˜¯0)
+        if (amount > 0 && finalDamage <= 0 && _damageReductionPercentage < 1.0f) finalDamage = 1;
+
+        int newHealth = Mathf.Clamp(_currentHealth.Value - finalDamage, 0, _maxHealth);
         _currentHealth.Value = newHealth;
 
-        // ´¥·¢¿Í»§¶ËµÄ±íÏÖ (Æ¯×Ö, ÉÁË¸)
-        DamagedClientRpc(amount, attackerId);
+        DamagedClientRpc(finalDamage, attackerId);
     }
 
     public void Heal(int amount)
@@ -103,7 +114,7 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
     public void AddItemServer(string name)
     {
         _items.Add(name);
-        //Debug.Log($"Ìí¼ÓÁË{name}£¬Ä¿Ç°×Ü¹²ÓĞ{_items.Count}¸öÎïÆ·");
+        //Debug.Log($"æ·»åŠ äº†{name}ï¼Œç›®å‰æ€»å…±æœ‰{_items.Count}ä¸ªç‰©å“");
         string allItems = "";
         foreach (var item in _items)
         {
@@ -123,7 +134,7 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
     {
         OnDamaged?.Invoke(damage, attackerId);
 
-        // µ÷ÓÃÖ®Ç°µÄÌØĞ§¹ÜÀíÆ÷
+        // è°ƒç”¨ä¹‹å‰çš„ç‰¹æ•ˆç®¡ç†å™¨
         if (DamageTextManager.Instance != null)
         {
             Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 1.5f, 0);
@@ -133,11 +144,39 @@ public class PlayerDataContainer : NetworkBehaviour, IDamageable
         {
             HitStopManager.Instance.TriggerHitStop();
         }
-        // ÉÁË¸Ğ§¹û¿ÉÒÔµ¥¶À»ñÈ¡×é¼şµ÷ÓÃ£¬»òÕßÔÚÕâÀïµ÷ÓÃ
+        // é—ªçƒæ•ˆæœå¯ä»¥å•ç‹¬è·å–ç»„ä»¶è°ƒç”¨ï¼Œæˆ–è€…åœ¨è¿™é‡Œè°ƒç”¨
         if (TryGetComponent<DamageFlash>(out var flash))
         {
             flash.TriggerFlash();
         }
+    }
+
+    /// <summary>
+    /// æ¥å£å®ç°ï¼šåº”ç”¨å‡ä¼¤
+    /// </summary>
+    public void ApplyDamageReduction(float percentage, float duration)
+    {
+        if (!IsServer) return; // åªæœ‰æœåŠ¡å™¨ç®¡ç†æ•°å€¼
+
+        // å¦‚æœå·²ç»æœ‰å‡ä¼¤åœ¨è¿è¡Œï¼Œå…ˆåœæ­¢æ—§çš„ï¼ˆæˆ–è€…ä½ å¯ä»¥è®¾è®¡ä¸ºå–æœ€å¤§å€¼ï¼Œè¿™é‡Œé‡‡ç”¨è¦†ç›–é€»è¾‘ï¼‰
+        if (_reductionCoroutine != null)
+        {
+            StopCoroutine(_reductionCoroutine);
+        }
+
+        _reductionCoroutine = StartCoroutine(DamageReductionRoutine(percentage, duration));
+    }
+
+    private System.Collections.IEnumerator DamageReductionRoutine(float percentage, float time)
+    {
+        _damageReductionPercentage = Mathf.Clamp01(percentage);
+        Debug.Log($"[Buff] å‡ä¼¤å¼€å¯: {_damageReductionPercentage:P0}, æŒç»­ {time}ç§’");
+
+        yield return new WaitForSeconds(time);
+
+        _damageReductionPercentage = 0f;
+        _reductionCoroutine = null;
+        Debug.Log("[Buff] å‡ä¼¤ç»“æŸ");
     }
 
     #endregion

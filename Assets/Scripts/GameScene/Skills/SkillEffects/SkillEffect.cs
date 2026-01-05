@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,10 +6,10 @@ using UnityEngine;
 [Serializable]
 public abstract class SkillEffect
 {
-    [Header("»ù´¡ÉèÖÃ")]
+    [Header("åŸºç¡€è®¾ç½®")]
     public string effectName;
-    // ºËĞÄ·½·¨£ºËùÓĞµÄĞ§¹û»ıÄ¾¶¼±ØĞëÊµÏÖÕâ¸öÂß¼­
-    // caster£ºÊ©·¨Õß£¬target£ºÄ¿±ê£¨¿ÉÑ¡£©£¬postion£¨Ä¿±êÎ»ÖÃ£©
+    // æ ¸å¿ƒæ–¹æ³•ï¼šæ‰€æœ‰çš„æ•ˆæœç§¯æœ¨éƒ½å¿…é¡»å®ç°è¿™ä¸ªé€»è¾‘
+    // casterï¼šæ–½æ³•è€…ï¼Œtargetï¼šç›®æ ‡ï¼ˆå¯é€‰ï¼‰ï¼Œpostionï¼ˆç›®æ ‡ä½ç½®ï¼‰
     public abstract void Execute(GameObject caster, GameObject target, Vector3 position);
 }
 
@@ -20,8 +20,8 @@ public class DelayEffect : SkillEffect
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // ÕâÀïÊ²Ã´¶¼²»ÓÃ×ö£¬Âß¼­ÔÚ SkillDataSO µÄÑ­»·Àï±»´¦ÀíÁË
-        // Ö»ÊÇ×÷ÎªÒ»¸öÊı¾İÈİÆ÷¸æËßÑ­»·ÒªÍ£¶à¾Ã
+        // è¿™é‡Œä»€ä¹ˆéƒ½ä¸ç”¨åšï¼Œé€»è¾‘åœ¨ SkillDataSO çš„å¾ªç¯é‡Œè¢«å¤„ç†äº†
+        // åªæ˜¯ä½œä¸ºä¸€ä¸ªæ•°æ®å®¹å™¨å‘Šè¯‰å¾ªç¯è¦åœå¤šä¹…
     }
 }
 

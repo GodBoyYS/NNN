@@ -12,24 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: PlayerESkill
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
+  _chargeClip: {fileID: 7400000, guid: d7af3a87ef23e3c45a53ed28535b66c9, type: 2}
+  _activeClip: {fileID: 7400000, guid: fbfd162a9bfd8f543808aac47bf95eee, type: 2}
+  _recoveryClip: {fileID: 7400000, guid: b99b9a4de8c083c43b6f0929e96500e8, type: 2}
   coolDown: 2
   castRadius: 2
-  chargeDuration: 1.5
-  chargeAnimationName: Idle
+  chargeDuration: 0.5
+  chargeAnimationName: NewESkillCharge
   warningPrefab: {fileID: 0}
   chargeVisualPrefabs: []
-  skillActiveAnimationName: ESkill
+  ifChargeInteruptable: 1
+  activeDuration: 0.32
+  activeAnimationName: NewESkill
   effects:
   - rid: 3250261351905886278
   isSelfCentered: 0
-  skillRecoveryAnimationName: 
+  ifActiveInteruptable: 0
+  recoveryDuration: 0.5
+  recoveryAnimationName: NewESkillRecovery
+  ifRecoveryInteruptable: 1
   references:
     version: 2
     RefIds:
     - rid: 3250261351905886278
       type: {class: TeleportEffect, ns: , asm: Assembly-CSharp}
       data:
-        effectName: GOOO!
+        effectName: "\u4F4D\u79FB"
         distance: 5
         isDash: 1
-        duration: 0.5

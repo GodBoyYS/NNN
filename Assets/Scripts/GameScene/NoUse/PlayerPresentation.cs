@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerNetworkCore))]
@@ -32,7 +32,7 @@ public class PlayerPresentation : NetworkBehaviour
             _core.LifeVar.OnValueChanged += OnLifeChanged;
             _core.MotionVar.OnValueChanged += OnMotionChanged;
         }
-        // ¡¾ĞÂÔö¡¿¼àÌı¼¼ÄÜË÷Òı±ä»¯
+        // ã€æ–°å¢ã€‘ç›‘å¬æŠ€èƒ½ç´¢å¼•å˜åŒ–
         if (_combat != null)
         {
             //_combat.OnSkillIndexChanged += OnSkillIndexChanged;
@@ -44,29 +44,29 @@ public class PlayerPresentation : NetworkBehaviour
         //}
         if (_health != null)
         {
-            _health.OnDamaged += OnDamagedLocal; // everyone¶¼¿ÉÒÔ²¥·Å±»´ò±íÏÖ
+            _health.OnDamaged += OnDamagedLocal; // everyoneéƒ½å¯ä»¥æ’­æ”¾è¢«æ‰“è¡¨ç°
         }
-        // ¹Ø¼ü£ºÖ»ÓĞ Owner (±¾µØÍæ¼Ò) ²ÅĞèÒªÁ¬½Ó UI
+        // å…³é”®ï¼šåªæœ‰ Owner (æœ¬åœ°ç©å®¶) æ‰éœ€è¦è¿æ¥ UI
         if (IsOwner)
         {
-            // °ó¶¨ UI
+            // ç»‘å®š UI
             if (GameHUDView.Instance != null)
             {
                 //GameHUDView.Instance.BindToLocalPlayer(_health, _combat, _core);
             }
 
-            // --- Ôö¼Óµ÷ÊÔÈÕÖ¾ ---
-            //Debug.Log($"[Client Debug] ±¾µØÍæ¼Ò {OwnerClientId} Éú³É¡£ÕıÔÚÑ°ÕÒÉãÏñ»ú¹ÜÀíÆ÷...");
+            // --- å¢åŠ è°ƒè¯•æ—¥å¿— ---
+            //Debug.Log($"[Client Debug] æœ¬åœ°ç©å®¶ {OwnerClientId} ç”Ÿæˆã€‚æ­£åœ¨å¯»æ‰¾æ‘„åƒæœºç®¡ç†å™¨...");
 
             if (GameCameraManager.Instance != null)
             {
-                //Debug.Log("[Client Debug] ÕÒµ½ GameCameraManager£¬ÕıÔÚÉèÖÃ¸úËæÄ¿±ê...");
+                //Debug.Log("[Client Debug] æ‰¾åˆ° GameCameraManagerï¼Œæ­£åœ¨è®¾ç½®è·Ÿéšç›®æ ‡...");
                 GameCameraManager.Instance.SetFollowTarget(transform);
             }
             else
             {
-                // Èç¹û´ËÊ±»¹Ã»ÕÒµ½£¬ËµÃ÷Ö´ĞĞË³ĞòÓĞÎÊÌâ£¬ÎÒÃÇĞèÒª±¨´í
-                //Debug.LogError("!!! ÖÂÃü´íÎó£º³¡¾°ÖĞÕÒ²»µ½ GameCameraManager£¡ÉãÏñ»úÎŞ·¨¸úËæ£¡");
+                // å¦‚æœæ­¤æ—¶è¿˜æ²¡æ‰¾åˆ°ï¼Œè¯´æ˜æ‰§è¡Œé¡ºåºæœ‰é—®é¢˜ï¼Œæˆ‘ä»¬éœ€è¦æŠ¥é”™
+                //Debug.LogError("!!! è‡´å‘½é”™è¯¯ï¼šåœºæ™¯ä¸­æ‰¾ä¸åˆ° GameCameraManagerï¼æ‘„åƒæœºæ— æ³•è·Ÿéšï¼");
             }
         }
 
@@ -78,7 +78,7 @@ public class PlayerPresentation : NetworkBehaviour
             _core.LifeVar.OnValueChanged -= OnLifeChanged;
             _core.MotionVar.OnValueChanged -= OnMotionChanged;
         }
-        // ¡¾ĞÂÔö¡¿ÒÆ³ı¼àÌı
+        // ã€æ–°å¢ã€‘ç§»é™¤ç›‘å¬
         if (_combat != null)
         {
             _combat.OnSkillIndexChanged -= OnSkillIndexChanged;
@@ -90,11 +90,11 @@ public class PlayerPresentation : NetworkBehaviour
             _health.OnDamaged -= OnDamagedLocal;
         }
     }
-    // ¡¾ĞÂÔö¡¿µ±¼¼ÄÜË÷Òı±ä»¯Ê±£¬Èç¹ûµ±Ç°ÊÇSkill×´Ì¬£¬ËµÃ÷Êı¾İ¸üĞÂÁË£¬ÖØĞÂË¢ĞÂÒ»ÏÂ¶¯»­
+    // ã€æ–°å¢ã€‘å½“æŠ€èƒ½ç´¢å¼•å˜åŒ–æ—¶ï¼Œå¦‚æœå½“å‰æ˜¯SkillçŠ¶æ€ï¼Œè¯´æ˜æ•°æ®æ›´æ–°äº†ï¼Œé‡æ–°åˆ·æ–°ä¸€ä¸‹åŠ¨ç”»
     private void OnSkillIndexChanged(int newIndex)
     {
-        // Ö»ÓĞµ± Index ÓĞĞ§(²»ÊÇ¸´Î»µÄ-1) ÇÒ µ±Ç°È·Êµ´¦ÓÚ Skill ×´Ì¬Ê±£¬²ÅÈ¥Ë¢ĞÂ
-        // ÕâÑù½â¾öÁË¡°MotionÏÈµ½£¬Indexºóµ½¡±µ¼ÖÂ¶¯»­Ã»²¥µÄÎÊÌâ
+        // åªæœ‰å½“ Index æœ‰æ•ˆ(ä¸æ˜¯å¤ä½çš„-1) ä¸” å½“å‰ç¡®å®å¤„äº Skill çŠ¶æ€æ—¶ï¼Œæ‰å»åˆ·æ–°
+        // è¿™æ ·è§£å†³äº†â€œMotionå…ˆåˆ°ï¼ŒIndexååˆ°â€å¯¼è‡´åŠ¨ç”»æ²¡æ’­çš„é—®é¢˜
         if (_core.Motion == PlayerNetworkStates.MotionState.Skill && newIndex != -1)
         {
             RefreshStateFromNet();
@@ -102,8 +102,8 @@ public class PlayerPresentation : NetworkBehaviour
     }
     private void OnDamagedLocal(int damage, ulong attackerId)
     {
-        // ÕâÀï²¥·Å£ºÊÜ»÷ÉÁ°×£¬ÊÜ»÷ÒôĞ§£¬ÊÜ»÷¶¯×÷
-        // Èç¹ûÖ»Ïëowner²ÅÕğÆÁ
+        // è¿™é‡Œæ’­æ”¾ï¼šå—å‡»é—ªç™½ï¼Œå—å‡»éŸ³æ•ˆï¼Œå—å‡»åŠ¨ä½œ
+        // å¦‚æœåªæƒ³owneræ‰éœ‡å±
         if (IsOwner)
         {
             // camera shake
@@ -124,7 +124,7 @@ public class PlayerPresentation : NetworkBehaviour
     private void RefreshStateFromNet()
     {
         if (_core == null) return;
-        // lifeÓÅÏÈ¼¶×î¸ß£ºdead¸²¸Çmotion
+        // lifeä¼˜å…ˆçº§æœ€é«˜ï¼šdeadè¦†ç›–motion
         if (_core.Life == PlayerNetworkStates.LifeState.Dead)
         {
             if (_currentState is PlayerStateDie) return;
@@ -161,12 +161,12 @@ public class PlayerPresentation : NetworkBehaviour
         var ui = HealthBarUI.Instance;
         if (ui == null)
         {
-            Debug.LogError("³¡¾°´æÔÚÍæ¼Òµ«ÊÇÃ»ÓĞ ÑªÁ¿Ìõ");
+            Debug.LogError("åœºæ™¯å­˜åœ¨ç©å®¶ä½†æ˜¯æ²¡æœ‰ è¡€é‡æ¡");
             return;
         }
         if (_health == null)
         {
-            Debug.LogError("Íæ¼ÒÃ»ÓĞÑªÁ¿×é¼ş");
+            Debug.LogError("ç©å®¶æ²¡æœ‰è¡€é‡ç»„ä»¶");
             return;
         }
         _health.OnHealthChanged += ui.UpdateViewHealth;

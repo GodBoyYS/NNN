@@ -1,4 +1,4 @@
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 
 public class InteractableTest : NetworkBehaviour
@@ -30,6 +30,6 @@ public class InteractableTest : NetworkBehaviour
     {
         if(!IsServer) return;
         _health.Value -= damage;
-        Debug.Log("ľ׮�ܵ��˺�");
+        Debug.Log("木桩受到伤害");
     }
 }

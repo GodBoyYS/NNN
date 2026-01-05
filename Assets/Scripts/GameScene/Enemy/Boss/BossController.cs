@@ -1,13 +1,15 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(BossPresentation))]
 [RequireComponent(typeof(NetworkObject))]
-public class BossController : NetworkBehaviour, IDamageable
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
+public class BossController : NetworkBehaviour, 
+    IDamageable
 {
     public enum BossMotionState
     {
@@ -15,23 +17,28 @@ public class BossController : NetworkBehaviour, IDamageable
         Chase = 1,
         Charge = 2,
         Skill = 3,
-        Die = 4,
+        Recovery = 4, // æ–°å¢æšä¸¾
+        Die = 5,
     }
 
     [Header("References")]
-    [SerializeField] private BossPresentation _view;
+    // [SerializeField] private BossPresentation _view; // Deprecated
     [SerializeField] private SkillDataSO[] _skills;
 
     [Header("Settings")]
     [SerializeField] private int _maxHealth = 100;
-    [SerializeField] public float ChaseRange = 50f;      // Public for State Access
-    [SerializeField] public float BasicAttackRange = 3.5f; // Public for State Access
-    [SerializeField] public LayerMask ChaseLayer;        // Public for State Access
+    [SerializeField] public float ChaseRange = 50f;
+    [SerializeField] public float BasicAttackRange = 3.5f;
+    [SerializeField] public LayerMask ChaseLayer;
     [SerializeField] private float _specialSkillInterval = 15f;
 
-    // --- State Data ---
-    public NavMeshAgent Agent => _view.Agent;
-    public BossPresentation View => _view;
+    // ç›´æ¥è·å–ç»„ä»¶
+    public NavMeshAgent Agent { get; private set; }
+    public Animator Animator { get; private set; }
+
+    // å…¼å®¹æ—§ä»£ç çš„ View å±æ€§ï¼Œä½†å»ºè®®ç›´æ¥ç”¨ä¸Šé¢çš„ Animator/Agent
+    public BossPresentation View => GetComponent<BossPresentation>();
+
     public NetworkObject Target { get; private set; }
     public SkillDataSO[] Skills => _skills;
 
@@ -40,32 +47,29 @@ public class BossController : NetworkBehaviour, IDamageable
     private bool _hasTriggered50Ult = false;
     private bool _hasTriggered10Ult = false;
 
-    // --- Network Variables ---
+    // Network Variables
     private NetworkVariable<BossMotionState> _currentBossState = new NetworkVariable<BossMotionState>(
         BossMotionState.Idle, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
     private NetworkVariable<int> _currentHealth = new NetworkVariable<int>(
         100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
     );
-    private NetworkVariable<int> _currentSkillIndex = new NetworkVariable<int>(
-        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-    );
-    // È·±£ÓĞ¹«¹²ÊôĞÔ·ÃÎÊÆ÷
-    public int MaxHealth => _maxHealth; // Èç¹ûÖ®Ç°Ã»ÓĞ£¬¼ÓÉÏÕâ¸ö
-    public int CurrentHealth => _currentHealth.Value; // ¼ÓÉÏÕâ¸ö£¬ÈÃ Binder ³õÊ¼»¯Ê±ÄÜ¶Áµ½
+
+    // å…¬å¼€å±æ€§
+    public int MaxHealth => _maxHealth;
+    public int CurrentHealth => _currentHealth.Value;
     public BossMotionState MotionState => _currentBossState.Value;
-    public int CurrentSkillIdx => _currentSkillIndex.Value;
-    public SkillDataSO CurrentSkillData => (_skills != null && CurrentSkillIdx >= 0 && CurrentSkillIdx < _skills.Length) ? _skills[CurrentSkillIdx] : null;
 
     public event Action OnBossDied;
-    private BossStateMachine _stateMachine;
+    public event Action<int, int> OnHealthChanged;
 
-    #region public events
-    public event Action<int, int> OnHealthChanged; // <Current, Max>
-    #endregion
+    private BossStateMachine _stateMachine;
+    public BossStateMachine StateMachine => _stateMachine;
+
     private void Awake()
     {
-        if (_view == null) _view = GetComponent<BossPresentation>();
+        Agent = GetComponent<NavMeshAgent>();
+        Animator = GetComponent<Animator>();
         _stateMachine = new BossStateMachine(this);
     }
 
@@ -75,23 +79,20 @@ public class BossController : NetworkBehaviour, IDamageable
         {
             _currentHealth.Value = _maxHealth;
             _currentBossState.Value = BossMotionState.Idle;
-            _currentSkillIndex.Value = 0;
             Agent.enabled = true;
             Target = null;
             if (_skills != null) _skillCDs = new float[_skills.Length];
+            foreach (var skill in _skills) skill.SetDurations();
         }
         else
         {
             Agent.enabled = false;
         }
 
-        // ºËĞÄ£º¼àÌıÍøÂç±äÁ¿±ä»¯£¬Çı¶¯±¾µØ×´Ì¬»ú
         _currentBossState.OnValueChanged += OnStateNetworkValueChanged;
-        // ³õÊ¼»¯³õÊ¼×´Ì¬
         SyncStateFromNetwork(_currentBossState.Value);
-        // [ĞÂÔö] ¼àÌıÍøÂç±äÁ¿±ä»¯
+
         _currentHealth.OnValueChanged += OnHealthNetworkChanged;
-        // [ĞÂÔö] ³õÊ¼´¥·¢Ò»´Î
         OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
 
@@ -103,19 +104,16 @@ public class BossController : NetworkBehaviour, IDamageable
 
     private void Update()
     {
-        // 1. ·şÎñ¶Ë´¦ÀíÀäÈ´Ê±¼ä
         if (IsServer)
         {
             UpdateTimers();
         }
-        // 2. ×´Ì¬»úÇı¶¯ (ServerÔËĞĞÂß¼­, Server+ClientÔËĞĞ±íÏÖ)
         _stateMachine.Update();
     }
 
     private void UpdateTimers()
     {
         if (_currentBossState.Value == BossMotionState.Die) return;
-
         if (_skillCDs != null)
         {
             for (int i = 0; i < _skillCDs.Length; i++)
@@ -124,39 +122,24 @@ public class BossController : NetworkBehaviour, IDamageable
         if (Target != null) _specialSkillTimer += Time.deltaTime;
     }
 
-    // --- ×´Ì¬Í¬²½Âß¼­ ---
+    #region State Sync
     private void OnStateNetworkValueChanged(BossMotionState oldState, BossMotionState newState)
     {
         SyncStateFromNetwork(newState);
     }
-    // 4. [ĞÂÔö] ´¦ÀíÍøÂç±äÁ¿±ä»¯µÄ»Øµ÷
-    private void OnHealthNetworkChanged(int prev, int curr)
-    {
-        OnHealthChanged?.Invoke(curr, _maxHealth);
-    }
+
     private void SyncStateFromNetwork(BossMotionState state)
     {
         switch (state)
         {
-            case BossMotionState.Idle:
-                _stateMachine.ChangeState(_stateMachine.StateIdle);
-                break;
-            case BossMotionState.Chase:
-                _stateMachine.ChangeState(_stateMachine.StateMove);
-                break;
-            case BossMotionState.Charge:
-                _stateMachine.ChangeState(_stateMachine.StateCharge);
-                break;
-            case BossMotionState.Skill:
-                _stateMachine.ChangeState(_stateMachine.StateSkill);
-                break;
-            case BossMotionState.Die:
-                _stateMachine.ChangeState(_stateMachine.StateDie);
-                break;
+            case BossMotionState.Idle: _stateMachine.ChangeState(_stateMachine.StateIdle); break;
+            case BossMotionState.Chase: _stateMachine.ChangeState(_stateMachine.StateMove); break;
+            case BossMotionState.Charge: _stateMachine.ChangeState(_stateMachine.StateCharge); break;
+            case BossMotionState.Skill: _stateMachine.ChangeState(_stateMachine.StateSkill); break;
+            case BossMotionState.Recovery: _stateMachine.ChangeState(_stateMachine.StateRecovery); break;
+            case BossMotionState.Die: _stateMachine.ChangeState(_stateMachine.StateDie); break;
         }
     }
-
-    // --- ¹«¹²½Ó¿Ú¹© State µ÷ÓÃ (½ö Server) ---
 
     public void SetState(BossMotionState newState)
     {
@@ -164,10 +147,11 @@ public class BossController : NetworkBehaviour, IDamageable
         if (_currentBossState.Value != newState)
         {
             _currentBossState.Value = newState;
-            // Server¶Ë±¾µØÒ²»áÊÕµ½ OnValueChanged »Øµ÷´Ó¶øÇĞ»»×´Ì¬
         }
     }
+    #endregion
 
+    #region Logic
     public void SetTarget(NetworkObject target)
     {
         Target = target;
@@ -182,20 +166,17 @@ public class BossController : NetworkBehaviour, IDamageable
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 10f * Time.deltaTime);
     }
 
-    /// <summary>
-    /// ³¢ÊÔÑ¡ÔñÒ»¸ö¼¼ÄÜ²¢·¢Æğ¹¥»÷
-    /// </summary>
     public bool TrySelectAndStartAttack()
     {
         int skillIndex = SelectSkillToCast();
         if (skillIndex != -1)
         {
-            _currentSkillIndex.Value = skillIndex;
-            // ¿Û³ıCD
+            // å°†é€‰æ‹©çš„æŠ€èƒ½ç´¢å¼•å­˜å…¥çŠ¶æ€æœºä¸Šä¸‹æ–‡
+            _stateMachine.PendingSkillIndex = skillIndex;
+
             if (_skills != null && skillIndex < _skills.Length)
                 _skillCDs[skillIndex] = _skills[skillIndex].coolDown;
 
-            // ½øÈëĞîÁ¦×´Ì¬ (Õâ»á×Ô¶¯Í¬²½¸øClient)
             SetState(BossMotionState.Charge);
             return true;
         }
@@ -204,9 +185,10 @@ public class BossController : NetworkBehaviour, IDamageable
 
     private int SelectSkillToCast()
     {
-        // ±£³ÖÔ­ÓĞµÄAI¾ö²ßÂß¼­
         float hpPercent = (float)_currentHealth.Value / _maxHealth;
         int ultIndex = 3;
+
+        // å¤§æ‹›æ£€æµ‹
         if (_skills.Length > ultIndex)
         {
             if (hpPercent <= 0.1f && !_hasTriggered10Ult)
@@ -223,11 +205,13 @@ public class BossController : NetworkBehaviour, IDamageable
             }
         }
 
+        // ç‰¹æ®ŠæŠ€èƒ½æ£€æµ‹
         if (_specialSkillTimer >= _specialSkillInterval)
         {
             List<int> readySpecials = new List<int>();
             if (_skills.Length > 1 && _skillCDs[1] <= 0) readySpecials.Add(1);
             if (_skills.Length > 2 && _skillCDs[2] <= 0) readySpecials.Add(2);
+
             if (readySpecials.Count > 0)
             {
                 _specialSkillTimer = 0f;
@@ -235,10 +219,44 @@ public class BossController : NetworkBehaviour, IDamageable
             }
         }
 
+        // æ™®æ”»æ£€æµ‹ (Index 0)
         if (_skills.Length > 0 && _skillCDs[0] <= 0) return 0;
+
         return -1;
     }
 
+    public void TriggerChargeVisuals(Vector3 pos, float duration)
+    {
+        int skillIndex = _stateMachine.PendingSkillIndex;
+        SpawnChargeVisualsClientRpc(skillIndex, pos, duration);
+    }
+
+    [ClientRpc]
+    private void SpawnChargeVisualsClientRpc(int skillIndex, Vector3 pos, float duration)
+    {
+        if (_skills == null || skillIndex < 0 || skillIndex >= _skills.Length) return;
+        var skillData = _skills[skillIndex];
+        var prefabs = skillData.chargeVisualPrefabs;
+
+        if (prefabs == null || prefabs.Count == 0) return;
+
+        foreach (var prefab in prefabs)
+        {
+            if (prefab == null) continue;
+            GameObject instance = Instantiate(prefab, pos, Quaternion.identity);
+            if (instance.TryGetComponent<ChargeGrowingVisual>(out var visualScript))
+            {
+                visualScript.SetDuration(duration);
+            }
+            else
+            {
+                Destroy(instance, duration + 0.5f);
+            }
+        }
+    }
+    #endregion
+
+    #region IDamageable
     public void TakeDamage(int amount, ulong attackerId)
     {
         if (!IsServer) return;
@@ -254,496 +272,18 @@ public class BossController : NetworkBehaviour, IDamageable
             return;
         }
 
-        // ³ğºŞ»úÖÆ£ºÈç¹ûÃ»Ä¿±ê£¬Ë­´òÎÒÎÒ´òË­
         if (Target == null && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attacker))
         {
             Target = attacker;
+            // å¦‚æœåœ¨ Idle è¢«æ‰“ï¼Œå¯ä»¥å°è¯•åˆ‡åˆ° Chase
+            if (_currentBossState.Value == BossMotionState.Idle)
+                SetState(BossMotionState.Chase);
         }
     }
-    public void TageDamage(int amount, ulong attackerId) => TakeDamage(amount, attackerId);
+    #endregion
 
-    // =========================================================
-    // ĞÂÔö£ºÊÓ¾õÌØĞ§Ïà¹ØµÄ RPC ½Ó¿Ú
-    // =========================================================
-
-    /// <summary>
-    /// ¹© State µ÷ÓÃ£¬´¥·¢È«¿Í»§¶ËµÄĞîÁ¦ÌØĞ§
-    /// </summary>
-    public void TriggerChargeVisuals(Vector3 pos, float duration)
+    private void OnHealthNetworkChanged(int prev, int curr)
     {
-        // »ñÈ¡µ±Ç°¼¼ÄÜË÷Òı£¬Í¨¹ı RPC ·¢ËÍ¸ø¿Í»§¶Ë
-        int skillIndex = _currentSkillIndex.Value;
-        SpawnChargeVisualsClientRpc(skillIndex, pos, duration);
-    }
-
-    [ClientRpc]
-    private void SpawnChargeVisualsClientRpc(int skillIndex, Vector3 pos, float duration)
-    {
-        // 1. °²È«¼ì²é
-        if (_skills == null || skillIndex < 0 || skillIndex >= _skills.Length) return;
-
-        var skillData = _skills[skillIndex];
-        var prefabs = skillData.chargeVisualPrefabs;
-
-        if (prefabs == null || prefabs.Count == 0) return;
-
-        // 2. ±éÀúÉú³ÉËùÓĞÅäÖÃµÄÌØĞ§
-        foreach (var prefab in prefabs)
-        {
-            if (prefab == null) continue;
-
-            // ÊµÀı»¯ÌØĞ§£¨´¿±¾µØ¶ÔÏó£¬²»ĞèÒª NetworkSpawn£©
-            GameObject instance = Instantiate(prefab, pos, Quaternion.identity);
-
-            // 3. ÉèÖÃÌØĞ§µÄÉúÃüÖÜÆÚºÍ³É³¤²ÎÊı
-            // ¼ÙÉèÄãÓĞÒ»¸ö½Å±¾×¨ÃÅ¿ØÖÆÌØĞ§Ëõ·Å/ÏûÊ§
-            if (instance.TryGetComponent<ChargeGrowingVisual>(out var visualScript))
-            {
-                visualScript.SetDuration(duration);
-                //visualScript.Initialize(duration);
-            }
-            else
-            {
-                // Èç¹ûÃ»ÓĞ×¨ÓÃ½Å±¾£¬ÖÁÉÙ±£Ö¤Ëü»áÏú»Ù
-                Destroy(instance, duration + 0.5f);
-            }
-        }
+        OnHealthChanged?.Invoke(curr, _maxHealth);
     }
 }
-
-
-
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using Unity.Netcode;
-//using UnityEngine;
-//using UnityEngine.AI;
-//using Random = UnityEngine.Random;
-
-//[RequireComponent(typeof(NavMeshAgent)), RequireComponent(typeof(NetworkObject))]
-//public class BossController : NetworkBehaviour, IDamageable
-//{
-//    public enum NewBossMotionState
-//    {
-//        Idle = 0,
-//        Chase = 1,
-//        SkillCharge = 2,
-//        SkillActive = 3,
-//        SkillRecovery = 4,
-//        Die = 5,
-//    }
-//    public enum BossMotionState
-//    {
-//        Idle = 0,
-//        Chase = 1,
-//        Charge = 2,
-//        Skill = 3,
-//        Die = 4,
-//    }
-
-//    [Header("AI »ù´¡ÉèÖÃ")]
-//    [SerializeField] private int _maxHealth = 100;
-//    [SerializeField] private float _chaseRange = 50f;
-//    [SerializeField] private float _basicAttackRange = 3.5f;
-//    [SerializeField] private LayerMask _chaseLayer;
-
-//    [Header("¼¼ÄÜÅäÖÃ")]
-//    [SerializeField] private SkillDataSO[] _skills;
-
-//    [Header("AI Õ½¶·½Ú×à")]
-//    [SerializeField] private float _specialSkillInterval = 15f;
-
-//    // --- ÔËĞĞÊ±Êı¾İ ---
-//    private NavMeshAgent _agent;
-//    private NetworkObject _target;
-//    private float[] _skillCDs;
-
-//    // ×´Ì¬¿ØÖÆ
-//    private bool _isCasting = false;
-//    private float _specialSkillTimer = 0f;
-//    private bool _hasTriggered50Ult = false;
-//    private bool _hasTriggered10Ult = false;
-
-//    // Ñ°Â·ÓÅ»¯
-//    private float _repathTimer = 0f;
-//    private float _repathInterval = 0.2f;
-
-//    #region Network Variables
-//    private NetworkVariable<BossMotionState> _currentBossState = new NetworkVariable<BossMotionState>(
-//        BossMotionState.Idle, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-//    );
-
-//    private NetworkVariable<int> _currentHealth = new NetworkVariable<int>(
-//        100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-//    );
-
-//    private NetworkVariable<int> _currentSkillIndex = new NetworkVariable<int>(
-//        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server
-//    );
-
-//    public BossMotionState MotionStateVar => _currentBossState.Value;
-//    public NetworkVariable<BossMotionState> Motion => _currentBossState;
-//    public NetworkVariable<int> SkillIndexVar => _currentSkillIndex;
-//    #endregion
-
-//    public event Action OnBossDied;
-
-
-//    private BossStateMachine _stateMachine;
-//    private BossPresentation _view;
-//    public void Awake()
-//    {
-//        _view = GetComponent<BossPresentation>();
-//        _stateMachine = new BossStateMachine(this, _view);
-//    }
-
-//    public override void OnNetworkSpawn()
-//    {
-//        _agent = GetComponent<NavMeshAgent>();
-//        if (_skills != null) _skillCDs = new float[_skills.Length];
-
-//        if (IsServer)
-//        {
-//            _currentHealth.Value = _maxHealth;
-//            _currentBossState.Value = BossMotionState.Idle;
-//            _currentSkillIndex.Value = 0;
-//            _agent.enabled = true;
-//            _target = null;
-//        }
-//        else
-//        {
-//            _agent.enabled = false;
-//        }
-//    }
-
-//    private void Update()
-//    {
-//        _stateMachine.Update();
-
-
-//        if (!IsServer) return;
-//        if (_currentBossState.Value == BossMotionState.Die) return;
-
-//        UpdateTimers();
-
-//        switch (_currentBossState.Value)
-//        {
-//            case BossMotionState.Idle: LogicIdle(); break;
-//            case BossMotionState.Chase: LogicChase(); break;
-//            case BossMotionState.Skill: LogicSkill(); break;
-//        }
-//    }
-
-//    private void UpdateTimers()
-//    {
-//        if (_skillCDs != null)
-//        {
-//            for (int i = 0; i < _skillCDs.Length; i++)
-//                if (_skillCDs[i] > 0) _skillCDs[i] -= Time.deltaTime;
-//        }
-//        if (_target != null) _specialSkillTimer += Time.deltaTime;
-//    }
-
-//    public void TakeDamage(int amount, ulong attackerId)
-//    {
-//        if (!IsServer) return;
-//        if (_currentBossState.Value == BossMotionState.Die) return;
-
-//        int newHealth = Mathf.Max(_currentHealth.Value - amount, 0);
-//        _currentHealth.Value = newHealth;
-
-//        if (newHealth <= 0)
-//        {
-//            ChangeState(BossMotionState.Die);
-//            OnBossDied?.Invoke();
-//            return;
-//        }
-
-//        if (_target == null && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attacker))
-//        {
-//            _target = attacker;
-//        }
-//    }
-//    public void TageDamage(int amount, ulong attackerId) => TakeDamage(amount, attackerId); // ¼æÈİ½Ó¿ÚÆ´Ğ´´íÎó
-
-//    // --- ºËĞÄÂß¼­ĞŞ¸Ä£º³¢ÊÔ·¢¶¯¹¥»÷ ---
-//    // Õâ¸ö·½·¨¸ºÔğ£ºÏÈÑ¡¼¼ÄÜ -> ÉèÖÃË÷Òı -> ÔÙÇĞ»»×´Ì¬
-//    private bool TryStartAttack()
-//    {
-//        int skillIndex = SelectSkillToCast();
-
-//        if (skillIndex != -1)
-//        {
-//            // 1. ÏÈÉèÖÃË÷Òı£¡È·±£¿Í»§¶ËÊÕµ½ State=Skill Ê±£¬Ë÷ÒıÒÑ¾­ÊÇĞÂµÄÁË
-//            _currentSkillIndex.Value = skillIndex;
-
-//            // 2. ÔÙÇĞ»»×´Ì¬
-//            ChangeState(BossMotionState.Skill);
-
-//            // 3. ¿ªÊ¼·şÎñÆ÷¶ËµÄ¼¼ÄÜÂß¼­Ğ­³Ì
-//            StartCoroutine(PerformSkillRoutine(skillIndex));
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    // [ĞÂÔö] ĞîÁ¦½×¶ÎµÄÂß¼­
-//    private void LogicCharge()
-//    {
-//        // ÔÚĞîÁ¦Ê±£¬BOSS Í¨³£»á¼ÌĞø¶¢×ÅÍæ¼Ò£¨×ªÍ·£©£¬Ö±µ½¼¼ÄÜÊÍ·ÅÇ°Ò»¿Ì
-//        RotateTowardsTarget();
-//    }
-
-//    private void LogicIdle()
-//    {
-//        DetectPlayer();
-//        if (_target != null)
-//        {
-//            float dist = Vector3.Distance(transform.position, _target.transform.position);
-//            if (dist <= _basicAttackRange)
-//            {
-//                // ³¢ÊÔ¹¥»÷£¬Èç¹ûËùÓĞ¼¼ÄÜCD¶¼ÔÚ×ª£¬Ôò±£³ÖIdle»òÕßÇĞ»»Chase
-//                if (!TryStartAttack())
-//                {
-//                    // Èç¹ûÃ»¼¼ÄÜ¿É·Å£¨¶¼ÔÚCD£©£¬±£³ÖIdle·¢´ôÒ»»á
-//                }
-//            }
-//            else
-//            {
-//                ChangeState(BossMotionState.Chase);
-//            }
-//        }
-//    }
-
-//    private void LogicChase()
-//    {
-//        if (_target == null) { ChangeState(BossMotionState.Idle); return; }
-
-//        float dist = Vector3.Distance(transform.position, _target.transform.position);
-//        if (dist > _chaseRange * 1.5f) { ChangeState(BossMotionState.Idle); return; }
-
-//        if (dist <= _basicAttackRange)
-//        {
-//            // ³¢ÊÔ¹¥»÷£¬³É¹¦ÔòÇĞ×´Ì¬£¬Ê§°Ü£¨¶¼ÔÚCD£©Ôò²»ÇĞ£¬¼ÌĞø±£³ÖÌùÁ³
-//            if (TryStartAttack()) return;
-//        }
-
-//        // ÒÆ¶¯Âß¼­
-//        _repathTimer += Time.deltaTime;
-//        if (_repathTimer > _repathInterval)
-//        {
-//            _repathTimer = 0f;
-//            if (_agent.isOnNavMesh) _agent.SetDestination(_target.transform.position);
-//        }
-//    }
-
-//    private void LogicSkill()
-//    {
-//        // ÕâÀïÖ»ĞèÒª´¦ÀíÊ©·¨ÖĞĞèÒª³ÖĞø¸üĞÂµÄÂß¼­£¨±ÈÈçĞı×ª£©£¬²»ĞèÒªÔÙÑ¡¼¼ÄÜÁË
-//        if (!_isCasting)
-//        {
-//            // ¼¼ÄÜ·ÅÍêÁË£¬Ğ­³Ì½áÊø½« _isCasting ÉèÎª false
-//            // ´ËÊ±Ó¦¸ÃÇĞ»Ø Idle »ò Chase
-//            ChangeState(BossMotionState.Idle);
-//            return;
-//        }
-
-//        RotateTowardsTarget();
-//    }
-
-//    private int SelectSkillToCast()
-//    {
-//        float hpPercent = (float)_currentHealth.Value / _maxHealth;
-//        int ultIndex = 3;
-
-//        // ´óÕĞÅĞ¶¨
-//        if (_skills.Length > ultIndex)
-//        {
-//            if (hpPercent <= 0.1f && !_hasTriggered10Ult)
-//            {
-//                _hasTriggered10Ult = true;
-//                _skillCDs[ultIndex] = 0;
-//                return ultIndex;
-//            }
-//            if (hpPercent <= 0.5f && !_hasTriggered50Ult)
-//            {
-//                _hasTriggered50Ult = true;
-//                _skillCDs[ultIndex] = 0;
-//                return ultIndex;
-//            }
-//        }
-
-//        // ÌØÊâ¼¼ÄÜÅĞ¶¨
-//        if (_specialSkillTimer >= _specialSkillInterval)
-//        {
-//            List<int> readySpecials = new List<int>();
-//            if (_skills.Length > 1 && _skillCDs[1] <= 0) readySpecials.Add(1);
-//            if (_skills.Length > 2 && _skillCDs[2] <= 0) readySpecials.Add(2);
-
-//            if (readySpecials.Count > 0)
-//            {
-//                _specialSkillTimer = 0f;
-//                return readySpecials[Random.Range(0, readySpecials.Count)];
-//            }
-//        }
-
-//        // ÆÕ¹¥ÅĞ¶¨
-//        if (_skills.Length > 0 && _skillCDs[0] <= 0)
-//        {
-//            return 0;
-//        }
-
-//        return -1;
-//    }
-
-//    // [ºËĞÄĞŞ¸Ä] ¼¼ÄÜÖ´ĞĞĞ­³Ì£ºCharge -> Skill
-//    // --- ĞŞ¸Ä PerformSkillRoutine Ğ­³Ì ---
-//    private IEnumerator PerformSkillRoutine(int index)
-//    {
-//        _isCasting = true;
-//        var skillData = _skills[index];
-//        _skillCDs[index] = skillData.coolDown;
-
-//        // 1. È·¶¨Î»ÖÃ (¿ìÕÕ)
-//        Vector3 finalCastPos = transform.position;
-//        bool isSelfCentered = index == 3 || skillData.isSelfCentered;
-//        if (!isSelfCentered && _target != null)
-//            finalCastPos = _target.transform.position;
-
-//        // 2. ½øÈëĞîÁ¦×´Ì¬ (Charge Phase)
-//        ChangeState(BossMotionState.Charge);
-
-//        float chargeTime = skillData.chargeDuration;
-
-//        if (chargeTime > 0)
-//        {
-//            // A. ´¦ÀíÔ­ÓĞµÄºìÈ¦Ô¤¾¯ (Warning Prefab)
-//            if (skillData.warningPrefab != null)
-//            {
-//                float diameter = (index == 3) ? 10.0f : 4.0f; // ½¨ÒéºóĞøÒ²·ÅÈë SO
-//                ShowWarningClientRpc(index, finalCastPos, chargeTime, diameter);
-//            }
-
-//            // B. [ĞÂÔö] ´¦Àí¼¼ÄÜ×¨ÊôµÄĞîÁ¦ÌØĞ§ (Charge Visual Prefabs)
-//            // ±ÈÈç£ºNuke µÄ±ä´óÇòÌå
-//            if (skillData.chargeVisualPrefabs != null && skillData.chargeVisualPrefabs.Count > 0)
-//            {
-//                SpawnChargeVisualsClientRpc(index, finalCastPos, chargeTime);
-//            }
-
-//            Debug.Log($"[Server] ĞîÁ¦ÖĞ... {chargeTime}s");
-//            yield return new WaitForSeconds(chargeTime);
-//        }
-
-//        // 3. ½øÈëÊÍ·Å×´Ì¬ (Skill Phase)
-//        ChangeState(BossMotionState.Skill);
-
-//        Debug.Log($"[Server] ÊÍ·Å¼¼ÄÜÂß¼­");
-//        skillData.Cast(gameObject, _target != null ? _target.gameObject : null, finalCastPos);
-
-//        // ºóÒ¡
-//        float recoveryTime = (index == 0) ? 1.0f : 2.0f;
-//        yield return new WaitForSeconds(recoveryTime);
-
-//        _isCasting = false;
-//        ChangeState(BossMotionState.Idle);
-//    }
-//    // [ĞÂÔö] ×¨ÃÅÓÃÓÚÉú³É´¿ÊÓ¾õĞîÁ¦ÌØĞ§µÄ RPC
-//    [ClientRpc]
-//    private void SpawnChargeVisualsClientRpc(int skillIndex, Vector3 pos, float duration)
-//    {
-//        // °²È«¼ì²é
-//        if (skillIndex < 0 || skillIndex >= _skills.Length) return;
-//        var prefabs = _skills[skillIndex].chargeVisualPrefabs;
-//        if (prefabs == null || prefabs.Count == 0) return;
-
-//        foreach (var prefab in prefabs)
-//        {
-//            if (prefab == null) continue;
-
-//            // Éú³ÉÌØĞ§ (²»ĞèÒª NetworkObject£¬ÒòÎª´¿¿Í»§¶ËÊÓ¾õ)
-//            // ÕâÀïµÄĞı×ªÄ¬ÈÏ Identity£¬Èç¹ûĞèÒª³¯Ïò Boss ¿ÉÒÔ´«²Î£¬Ä¿Ç° Nuke ÇòÌå²»ĞèÒªĞı×ª
-//            GameObject instance = Instantiate(prefab, pos, Quaternion.identity);
-
-//            // ²éÕÒ²¢³õÊ¼»¯ "Éú³¤" ½Å±¾
-//            if (instance.TryGetComponent<ChargeGrowingVisual>(out var growingVisual))
-//            {
-//                growingVisual.SetDuration(duration);
-//            }
-//            // Èç¹ûÄã»¹ÓĞÆäËûÀàĞÍµÄÊÓ¾õ½Å±¾£¬Ò²¿ÉÒÔÔÚÕâÀï switch »ò tryGetComponent
-//            // else if (instance.TryGetComponent<ParticleSystem>(out var ps)) { ... }
-//        }
-//    }
-
-//    [ClientRpc]
-//    private void ShowWarningClientRpc(int skillIndex, Vector3 pos, float duration, float diameter)
-//    {
-//        if (skillIndex < 0 || skillIndex >= _skills.Length) return;
-//        GameObject prefab = _skills[skillIndex].warningPrefab;
-//        if (prefab == null) return;
-//        GameObject instance = Instantiate(prefab, pos + Vector3.up * 0.1f, Quaternion.Euler(90, 0, 0));
-//        if (instance.TryGetComponent<SkillIndicator>(out var indicator))
-//            indicator.Initialize(duration, diameter);
-//    }
-
-//    private void RotateTowardsTarget()
-//    {
-//        if (_target == null) return;
-//        Vector3 dir = (_target.transform.position - transform.position).normalized;
-//        dir.y = 0;
-//        if (dir != Vector3.zero)
-//            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 10f * Time.deltaTime);
-//    }
-
-//    private void ChangeState(BossMotionState newState)
-//    {
-//        if (_currentBossState.Value == newState) return;
-//        _currentBossState.Value = newState;
-
-//        if (newState == BossMotionState.Idle || newState == BossMotionState.Skill)
-//        {
-//            if (_agent.isOnNavMesh) _agent.ResetPath();
-//        }
-//        else if (newState == BossMotionState.Chase)
-//        {
-//            if (_agent.isOnNavMesh) _agent.isStopped = false;
-//        }
-//    }
-
-//    private void DetectPlayer()
-//    {
-//        if (_target != null) return;
-//        var hits = Physics.OverlapSphere(transform.position, _chaseRange, _chaseLayer);
-//        foreach (var hit in hits)
-//        {
-//            if (hit.TryGetComponent<PlayerNetworkCore>(out var playerCore) && !playerCore.IsDead)
-//            {
-//                _target = hit.GetComponent<NetworkObject>();
-//                return;
-//            }
-//        }
-//    }
-
-//    public string GetCurrentSkillAnimationName()
-//    {
-//        int idx = _currentSkillIndex.Value;
-//        if (_skills != null && idx >= 0 && idx < _skills.Length)
-//        {
-//            return _skills[idx].animationName;
-//        }
-//        return "Idle";
-//    }
-//    // [ĞÂÔö] »ñÈ¡ĞîÁ¦¶¯»­Ãû³Æ
-//    public string GetCurrentChargeAnimationName()
-//    {
-//        int idx = _currentSkillIndex.Value;
-//        if (_skills != null && idx >= 0 && idx < _skills.Length)
-//        {
-//            // Èç¹ûÃ»Ìî£¬Ä¬ÈÏ·µ»Ø Idle£¬±ÜÃâ±¨´í
-//            if (string.IsNullOrEmpty(_skills[idx].chargeAnimationName)) return "Idle";
-//            return _skills[idx].chargeAnimationName;
-//        }
-//        return "Idle";
-//    }
-//}

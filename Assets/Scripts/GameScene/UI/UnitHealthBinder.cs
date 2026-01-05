@@ -1,8 +1,8 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
-// ¡¾ÖØÒªĞŞ¸Ä¡¿²»ÔÙ¼Ì³Ğ NetworkBehaviour£¬¶øÊÇ MonoBehaviour
-// ÕâÑùËü¾Í²»ĞèÒª NetworkObject£¬Ò²¾Í²»»á±¨´í Nested NetworkObjects ÁË
+// ã€é‡è¦ä¿®æ”¹ã€‘ä¸å†ç»§æ‰¿ NetworkBehaviourï¼Œè€Œæ˜¯ MonoBehaviour
+// è¿™æ ·å®ƒå°±ä¸éœ€è¦ NetworkObjectï¼Œä¹Ÿå°±ä¸ä¼šæŠ¥é”™ Nested NetworkObjects äº†
 public class UnitHealthBinder : MonoBehaviour
 {
     [Header("UI Reference")]
@@ -14,27 +14,27 @@ public class UnitHealthBinder : MonoBehaviour
 
     private void Awake()
     {
-        // ³¢ÊÔ×Ô¶¯»ñÈ¡ÒıÓÃ
+        // å°è¯•è‡ªåŠ¨è·å–å¼•ç”¨
         if (_bossController == null) _bossController = GetComponentInParent<BossController>();
         if (_enemyController == null) _enemyController = GetComponentInParent<EnemyController>();
     }
 
-    // µ±¶ÔÏó³ØÈ¡³ö¹ÖÎïÊ±£¨SetActive(true)£©£¬Õâ¸ö·½·¨»áÖ´ĞĞ
+    // å½“å¯¹è±¡æ± å–å‡ºæ€ªç‰©æ—¶ï¼ˆSetActive(true)ï¼‰ï¼Œè¿™ä¸ªæ–¹æ³•ä¼šæ‰§è¡Œ
     private void OnEnable()
     {
-        // 1. Ç¿ÖÆÖØÖÃ UI ÎªÂúÑª×´Ì¬£¨ĞŞ¸´¸´»îÊ±ÑªÌõ²ĞÈ±/²»ÏÔÊ¾µÄÎÊÌâ£©
+        // 1. å¼ºåˆ¶é‡ç½® UI ä¸ºæ»¡è¡€çŠ¶æ€ï¼ˆä¿®å¤å¤æ´»æ—¶è¡€æ¡æ®‹ç¼º/ä¸æ˜¾ç¤ºçš„é—®é¢˜ï¼‰
         if (_healthBar != null)
         {
-            // ¼ÙÉèÄ¬ÈÏ×î´óÑªÁ¿ÊÇ 100£¬»òÕßÄã¿ÉÒÔ´Ó controller »ñÈ¡
-            // ÕâÀïÎÒÃÇÏÈÈÃËüÏÔÊ¾Âú£¬ÉÔºó°ó¶¨ÊÂ¼şÊ±»áÍ¬²½ÕæÊµÊı¾İ
+            // å‡è®¾é»˜è®¤æœ€å¤§è¡€é‡æ˜¯ 100ï¼Œæˆ–è€…ä½ å¯ä»¥ä» controller è·å–
+            // è¿™é‡Œæˆ‘ä»¬å…ˆè®©å®ƒæ˜¾ç¤ºæ»¡ï¼Œç¨åç»‘å®šäº‹ä»¶æ—¶ä¼šåŒæ­¥çœŸå®æ•°æ®
             _healthBar.ForceReset(100);
         }
 
-        // 2. °ó¶¨ÊÂ¼ş
+        // 2. ç»‘å®šäº‹ä»¶
         BindEvents();
     }
 
-    // µ±¶ÔÏó³Ø»ØÊÕ¹ÖÎïÊ±£¨SetActive(false)£©£¬Õâ¸ö·½·¨»áÖ´ĞĞ
+    // å½“å¯¹è±¡æ± å›æ”¶æ€ªç‰©æ—¶ï¼ˆSetActive(false)ï¼‰ï¼Œè¿™ä¸ªæ–¹æ³•ä¼šæ‰§è¡Œ
     private void OnDisable()
     {
         UnbindEvents();
@@ -45,7 +45,7 @@ public class UnitHealthBinder : MonoBehaviour
         if (_bossController != null)
         {
             _bossController.OnHealthChanged += HandleHealthChanged;
-            // ³õÊ¼»¯Í¬²½Ò»´Îµ±Ç°ÕæÊµÊıÖµ
+            // åˆå§‹åŒ–åŒæ­¥ä¸€æ¬¡å½“å‰çœŸå®æ•°å€¼
             HandleHealthChanged(_bossController.CurrentHealth, _bossController.MaxHealth);
         }
 

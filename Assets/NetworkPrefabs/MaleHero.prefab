@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 475912824
+  GlobalObjectIdHash: 3019804535
   InScenePlacedSourceGlobalObjectIdHash: 475912824
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1376,7 +1376,7 @@ Transform:
   m_Children:
   - {fileID: 6473272079233263949}
   m_Father: {fileID: 8141489133838324041}
-  m_LocalEulerAnglesHint: {x: 5.1934276, y: -173.56458, z: -38.747444}
+  m_LocalEulerAnglesHint: {x: 0.13009505, y: -179.67865, z: -22.040146}
 --- !u!1 &3942314884647523110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1853,7 +1853,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3539509526748676766}
-  m_LocalEulerAnglesHint: {x: -7.0883503, y: 31.987844, z: -16.86424}
+  m_LocalEulerAnglesHint: {x: -2.1964974, y: 11.782452, z: 10.411442}
 --- !u!1 &5115811488812224310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,7 +2239,7 @@ Transform:
   m_Children:
   - {fileID: 1477412234162727941}
   m_Father: {fileID: 6044425141677141561}
-  m_LocalEulerAnglesHint: {x: -0.5571275, y: 6.1720414, z: 5.137959}
+  m_LocalEulerAnglesHint: {x: -0.047458373, y: 0.25564137, z: 10.51684}
 --- !u!1 &5838067949357131740
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,7 +2618,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8812106548283628303}
-  m_LocalEulerAnglesHint: {x: 47.41544, y: 161.16144, z: 153.13246}
+  m_LocalEulerAnglesHint: {x: 21.393635, y: 176.25456, z: 137.94539}
 --- !u!1 &7244263828235634536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2784,7 +2784,7 @@ Transform:
   m_Children:
   - {fileID: 7688106461969734522}
   m_Father: {fileID: 8141489133838324041}
-  m_LocalEulerAnglesHint: {x: 4.7730093, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 4.773009, y: -90, z: 0}
 --- !u!1 &8080892577331351953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,7 +2846,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6473272079233263949}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.5748413}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.5056257}
 --- !u!1 &8909356172253372521
 GameObject:
   m_ObjectHideFlags: 0

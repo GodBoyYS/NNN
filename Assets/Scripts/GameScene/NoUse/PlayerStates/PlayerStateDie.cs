@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class PlayerStateDie : IPlayerState
         {
             _view.Rigidbody.isKinematic = true;
         }
-        Debug.Log("½øÈë Die£¨Presentation£©£ºÅö×²Æ÷Ê§Ğ§¡¢¸ÕÌå¶³½á£¨Despawn ÓÉ Server Authority ¸ºÔğ£©");
+        Debug.Log("è¿›å…¥ Dieï¼ˆPresentationï¼‰ï¼šç¢°æ’å™¨å¤±æ•ˆã€åˆšä½“å†»ç»“ï¼ˆDespawn ç”± Server Authority è´Ÿè´£ï¼‰");
         _view.Animator.Play("Die01_SwordAndShield");
     }
 
@@ -48,17 +48,17 @@ public class PlayerStateDie : IPlayerState
 //    }
 //    public void Enter()
 //    {
-//        // 1.±íÏÖ²ãÂß¼­£¨server+client¶¼ÒªÖ´ĞĞ£©
+//        // 1.è¡¨ç°å±‚é€»è¾‘ï¼ˆserver+clientéƒ½è¦æ‰§è¡Œï¼‰
 //        if(_player.CapsuleCollider != null)
 //        {
 //            _player.CapsuleCollider.enabled = false;
 //        }
-//        // Í£Ö¹ÎïÀí¼ÆËã
+//        // åœæ­¢ç‰©ç†è®¡ç®—
 //        if(_player.Rigidbody != null)
 //        {
 //            _player.Rigidbody.isKinematic = true;
 //        }
-//        Debug.Log("½ÇÉ«ËÀÍö£¬Åö×²Æ÷Ê§Ğ§£¬3Ãëºó½ÇÉ«ÏûÊ§");
+//        Debug.Log("è§’è‰²æ­»äº¡ï¼Œç¢°æ’å™¨å¤±æ•ˆï¼Œ3ç§’åè§’è‰²æ¶ˆå¤±");
 //    }
 
 //    public void Exit()
@@ -68,16 +68,16 @@ public class PlayerStateDie : IPlayerState
 
 //    public void Update()
 //    {
-//        // 2.ºËĞÄÂß¼­£¨Ö»ÓĞserverÓĞÈ¨Ïú»ÙÎïÌå£©
+//        // 2.æ ¸å¿ƒé€»è¾‘ï¼ˆåªæœ‰serveræœ‰æƒé”€æ¯ç‰©ä½“ï¼‰
 //        if (_player.IsServer)
 //        {
 //            timer += Time.deltaTime;
 //            if(timer > DieTime)
 //            {
-//                // ÑÏ½ûÊ¹ÓÃ gameobject.destroy
-//                // ±ØĞëÊ¹ÓÃ networkobject.despawn
+//                // ä¸¥ç¦ä½¿ç”¨ gameobject.destroy
+//                // å¿…é¡»ä½¿ç”¨ networkobject.despawn
 //                _player.GetComponent<NetworkObject>().Despawn();
-//                Debug.Log("server ÒÑ¾­Ïú»ÙÍæ¼Ò");
+//                Debug.Log("server å·²ç»é”€æ¯ç©å®¶");
 //            }
 //        }
 //    }

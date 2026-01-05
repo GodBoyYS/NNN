@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerNewStateIdle : PlayerBaseState
 {
@@ -34,7 +34,7 @@ public class PlayerNewStateIdle : PlayerBaseState
     {
         if (_currentInput.InteractDown && _currentInput.HasMouseTarget)
         {
-            Debug.Log("ÔÚ idle×´Ì¬¼ì²âµ½ÒÆ¶¯ÊäÈë£¬ÇÒÓĞµã»÷µÄÄ¿±ê£¬×¼±¸ÇĞ»»µ½ ÒÆ¶¯×´Ì¬");
+            Debug.Log("åœ¨ idleçŠ¶æ€æ£€æµ‹åˆ°ç§»åŠ¨è¾“å…¥ï¼Œä¸”æœ‰ç‚¹å‡»çš„ç›®æ ‡ï¼Œå‡†å¤‡åˆ‡æ¢åˆ° ç§»åŠ¨çŠ¶æ€");
             _controller.StateMachine.ChangeState(_controller.StateMachine.StateMove);
             return true;
         }
@@ -45,7 +45,7 @@ public class PlayerNewStateIdle : PlayerBaseState
     {
         int skillIdx = -1;
 
-        // ÓÅÏÈ¼ì²â°´¼ü£¬²¢»ñÈ¡¶ÔÓ¦µÄ¼¼ÄÜË÷Òı
+        // ä¼˜å…ˆæ£€æµ‹æŒ‰é”®ï¼Œå¹¶è·å–å¯¹åº”çš„æŠ€èƒ½ç´¢å¼•
         if (_currentInput.AttackDown) skillIdx = 0;
         else if (_currentInput.SkillQDown) skillIdx = 1;
         else if (_currentInput.SkillWDown) skillIdx = 2;
@@ -53,11 +53,14 @@ public class PlayerNewStateIdle : PlayerBaseState
 
         if (skillIdx != -1)
         {
-            // ¹Ø¼üĞŞ¸Ä£ºÔÚÇĞ»»×´Ì¬Ç°¼ì²é Client ¶ËµÄ CD ÊÇ·ñ¾ÍĞ÷
+            // å…³é”®ä¿®æ”¹ï¼šåœ¨åˆ‡æ¢çŠ¶æ€å‰æ£€æŸ¥ Client ç«¯çš„ CD æ˜¯å¦å°±ç»ª
             if (_controller.Combat.IsSkillReadyClient(skillIdx))
             {
-                Debug.Log($"[Idle] ÊÍ·Å¼¼ÄÜ {skillIdx}£¬CD¾ÍĞ÷£¬ÇĞ»»×´Ì¬");
+                Debug.Log($"[Idle] é‡Šæ”¾æŠ€èƒ½ {skillIdx}ï¼ŒCDå°±ç»ªï¼Œåˆ‡æ¢çŠ¶æ€");
                 //_controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
+                // [ä¿®å¤] è®°å½•æŠ€èƒ½ç´¢å¼•å’Œé¼ æ ‡ç›®æ ‡ä½ç½®
+                _controller.StateMachine.PendingSkillIndex = skillIdx;
+                _controller.StateMachine.PendingAimPosition = _currentInput.MouseWorldPos;
                 _controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
                 return true;
             }

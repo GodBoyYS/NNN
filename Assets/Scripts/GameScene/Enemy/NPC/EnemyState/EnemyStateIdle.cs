@@ -1,4 +1,4 @@
-
+ï»¿
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,9 +14,9 @@ public class EnemyStateIdle : IEnemyState
 
     public void Enter()
     {
-        // ²¥·Å¶¯»­
+        // æ’­æ”¾åŠ¨ç”»
         _view.Animator.Play("IdleNormal");
-        Debug.Log("¹ÖÎï½øÈë Idle ×´Ì¬");
+        Debug.Log("æ€ªç‰©è¿›å…¥ Idle çŠ¶æ€");
         _target = null;
     }
 
@@ -42,9 +42,9 @@ public class EnemyStateIdle : IEnemyState
 
 //    public void Enter()
 //    {
-//        // ²¥·Å¶¯»­
+//        // æ’­æ”¾åŠ¨ç”»
 //        // _view.Animator.SetBool(...);
-//        Debug.Log("¹ÖÎï½øÈë Idle ×´Ì¬");
+//        Debug.Log("æ€ªç‰©è¿›å…¥ Idle çŠ¶æ€");
 //        _target = null;
 //    }
 
@@ -54,12 +54,12 @@ public class EnemyStateIdle : IEnemyState
 //    {
 //        //DetectPlayer();
 
-//        //// ³¢ÊÔÇĞ»»µ½×·Öğ
+//        //// å°è¯•åˆ‡æ¢åˆ°è¿½é€
 //        //if (ChangeStateToChasing()) return;
 
-//        //// ¡¾¹Ø¼üĞŞ¸´ 1¡¿: Èç¹ûÓĞÄ¿±ê£¬µ«ÊÇ ChangeStateToChasing Ê§°ÜÁË£¨ËµÃ÷¾àÀë²»¹»»òÕßÌõ¼ş²»Âú×ã£©
-//        //// ±ØĞë°ÑÄ¿±êÖÃ¿Õ£¡·ñÔòÏÂÒ»Ö¡ DetectPlayer »áÒòÎª _target != null ¶øÖ±½ÓÌø¹ı¼ì²â
-//        //// µ¼ÖÂ¹ÖÎï¿¨ËÀÔÚ¡°ÓĞÒ»¸öÌ«Ô¶µÄÄ¿±ê¡±µÄ×´Ì¬Àï
+//        //// ã€å…³é”®ä¿®å¤ 1ã€‘: å¦‚æœæœ‰ç›®æ ‡ï¼Œä½†æ˜¯ ChangeStateToChasing å¤±è´¥äº†ï¼ˆè¯´æ˜è·ç¦»ä¸å¤Ÿæˆ–è€…æ¡ä»¶ä¸æ»¡è¶³ï¼‰
+//        //// å¿…é¡»æŠŠç›®æ ‡ç½®ç©ºï¼å¦åˆ™ä¸‹ä¸€å¸§ DetectPlayer ä¼šå› ä¸º _target != null è€Œç›´æ¥è·³è¿‡æ£€æµ‹
+//        //// å¯¼è‡´æ€ªç‰©å¡æ­»åœ¨â€œæœ‰ä¸€ä¸ªå¤ªè¿œçš„ç›®æ ‡â€çš„çŠ¶æ€é‡Œ
 //        //if (_target != null)
 //        //{
 //        //    _target = null;
@@ -72,10 +72,10 @@ public class EnemyStateIdle : IEnemyState
 //    //{
 //    //    if (_target == null) return false;
 
-//    //    // ¡¾¹Ø¼üĞŞ¸´ 2¡¿: ¸øÓèÒ»µã¿íÈİ¶È (Hysteresis)
-//    //    // OverlapSphere ¼ì²âµÄÊÇÅö×²Ìå£¬Distance ¼ì²âµÄÊÇÖĞĞÄµã
-//    //    // Èç¹û DetectPlayer ÒÑ¾­»ùÓÚÅö×²Ìå¼ì²âµ½ÁË£¬ÎÒÃÇÓ¦¸Ã·Å¿íÒ»µã¾àÀëÅĞ¶Ï
-//    //    // ±ÈÈç³ËÒÔ 1.2 »òÕßÖ±½ÓĞÅÈÎ DetectPlayer µÄ½á¹û£¨ÕâÀïÎÒ¼ÓÁË 1.2±¶ Èİ´í£©
+//    //    // ã€å…³é”®ä¿®å¤ 2ã€‘: ç»™äºˆä¸€ç‚¹å®½å®¹åº¦ (Hysteresis)
+//    //    // OverlapSphere æ£€æµ‹çš„æ˜¯ç¢°æ’ä½“ï¼ŒDistance æ£€æµ‹çš„æ˜¯ä¸­å¿ƒç‚¹
+//    //    // å¦‚æœ DetectPlayer å·²ç»åŸºäºç¢°æ’ä½“æ£€æµ‹åˆ°äº†ï¼Œæˆ‘ä»¬åº”è¯¥æ”¾å®½ä¸€ç‚¹è·ç¦»åˆ¤æ–­
+//    //    // æ¯”å¦‚ä¹˜ä»¥ 1.2 æˆ–è€…ç›´æ¥ä¿¡ä»» DetectPlayer çš„ç»“æœï¼ˆè¿™é‡Œæˆ‘åŠ äº† 1.2å€ å®¹é”™ï¼‰
 //    //    float checkDistance = _enemy.ChaseRange * 1.2f;
 
 //    //    if (Vector3.Distance(_target.transform.position, _enemy.transform.position) > checkDistance)
@@ -87,30 +87,30 @@ public class EnemyStateIdle : IEnemyState
 
 //    //private void DetectPlayer()
 //    //{
-//    //    if (_target != null) return;    // ·ÀÖ¹ÖØ¸´¼ì²â
+//    //    if (_target != null) return;    // é˜²æ­¢é‡å¤æ£€æµ‹
 
-//    //    // 1. »ñÈ¡·¶Î§ÄÚÎïÌå
+//    //    // 1. è·å–èŒƒå›´å†…ç‰©ä½“
 //    //    var colliderInfos = Physics.OverlapSphere(_enemy.transform.position, _enemy.ChaseRange, _enemy.ChaseLayer);
 
 //    //    if (colliderInfos.Length <= 0) return;
 
-//    //    // ¡¾¹Ø¼üĞŞ¸´ 3¡¿: ¾ø¶Ô²»ÒªÓÃ colliderInfos[0] !!!
-//    //    // OverlapSphere ·µ»ØË³ĞòÊÇ²»È·¶¨µÄ¡£
-//    //    // Èç¹ûË÷Òı [0] ÊÇ¹ÖÎï×Ô¼º£¨Èç¹û²ã¼¶ÉèÖÃÖØµş£©£¬»òÕßÊÇÒ»¸öËÀµôµÄÍæ¼Ò£¬Âß¼­¾Í»á³ö´í¡£
-//    //    // ±ØĞë±éÀúÑ°ÕÒ¡°×î½üµÄ¡¢ÓĞĞ§µÄ¡±Íæ¼Ò¡£
+//    //    // ã€å…³é”®ä¿®å¤ 3ã€‘: ç»å¯¹ä¸è¦ç”¨ colliderInfos[0] !!!
+//    //    // OverlapSphere è¿”å›é¡ºåºæ˜¯ä¸ç¡®å®šçš„ã€‚
+//    //    // å¦‚æœç´¢å¼• [0] æ˜¯æ€ªç‰©è‡ªå·±ï¼ˆå¦‚æœå±‚çº§è®¾ç½®é‡å ï¼‰ï¼Œæˆ–è€…æ˜¯ä¸€ä¸ªæ­»æ‰çš„ç©å®¶ï¼Œé€»è¾‘å°±ä¼šå‡ºé”™ã€‚
+//    //    // å¿…é¡»éå†å¯»æ‰¾â€œæœ€è¿‘çš„ã€æœ‰æ•ˆçš„â€ç©å®¶ã€‚
 
 //    //    NetworkObject bestTarget = null;
 //    //    float minDistance = float.MaxValue;
 
 //    //    foreach (Collider collider in colliderInfos)
 //    //    {
-//    //        // ÅÅ³ı×Ô¼º
+//    //        // æ’é™¤è‡ªå·±
 //    //        if (collider.gameObject == _enemy.gameObject) continue;
 
-//    //        // ³¢ÊÔ»ñÈ¡ NetworkObject
+//    //        // å°è¯•è·å– NetworkObject
 //    //        if (!collider.TryGetComponent<NetworkObject>(out NetworkObject netObj)) continue;
 
-//    //        // ¼òµ¥µÄ¾àÀë±È¶Ô£¬ÕÒ×î½üµÄ
+//    //        // ç®€å•çš„è·ç¦»æ¯”å¯¹ï¼Œæ‰¾æœ€è¿‘çš„
 //    //        float d = Vector3.Distance(collider.transform.position, _enemy.transform.position);
 //    //        if (d < minDistance)
 //    //        {
@@ -121,15 +121,15 @@ public class EnemyStateIdle : IEnemyState
 
 //    //    if (bestTarget != null)
 //    //    {
-//    //        Debug.Log($"Ëø¶¨Ä¿±ê: {bestTarget.name}");
+//    //        Debug.Log($"é”å®šç›®æ ‡: {bestTarget.name}");
 //    //        _target = bestTarget;
 //    //    }
 //    //}
 
-//    //// Idle -> Attack (ÄãĞèÒª±£ÁôÕâ¸öÂß¼­)
+//    //// Idle -> Attack (ä½ éœ€è¦ä¿ç•™è¿™ä¸ªé€»è¾‘)
 //    //private bool ChangeStateToSkill()
 //    //{
-//    //    // ... ±£³ÖÄãÔ­ÓĞµÄ¹¥»÷¼ì²âÂß¼­ ...
+//    //    // ... ä¿æŒä½ åŸæœ‰çš„æ”»å‡»æ£€æµ‹é€»è¾‘ ...
 //    //    return false;
 //    //}
 //}
@@ -137,7 +137,7 @@ public class EnemyStateIdle : IEnemyState
 
 //public class EnemyStateIdle : IEnemyState
 //{
-//    // ²»¶Ï¼ì²âÍæ¼Ò£¬Ö±µ½->1.Íæ¼Ò³öÏÖÔÚ×Ô¼ºµÄ¼ì²â·¶Î§ÄÚ£¬´óÓÚ¹¥»÷·¶Î§-->ÇĞ»»µ½×·Öğ×´Ì¬£»2.Íæ¼Ò³öÏÖÔÚ¹¥»÷·¶Î§ÄÚ->ÇĞ»»µ½¹¥»÷×´Ì¬£»
+//    // ä¸æ–­æ£€æµ‹ç©å®¶ï¼Œç›´åˆ°->1.ç©å®¶å‡ºç°åœ¨è‡ªå·±çš„æ£€æµ‹èŒƒå›´å†…ï¼Œå¤§äºæ”»å‡»èŒƒå›´-->åˆ‡æ¢åˆ°è¿½é€çŠ¶æ€ï¼›2.ç©å®¶å‡ºç°åœ¨æ”»å‡»èŒƒå›´å†…->åˆ‡æ¢åˆ°æ”»å‡»çŠ¶æ€ï¼›
 //    private EnemyController _enemy;
 //    private NetworkObject _target;
 //    public EnemyStateIdle(EnemyController enemy)
@@ -146,7 +146,7 @@ public class EnemyStateIdle : IEnemyState
 //    }
 //    public void Enter()
 //    {
-//        Debug.Log("¹ÖÎï½øÈëidle×´Ì¬");
+//        Debug.Log("æ€ªç‰©è¿›å…¥idleçŠ¶æ€");
 //        _target = null;
 //    }
 
@@ -156,13 +156,13 @@ public class EnemyStateIdle : IEnemyState
 
 //    public void Update()
 //    {
-//        DetectPlayer();// ¼ì²âÍæ¼Ò
+//        DetectPlayer();// æ£€æµ‹ç©å®¶
 //        //if (ChangeStateToSkill()) return;
 //        if (ChangeStateToChasing()) return;
 //    }
 //    // idle -> chase / attack
 //    private bool ChangeStateToChasing()
-//    {   // 1.Íæ¼Ò³öÏÖÔÚ×Ô¼ºµÄ¼ì²â·¶Î§ÄÚ£¬´óÓÚ¹¥»÷·¶Î§-- > ÇĞ»»µ½×·Öğ×´Ì¬£»2.Íæ¼Ò³öÏÖÔÚ¹¥»÷·¶Î§ÄÚ->ÇĞ»»µ½¹¥»÷×´Ì¬£»
+//    {   // 1.ç©å®¶å‡ºç°åœ¨è‡ªå·±çš„æ£€æµ‹èŒƒå›´å†…ï¼Œå¤§äºæ”»å‡»èŒƒå›´-- > åˆ‡æ¢åˆ°è¿½é€çŠ¶æ€ï¼›2.ç©å®¶å‡ºç°åœ¨æ”»å‡»èŒƒå›´å†…->åˆ‡æ¢åˆ°æ”»å‡»çŠ¶æ€ï¼›
 //        if (_target == null) return false;
 //        if(Vector3.Distance(_target.transform.position, _enemy.transform.position) > _enemy.ChaseRange ) return false;
 
@@ -171,7 +171,7 @@ public class EnemyStateIdle : IEnemyState
 //    }
 //    private bool ChangeStateToSkill()
 //    {
-//        // 2.Íæ¼Ò³öÏÖÔÚ¹¥»÷·¶Î§ÄÚ->ÇĞ»»µ½¹¥»÷×´Ì¬£»
+//        // 2.ç©å®¶å‡ºç°åœ¨æ”»å‡»èŒƒå›´å†…->åˆ‡æ¢åˆ°æ”»å‡»çŠ¶æ€ï¼›
 //        if (_target == null) return false;
 //        if (Vector3.Distance(_target.transform.position, _enemy.transform.position) > _enemy.AttackRange ) return false;
 
@@ -180,17 +180,17 @@ public class EnemyStateIdle : IEnemyState
 //    }
 //    private void DetectPlayer()
 //    {
-//        if (_target != null) return;    // ·ÀÖ¹ÖØ¸´¼ì²â
-//        // ²»¶Ï¼ì²âÍæ¼Ò
+//        if (_target != null) return;    // é˜²æ­¢é‡å¤æ£€æµ‹
+//        // ä¸æ–­æ£€æµ‹ç©å®¶
 //        var colliderInfos = Physics.OverlapSphere(position: _enemy.transform.position, radius: _enemy.ChaseRange , layerMask: _enemy.ChaseLayer);
-//        Debug.Log($"¼ì²â³öÁË{colliderInfos.Length}¸öÎïÌå");
+//        Debug.Log($"æ£€æµ‹å‡ºäº†{colliderInfos.Length}ä¸ªç‰©ä½“");
 //        if(colliderInfos.Length <= 0 ) return;
 //        foreach (Collider collider in colliderInfos)
 //        {
 //            Debug.Log($"collider name -> [{collider.name}], collider networkid -> [{collider.gameObject.GetComponent<NetworkObject>().NetworkObjectId}]");
 
 //        }
-//        // Ñ¡ÔñµÚÒ»¸öÎªÄ¿±ê
+//        // é€‰æ‹©ç¬¬ä¸€ä¸ªä¸ºç›®æ ‡
 //        colliderInfos[0].TryGetComponent<NetworkObject>(out NetworkObject target);
 //        Debug.Log($"target.name = {target.name}"); 
 //        _target = target;

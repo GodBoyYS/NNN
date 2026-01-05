@@ -12,24 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: PlayerQskill
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  coolDown: 2
+  _chargeClip: {fileID: 7400000, guid: 87411824476955044b3bf176acb25ce0, type: 2}
+  _activeClip: {fileID: 7400000, guid: 14b5d4c1a64acfd4789d77f8d3b4854b, type: 2}
+  _recoveryClip: {fileID: 7400000, guid: b99b9a4de8c083c43b6f0929e96500e8, type: 2}
+  coolDown: 4
   castRadius: 2
-  chargeDuration: 1.5
-  chargeAnimationName: Idle
+  chargeDuration: 0.5
+  chargeAnimationName: NewQSkillCharge
   warningPrefab: {fileID: 0}
   chargeVisualPrefabs: []
-  skillActiveAnimationName: QSkill
+  ifChargeInteruptable: 1
+  activeDuration: 0.26666668
+  activeAnimationName: NewQSkill
   effects:
   - rid: 3250261351905886276
   isSelfCentered: 0
-  skillRecoveryAnimationName: 
+  ifActiveInteruptable: 0
+  recoveryDuration: 0.6
+  recoveryAnimationName: NewQSkillRecovery
+  ifRecoveryInteruptable: 1
   references:
     version: 2
     RefIds:
     - rid: 3250261351905886276
       type: {class: FlyingBullet, ns: , asm: Assembly-CSharp}
       data:
-        effectName: FlyingFireball
+        effectName: " \u98DE\u5251"
         _bulletPrefab: {fileID: 9138270591894416711, guid: 1187a0af334e20347a9e975e3796f3d8, type: 3}
         speed: 15
         maxDistance: 20

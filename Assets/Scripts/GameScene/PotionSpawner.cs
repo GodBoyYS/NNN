@@ -1,14 +1,14 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class PotionSpawner : NetworkBehaviour
 {
-    [SerializeField] private NetworkObject potionPrefab; // ÍÏÈëÒ©Ë®Ô¤ÖÆÌå
-    [SerializeField] private Transform[] spawnPoints;    // ÍÏÈë³¡¾°ÖĞµÄ¿ÕÎïÌå×÷ÎªÉú³Éµã
+    [SerializeField] private NetworkObject potionPrefab; // æ‹–å…¥è¯æ°´é¢„åˆ¶ä½“
+    [SerializeField] private Transform[] spawnPoints;    // æ‹–å…¥åœºæ™¯ä¸­çš„ç©ºç‰©ä½“ä½œä¸ºç”Ÿæˆç‚¹
 
     public override void OnNetworkSpawn()
     {
-        // Ö»ÔÚ·şÎñÆ÷ÔËĞĞÉú³ÉÂß¼­
+        // åªåœ¨æœåŠ¡å™¨è¿è¡Œç”Ÿæˆé€»è¾‘
         if (IsServer)
         {
             foreach (var point in spawnPoints)
@@ -22,10 +22,10 @@ public class PotionSpawner : NetworkBehaviour
     {
         if (potionPrefab == null) return;
 
-        // ¶¯Ì¬ÊµÀı»¯
+        // åŠ¨æ€å®ä¾‹åŒ–
         var instance = Instantiate(potionPrefab, position, Quaternion.identity);
 
-        // ÍøÂçÉú³É (ÕâÒ»²½·Ç³£¹Ø¼ü£¬Ëü»á¸æËßËùÓĞ(°üÀ¨ºóÀ´µÄ)¿Í»§¶ËÕâÀïÓĞ¸ö¶«Î÷)
+        // ç½‘ç»œç”Ÿæˆ (è¿™ä¸€æ­¥éå¸¸å…³é”®ï¼Œå®ƒä¼šå‘Šè¯‰æ‰€æœ‰(åŒ…æ‹¬åæ¥çš„)å®¢æˆ·ç«¯è¿™é‡Œæœ‰ä¸ªä¸œè¥¿)
         instance.Spawn();
     }
 }

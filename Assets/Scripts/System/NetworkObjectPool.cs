@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Pool;
 
 /// <summary>
-/// ÍøÂç¶ÔÏó³Ø¹ÜÀíÆ÷
-/// ºËĞÄÖ°Ôğ£ºÀ¹½Ø NGO µÄÄ¬ÈÏÉú³ÉÂß¼­£¬¸ÄÎª´Ó³ØÖĞ´æÈ¡
+/// ç½‘ç»œå¯¹è±¡æ± ç®¡ç†å™¨
+/// æ ¸å¿ƒèŒè´£ï¼šæ‹¦æˆª NGO çš„é»˜è®¤ç”Ÿæˆé€»è¾‘ï¼Œæ”¹ä¸ºä»æ± ä¸­å­˜å–
 /// </summary>
 public class NetworkObjectPool : NetworkBehaviour
 {
@@ -15,18 +15,18 @@ public class NetworkObjectPool : NetworkBehaviour
     [System.Serializable]
     struct PoolConfig
     {
-        public GameObject Prefab;     // Òª³Ø»¯µÄÔ¤ÖÆÌå
-        public int PrewarmCount;      // ³õÊ¼Éú³É¶àÉÙ¸ö±¸ÓÃ
+        public GameObject Prefab;     // è¦æ± åŒ–çš„é¢„åˆ¶ä½“
+        public int PrewarmCount;      // åˆå§‹ç”Ÿæˆå¤šå°‘ä¸ªå¤‡ç”¨
         
     }
 
-    [Header("×¢²áÅäÖÃ")]
+    [Header("æ³¨å†Œé…ç½®")]
     [SerializeField] private List<PoolConfig> _pooledPrefabs;
 
-    // Ó³Éä£ºPrefab -> ¶ÔÏó³Ø
+    // æ˜ å°„ï¼šPrefab -> å¯¹è±¡æ± 
     private Dictionary<GameObject, ObjectPool<NetworkObject>> _pools = new Dictionary<GameObject, ObjectPool<NetworkObject>>();
 
-    // Ó³Éä£ºÊµÀı -> ËüµÄÀ´Ô´Prefab (»ØÊÕÊ±ĞèÒªÖªµÀËüÊôÓÚÄÄ¸ö³Ø×Ó)
+    // æ˜ å°„ï¼šå®ä¾‹ -> å®ƒçš„æ¥æºPrefab (å›æ”¶æ—¶éœ€è¦çŸ¥é“å®ƒå±äºå“ªä¸ªæ± å­)
     private Dictionary<NetworkObject, GameObject> _spawnedObjects = new Dictionary<NetworkObject, GameObject>();
 
     private void Awake()
@@ -41,7 +41,7 @@ public class NetworkObjectPool : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // ×¢²áËùÓĞÅäÖÃµÄ Prefab
+        // æ³¨å†Œæ‰€æœ‰é…ç½®çš„ Prefab
         foreach (var config in _pooledPrefabs)
         {
             RegisterPrefab(config.Prefab, config.PrewarmCount);
@@ -50,7 +50,7 @@ public class NetworkObjectPool : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        // ÇåÀí×¢²á£¬·ÀÖ¹ÖØÁ¬Ê±±¨´í
+        // æ¸…ç†æ³¨å†Œï¼Œé˜²æ­¢é‡è¿æ—¶æŠ¥é”™
         foreach (var prefab in _pools.Keys)
         {
             NetworkManager.Singleton.PrefabHandler.RemoveHandler(prefab);
@@ -58,11 +58,11 @@ public class NetworkObjectPool : NetworkBehaviour
     }
 
     /// <summary>
-    /// ³õÊ¼»¯Ä³¸ö Prefab µÄ³Ø×Ó£¬²¢×¢²á Handler
+    /// åˆå§‹åŒ–æŸä¸ª Prefab çš„æ± å­ï¼Œå¹¶æ³¨å†Œ Handler
     /// </summary>
     private void RegisterPrefab(GameObject prefab, int count)
     {
-        // 1. ´´½¨ Unity ¹Ù·½µÄ ObjectPool
+        // 1. åˆ›å»º Unity å®˜æ–¹çš„ ObjectPool
         var pool = new ObjectPool<NetworkObject>(
             createFunc: () => CreateFunc(prefab),
             actionOnGet: ActionOnGet,
@@ -73,18 +73,18 @@ public class NetworkObjectPool : NetworkBehaviour
 
         _pools.Add(prefab, pool);
 
-        // 2. Ô¤ÈÈ (Prewarm)£ºÌáÇ°Éú³ÉÒ»Åú¶ÔÏó£¬±ÜÃâÓÎÏ·¿ªÊ¼Ê±¿¨¶Ù
+        // 2. é¢„çƒ­ (Prewarm)ï¼šæå‰ç”Ÿæˆä¸€æ‰¹å¯¹è±¡ï¼Œé¿å…æ¸¸æˆå¼€å§‹æ—¶å¡é¡¿
         List<NetworkObject> temp = new List<NetworkObject>();
         for (int i = 0; i < count; i++) temp.Add(pool.Get());
-        foreach (var obj in temp) pool.Release(obj); // ÂíÉÏ»¹»ØÈ¥£¬ËüÃÇ¾ÍÊÇÎ´¼¤»î×´Ì¬ÁË
+        foreach (var obj in temp) pool.Release(obj); // é©¬ä¸Šè¿˜å›å»ï¼Œå®ƒä»¬å°±æ˜¯æœªæ¿€æ´»çŠ¶æ€äº†
 
-        // 3. ¡¾¹Ø¼ü¡¿¸æËß NGO£ºÒÔºóÕâ¸ö Prefab µÄÉú³ÉºÍÏú»Ù£¬ÓÉÎÒ(this)¸ºÔğ
+        // 3. ã€å…³é”®ã€‘å‘Šè¯‰ NGOï¼šä»¥åè¿™ä¸ª Prefab çš„ç”Ÿæˆå’Œé”€æ¯ï¼Œç”±æˆ‘(this)è´Ÿè´£
         NetworkManager.Singleton.PrefabHandler.AddHandler(prefab, new PooledPrefabInstanceHandler(prefab, this));
     }
-    // --- ObjectPool µÄ»Øµ÷º¯Êı ---
+    // --- ObjectPool çš„å›è°ƒå‡½æ•° ---
     private NetworkObject CreateFunc(GameObject prefab)
     {
-        // ÕæÕıµÄÊµÀı»¯Ö»·¢ÉúÔÚÕâÀï
+        // çœŸæ­£çš„å®ä¾‹åŒ–åªå‘ç”Ÿåœ¨è¿™é‡Œ
         var go = Instantiate(prefab);
         return go.GetComponent<NetworkObject>();
     }
@@ -92,62 +92,62 @@ public class NetworkObjectPool : NetworkBehaviour
     private void ActionOnRelease(NetworkObject netObj) => netObj.gameObject.SetActive(false);
     private void ActionOnDestroy(NetworkObject netObj) => Destroy(netObj.gameObject);
 
-    // --- ¹«¹² API (¸øÒµÎñÂß¼­µ÷ÓÃµÄ) ---
+    // --- å…¬å…± API (ç»™ä¸šåŠ¡é€»è¾‘è°ƒç”¨çš„) ---
 
     /// <summary>
-    /// [Server Only] ·şÎñÆ÷´Ó³ØÀïÄÃ¶ÔÏó£¬²¢Í¬²½¸ø¿Í»§¶Ë
-    /// Ìæ´ú Instantiate + Spawn
+    /// [Server Only] æœåŠ¡å™¨ä»æ± é‡Œæ‹¿å¯¹è±¡ï¼Œå¹¶åŒæ­¥ç»™å®¢æˆ·ç«¯
+    /// æ›¿ä»£ Instantiate + Spawn
     /// </summary>
     public NetworkObject GetNetworkObject(GameObject prefab, Vector3 pos, Quaternion rot)
     {
         if (!IsServer)
         {
-            Debug.LogError("[NetworkObjectPool] Ö»ÓĞ·şÎñÆ÷ÄÜÖ÷¶¯Éú³É¶ÔÏó£¡");
+            Debug.LogError("[NetworkObjectPool] åªæœ‰æœåŠ¡å™¨èƒ½ä¸»åŠ¨ç”Ÿæˆå¯¹è±¡ï¼");
             return null;
         }
 
-        // 1. ·şÎñÆ÷±¾µØ»ñÈ¡
+        // 1. æœåŠ¡å™¨æœ¬åœ°è·å–
         NetworkObject netObj = _pools[prefab].Get();
 
-        // 2. ÉèÖÃÎ»ÖÃ
+        // 2. è®¾ç½®ä½ç½®
         netObj.transform.position = pos;
         netObj.transform.rotation = rot;
 
-        // 3. ¼ÇÂ¼ÒıÓÃ
+        // 3. è®°å½•å¼•ç”¨
         if (!_spawnedObjects.ContainsKey(netObj)) _spawnedObjects.Add(netObj, prefab);
 
-        // 4. ÍøÂçÍ¬²½ (Õâ»á´¥·¢ËùÓĞ¿Í»§¶ËµÄ PrefabHandler)
+        // 4. ç½‘ç»œåŒæ­¥ (è¿™ä¼šè§¦å‘æ‰€æœ‰å®¢æˆ·ç«¯çš„ PrefabHandler)
         if (!netObj.IsSpawned) netObj.Spawn(true);
 
         return netObj;
     }
 
     /// <summary>
-    /// [Server Only] ·şÎñÆ÷»ØÊÕ¶ÔÏó
-    /// Ìæ´ú Despawn + Destroy
+    /// [Server Only] æœåŠ¡å™¨å›æ”¶å¯¹è±¡
+    /// æ›¿ä»£ Despawn + Destroy
     /// </summary>
     public void ReturnNetworkObject(NetworkObject netObj)
     {
         if (!IsServer) return;
 
-        // 1. ÍøÂç½â°ó
-        if (netObj.IsSpawned) netObj.Despawn(false); // false ±íÊ¾²»Ïú»Ù GameObject
+        // 1. ç½‘ç»œè§£ç»‘
+        if (netObj.IsSpawned) netObj.Despawn(false); // false è¡¨ç¤ºä¸é”€æ¯ GameObject
 
-        // 2. ·Å»Ø³Ø×Ó
+        // 2. æ”¾å›æ± å­
         if (_spawnedObjects.TryGetValue(netObj, out GameObject prefab))
         {
             _pools[prefab].Release(netObj);
         }
     }
 
-    // --- ÄÚ²¿ API (¸ø Handler µ÷ÓÃµÄ) ---
-    // ÕâĞ©·½·¨ÊÇ¸ø¡°¿Í»§¶Ë¡±ÓÃµÄ£¬µ±·şÎñÆ÷·¢Ö¸Áî¹ıÀ´Ê±£¬¿Í»§¶Ë±¾µØÕÒ¶ÔÏó
+    // --- å†…éƒ¨ API (ç»™ Handler è°ƒç”¨çš„) ---
+    // è¿™äº›æ–¹æ³•æ˜¯ç»™â€œå®¢æˆ·ç«¯â€ç”¨çš„ï¼Œå½“æœåŠ¡å™¨å‘æŒ‡ä»¤è¿‡æ¥æ—¶ï¼Œå®¢æˆ·ç«¯æœ¬åœ°æ‰¾å¯¹è±¡
     public NetworkObject GetLocal(GameObject prefab) => _pools[prefab].Get();
     public void ReturnLocal(NetworkObject netObj, GameObject prefab) => _pools[prefab].Release(netObj);
 }
 
 /// <summary>
-/// À¹½ØÆ÷Àà£ºÊµÏÖ INetworkPrefabInstanceHandler
+/// æ‹¦æˆªå™¨ç±»ï¼šå®ç° INetworkPrefabInstanceHandler
 /// </summary>
 public class PooledPrefabInstanceHandler : INetworkPrefabInstanceHandler
 {
@@ -160,7 +160,7 @@ public class PooledPrefabInstanceHandler : INetworkPrefabInstanceHandler
         _pool = pool;
     }
 
-    // µ± NGO ÏëÒª Instantiate Ê±µ÷ÓÃ
+    // å½“ NGO æƒ³è¦ Instantiate æ—¶è°ƒç”¨
     public NetworkObject Instantiate(ulong ownerClientId, Vector3 position, Quaternion rotation)
     {
         var netObj = _pool.GetLocal(_prefab);
@@ -169,7 +169,7 @@ public class PooledPrefabInstanceHandler : INetworkPrefabInstanceHandler
         return netObj;
     }
 
-    // µ± NGO ÏëÒª Destroy Ê±µ÷ÓÃ
+    // å½“ NGO æƒ³è¦ Destroy æ—¶è°ƒç”¨
     public void Destroy(NetworkObject networkObject)
     {
         _pool.ReturnLocal(networkObject, _prefab);

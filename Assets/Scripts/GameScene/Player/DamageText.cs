@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool; // 1.using namespace pool
@@ -6,7 +6,7 @@ using UnityEngine.Pool; // 1.using namespace pool
 public class DamageText : MonoBehaviour
 {
     [SerializeField] private TMP_Text damageLable;
-    // ³õÊ¼»¯·½·¨£¬ÓÉmanagerµ÷ÓÃ
+    // åˆå§‹åŒ–æ–¹æ³•ï¼Œç”±managerè°ƒç”¨
     // hold the reference of the pool
     private IObjectPool<DamageText> _pool;
     // 2. init method: when manager create a text, send a "key" to the text for backing into the exact pool
@@ -17,7 +17,7 @@ public class DamageText : MonoBehaviour
     public void Setup(int damageAmount)
     {
         damageLable.text = damageAmount.ToString();
-        // Èç¹û²»ÓÃ animator £¬¿ÉÒÔÓÃ¼òµ¥µÄĞ­³Ì×öµ­Èëµ­³ö
+        // å¦‚æœä¸ç”¨ animator ï¼Œå¯ä»¥ç”¨ç®€å•çš„åç¨‹åšæ·¡å…¥æ·¡å‡º
         //Destroy(gameObject, 1.0f);
         StartCoroutine(ReturnToPoolAfterTime(3.0f));
     }

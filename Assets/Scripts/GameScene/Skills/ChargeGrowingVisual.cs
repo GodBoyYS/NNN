@@ -1,22 +1,22 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 
 public class ChargeGrowingVisual : MonoBehaviour
 {
-    [Header("ÊÓ¾õ²ÎÊı")]
-    [Tooltip("Éú³¤×îÖÕµÄÄ¿±ê´óĞ¡ (Local Scale)")]
-    [SerializeField] private float _targetScale = 20.0f; // ¶ÔÓ¦Ö±¾¶ (°ë¾¶10 * 2)
+    [Header("è§†è§‰å‚æ•°")]
+    [Tooltip("ç”Ÿé•¿æœ€ç»ˆçš„ç›®æ ‡å¤§å° (Local Scale)")]
+    [SerializeField] private float _targetScale = 20.0f; // å¯¹åº”ç›´å¾„ (åŠå¾„10 * 2)
 
-    [Tooltip("Éú³¤ÇúÏß£¬ÈÃ±ä´ó¹ı³Ì¸ü×ÔÈ»")]
+    [Tooltip("ç”Ÿé•¿æ›²çº¿ï¼Œè®©å˜å¤§è¿‡ç¨‹æ›´è‡ªç„¶")]
     [SerializeField] private AnimationCurve _growthCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
     /// <summary>
-    /// API: ÉèÖÃ³ÖĞøÊ±¼ä²¢¿ªÊ¼²¥·Å
+    /// API: è®¾ç½®æŒç»­æ—¶é—´å¹¶å¼€å§‹æ’­æ”¾
     /// </summary>
-    /// <param name="duration">ĞîÁ¦Ê±¼ä</param>
+    /// <param name="duration">è“„åŠ›æ—¶é—´</param>
     public void SetDuration(float duration)
     {
-        // ³õÊ¼ÉèÎª0
+        // åˆå§‹è®¾ä¸º0
         transform.localScale = Vector3.zero;
         StartCoroutine(GrowthRoutine(duration));
     }
@@ -30,7 +30,7 @@ public class ChargeGrowingVisual : MonoBehaviour
             timer += Time.deltaTime;
             float progress = Mathf.Clamp01(timer / duration);
 
-            // Ê¹ÓÃÇúÏß¼ÆËãµ±Ç°±ÈÀı
+            // ä½¿ç”¨æ›²çº¿è®¡ç®—å½“å‰æ¯”ä¾‹
             float curveValue = _growthCurve.Evaluate(progress);
 
             transform.localScale = Vector3.one * (_targetScale * curveValue);
@@ -38,10 +38,10 @@ public class ChargeGrowingVisual : MonoBehaviour
             yield return null;
         }
 
-        // È·±£×îÖÕ´óĞ¡Ò»ÖÂ
+        // ç¡®ä¿æœ€ç»ˆå¤§å°ä¸€è‡´
         transform.localScale = Vector3.one * _targetScale;
 
-        // ĞîÁ¦½áÊø£¬ÌØĞ§×ÔÎÒÏú»Ù (»òÕß²¥·Å±¬Õ¨Á£×ÓºóÏú»Ù)
+        // è“„åŠ›ç»“æŸï¼Œç‰¹æ•ˆè‡ªæˆ‘é”€æ¯ (æˆ–è€…æ’­æ”¾çˆ†ç‚¸ç²’å­åé”€æ¯)
         Destroy(gameObject);
     }
 }

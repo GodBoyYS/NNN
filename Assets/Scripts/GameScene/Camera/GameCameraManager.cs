@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Unity.Netcode;
-using Unity.Cinemachine; // ×¢Òâ£ºÃüÃû¿Õ¼ä±ä³ÉÁË Unity.Cinemachine
+using Unity.Cinemachine; // æ³¨æ„ï¼šå‘½åç©ºé—´å˜æˆäº† Unity.Cinemachine
 
 public class GameCameraManager : MonoBehaviour
 {
     public static GameCameraManager Instance { get; private set; }
 
     [Header("Cinemachine Components")]
-    // ÕâÀïµÄÀàĞÍ´Ó CinemachineVirtualCamera ±ä³ÉÁË CinemachineCamera
+    // è¿™é‡Œçš„ç±»å‹ä» CinemachineVirtualCamera å˜æˆäº† CinemachineCamera
     [SerializeField] private CinemachineCamera virtualCamera;
     [SerializeField] private CinemachineImpulseSource impulseSource;
 
@@ -20,11 +20,11 @@ public class GameCameraManager : MonoBehaviour
     {
         if (virtualCamera != null)
         {
-            // ÔÚ CM 3.0 ÖĞ£¬Follow ºÍ LookAt Í³Ò»¹éÎª "Target" ¹ÜÀí
-            // µ«Èç¹ûÊ¹ÓÃµÄÊÇ simple Follow Ä£Ê½£¬Ö±½Ó¸³Öµ¸ø Follow ÊôĞÔÒÀÈ»ÓĞĞ§
+            // åœ¨ CM 3.0 ä¸­ï¼ŒFollow å’Œ LookAt ç»Ÿä¸€å½’ä¸º "Target" ç®¡ç†
+            // ä½†å¦‚æœä½¿ç”¨çš„æ˜¯ simple Follow æ¨¡å¼ï¼Œç›´æ¥èµ‹å€¼ç»™ Follow å±æ€§ä¾ç„¶æœ‰æ•ˆ
             virtualCamera.Follow = target;
 
-            // Èç¹ûÄãÊÇÉÏµÛÊÓ½Ç£¨Top-Down£©£¬Í¨³£²»ĞèÒª LookAt£¬±£³ÖÄ¬ÈÏ¼´¿É
+            // å¦‚æœä½ æ˜¯ä¸Šå¸è§†è§’ï¼ˆTop-Downï¼‰ï¼Œé€šå¸¸ä¸éœ€è¦ LookAtï¼Œä¿æŒé»˜è®¤å³å¯
             // virtualCamera.LookAt = target; 
 
             Debug.Log($"[Camera] Now following {target.name}");
@@ -33,10 +33,10 @@ public class GameCameraManager : MonoBehaviour
 
     public void ShakeCamera(float force)
     {
-        //Debug.Log("µ÷ÓÃÕğÆÁ·½·¨");
+        //Debug.Log("è°ƒç”¨éœ‡å±æ–¹æ³•");
         if (impulseSource != null)
         {
-            //Debug.Log("Õñ¶¯Ô´²»¿Õ£¬ÕğÆÁ£¡");
+            //Debug.Log("æŒ¯åŠ¨æºä¸ç©ºï¼Œéœ‡å±ï¼");
             impulseSource.GenerateImpulse(force);
         }
     }

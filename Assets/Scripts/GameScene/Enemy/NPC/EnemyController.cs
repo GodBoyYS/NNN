@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Linq;
 using Unity.Netcode;
@@ -12,17 +12,17 @@ public class EnemyController : NetworkBehaviour,
     public enum NPCMotionState { Idle = 0, Chase = 1, Attack = 2, Die = 3 }
 
     [Header("Detection Settings")]
-    [SerializeField] private float _chaseRange = 10f; // ½ö±£Áô×·Öğ£¨Ë÷µĞ£©·¶Î§
+    [SerializeField] private float _chaseRange = 10f; // ä»…ä¿ç•™è¿½é€ï¼ˆç´¢æ•Œï¼‰èŒƒå›´
     [SerializeField] private LayerMask _chaseLayer;
 
     [Header("Skill Settings")]
     [SerializeField] private SkillDataSO _skillData;
-    // _triggerAttackRange ÒÑÒÆ³ı£¬ÏÖÔÚÊ¹ÓÃ _skillData.castRadius
+    // _triggerAttackRange å·²ç§»é™¤ï¼Œç°åœ¨ä½¿ç”¨ _skillData.castRadius
 
     private float _repathTimer = 0f;
     private float _repathInterval = 0.2f;
 
-    // ¹¥»÷¼ä¸ô¼ÆÊ±Æ÷£¨·ÀÖ¹ÎŞCD¼¼ÄÜÁ¬Ğø²¥·Å¶¯»­Ì«¿ì£©
+    // æ”»å‡»é—´éš”è®¡æ—¶å™¨ï¼ˆé˜²æ­¢æ— CDæŠ€èƒ½è¿ç»­æ’­æ”¾åŠ¨ç”»å¤ªå¿«ï¼‰
     private float _attackTimer = 0f;
     private float _attackInterval = 0.833f;
 
@@ -76,12 +76,12 @@ public class EnemyController : NetworkBehaviour,
             _agent.enabled = true;
             _currentEnmeyState.Value = NPCMotionState.Idle;
             _currentHealth.Value = _maxHealth;
-            _skillTimer = 0f; // ³õÊ¼¿ÉÒÔÖ±½ÓÊÍ·Å¼¼ÄÜ
+            _skillTimer = 0f; // åˆå§‹å¯ä»¥ç›´æ¥é‡Šæ”¾æŠ€èƒ½
 
-            // ¶¯Ì¬ÉèÖÃ NavMeshAgent µÄÍ£Ö¹¾àÀë£¬·ÀÖ¹Ô¶³Ì¹ÖÒ»¶¨Òª×ßµ½Á³ÉÏ²ÅÍ£
+            // åŠ¨æ€è®¾ç½® NavMeshAgent çš„åœæ­¢è·ç¦»ï¼Œé˜²æ­¢è¿œç¨‹æ€ªä¸€å®šè¦èµ°åˆ°è„¸ä¸Šæ‰åœ
             if (_skillData != null)
             {
-                // ÉÔÎ¢ÉèÖÃµÃ±È¼¼ÄÜ°ë¾¶Ğ¡Ò»µãµã£¬È·±£ÄÜ½øÈëÅĞ¶¨·¶Î§
+                // ç¨å¾®è®¾ç½®å¾—æ¯”æŠ€èƒ½åŠå¾„å°ä¸€ç‚¹ç‚¹ï¼Œç¡®ä¿èƒ½è¿›å…¥åˆ¤å®šèŒƒå›´
                 _agent.stoppingDistance = Mathf.Max(1.0f, _skillData.castRadius - 0.5f);
             }
         }
@@ -98,7 +98,7 @@ public class EnemyController : NetworkBehaviour,
     {
         if (!IsServer) return;
 
-        // ÀäÈ´Ê±¼ä¸üĞÂ
+        // å†·å´æ—¶é—´æ›´æ–°
         if (_skillTimer > 0) _skillTimer -= Time.deltaTime;
 
         switch (_currentEnmeyState.Value)
@@ -145,14 +145,14 @@ public class EnemyController : NetworkBehaviour,
 
         float distance = Vector3.Distance(transform.position, _target.transform.position);
 
-        // 1. Èç¹û³¬³ö×î´ó×·»÷¾àÀë£¨³ğºŞ·¶Î§£©£¬·ÅÆú
+        // 1. å¦‚æœè¶…å‡ºæœ€å¤§è¿½å‡»è·ç¦»ï¼ˆä»‡æ¨èŒƒå›´ï¼‰ï¼Œæ”¾å¼ƒ
         if (distance > _chaseRange * 1.5f)
         {
             ChangeStateToIdle();
             return;
         }
 
-        // 2. ºËĞÄĞŞ¸Ä£ºÅĞ¶ÏÊÇ·ñ½øÈë¼¼ÄÜÊÍ·Å°ë¾¶
+        // 2. æ ¸å¿ƒä¿®æ”¹ï¼šåˆ¤æ–­æ˜¯å¦è¿›å…¥æŠ€èƒ½é‡Šæ”¾åŠå¾„
         float requiredRange = GetRequiredAttackRange();
 
         if (distance <= requiredRange)
@@ -161,7 +161,7 @@ public class EnemyController : NetworkBehaviour,
             return;
         }
 
-        // 3. ·ñÔò¼ÌĞø×·»÷
+        // 3. å¦åˆ™ç»§ç»­è¿½å‡»
         ChasePlayerMovement();
     }
 
@@ -176,22 +176,22 @@ public class EnemyController : NetworkBehaviour,
         float distance = Vector3.Distance(transform.position, _target.transform.position);
         float requiredRange = GetRequiredAttackRange();
 
-        // 1. ¾àÀëÅĞ¶¨£º¸øÓèÒ»µã»º³å¿Õ¼ä (Hysteresis)£¬·ÀÖ¹ÔÚÁÙ½çµã·´¸´³é´¤
-        // Èç¹ûÍæ¼ÒÅÜ³öÁË (¼¼ÄÜ°ë¾¶ * 1.1)£¬ÔòÖØĞÂ¿ªÊ¼×·
+        // 1. è·ç¦»åˆ¤å®šï¼šç»™äºˆä¸€ç‚¹ç¼“å†²ç©ºé—´ (Hysteresis)ï¼Œé˜²æ­¢åœ¨ä¸´ç•Œç‚¹åå¤æŠ½æ
+        // å¦‚æœç©å®¶è·‘å‡ºäº† (æŠ€èƒ½åŠå¾„ * 1.1)ï¼Œåˆ™é‡æ–°å¼€å§‹è¿½
         if (distance > requiredRange * 1.1f)
         {
             ChangeStateToChase();
             return;
         }
 
-        // 2. ¹¥»÷Ê±È·±£Í£Ö¹ÒÆ¶¯
+        // 2. æ”»å‡»æ—¶ç¡®ä¿åœæ­¢ç§»åŠ¨
         if (_agent.isOnNavMesh && !_agent.isStopped)
         {
             _agent.isStopped = true;
             _agent.ResetPath();
         }
 
-        // 3. Ê¼ÖÕ³¯ÏòÄ¿±ê
+        // 3. å§‹ç»ˆæœå‘ç›®æ ‡
         Vector3 direction = (_target.transform.position - transform.position).normalized;
         direction.y = 0;
         if (direction != Vector3.zero)
@@ -199,26 +199,26 @@ public class EnemyController : NetworkBehaviour,
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 10f * Time.deltaTime);
         }
 
-        // 4. ³¢ÊÔÊÍ·Å¼¼ÄÜ
+        // 4. å°è¯•é‡Šæ”¾æŠ€èƒ½
         if (_skillTimer <= 0 && _skillData != null)
         {
-            // ÖØÖÃÀäÈ´
+            // é‡ç½®å†·å´
             _skillTimer = _skillData.coolDown;
 
-            // ÊÍ·Å¼¼ÄÜ
+            // é‡Šæ”¾æŠ€èƒ½
             _skillData.Cast(gameObject, _target.gameObject, _target.transform.position);
             Debug.Log($"Enemy Cast Skill: {_skillData.name}");
         }
     }
 
-    // ¸¨Öú·½·¨£º»ñÈ¡µ±Ç°ÅäÖÃµÄ¹¥»÷¾àÀë£¬Èç¹ûÃ»ÓĞÅäÖÃÔò¸ø¸öÄ¬ÈÏÖµ
+    // è¾…åŠ©æ–¹æ³•ï¼šè·å–å½“å‰é…ç½®çš„æ”»å‡»è·ç¦»ï¼Œå¦‚æœæ²¡æœ‰é…ç½®åˆ™ç»™ä¸ªé»˜è®¤å€¼
     private float GetRequiredAttackRange()
     {
         if (_skillData != null)
         {
             return _skillData.castRadius;
         }
-        return 2.0f; // Ä¬ÈÏ½üÕ½¾àÀë
+        return 2.0f; // é»˜è®¤è¿‘æˆ˜è·ç¦»
     }
 
     private void ChangeStateToIdle()
@@ -234,11 +234,11 @@ public class EnemyController : NetworkBehaviour,
         if (_currentEnmeyState.Value == NPCMotionState.Chase) return;
         _currentEnmeyState.Value = NPCMotionState.Chase;
 
-        // È·±£ NavMeshAgent ²ÎÊıÆ¥Åäµ±Ç°µÄ¼¼ÄÜ¾àÀë
+        // ç¡®ä¿ NavMeshAgent å‚æ•°åŒ¹é…å½“å‰çš„æŠ€èƒ½è·ç¦»
         if (_agent.isOnNavMesh && _skillData != null)
         {
-            // Í£Ö¹¾àÀëÉèÖÃÎª¼¼ÄÜ°ë¾¶µÄÒ»°ë»òÕßÉÔÎ¢¶ÌÒ»µã£¬±£Ö¤ÄÜ×ß½øÉä³Ì
-            // Èç¹ûÊÇÔ¶³Ì¹Ö(castRadius=10)£¬Ëü»áÔÚ¾àÀëÍæ¼Ò8-9Ã×´¦Í£ÏÂ
+            // åœæ­¢è·ç¦»è®¾ç½®ä¸ºæŠ€èƒ½åŠå¾„çš„ä¸€åŠæˆ–è€…ç¨å¾®çŸ­ä¸€ç‚¹ï¼Œä¿è¯èƒ½èµ°è¿›å°„ç¨‹
+            // å¦‚æœæ˜¯è¿œç¨‹æ€ª(castRadius=10)ï¼Œå®ƒä¼šåœ¨è·ç¦»ç©å®¶8-9ç±³å¤„åœä¸‹
             float stopDist = Mathf.Max(0.5f, _skillData.castRadius * 0.8f);
             _agent.stoppingDistance = stopDist;
             _agent.isStopped = false;
@@ -251,8 +251,8 @@ public class EnemyController : NetworkBehaviour,
         _currentEnmeyState.Value = NPCMotionState.Attack;
         if (_agent.isOnNavMesh) _agent.ResetPath();
 
-        // ½øÈë¹¥»÷×´Ì¬Ê±²»Á¢¼´ÖØÖÃ¼ÆÊ±Æ÷£¬¶øÊÇÒÀÀµ Update ÖĞµÄÀäÈ´ÅĞ¶Ï
-        // ÕâÑù¿ÉÒÔÖ§³Ö½øÈë¹¥»÷·¶Î§ºóÉÔÎ¢ÓĞÒ»µã·´Ó¦Ê±¼ä£¬»òÕßÁ¢¼´¹¥»÷£¨È¡¾öÓÚÖ®Ç°µÄÀäÈ´£©
+        // è¿›å…¥æ”»å‡»çŠ¶æ€æ—¶ä¸ç«‹å³é‡ç½®è®¡æ—¶å™¨ï¼Œè€Œæ˜¯ä¾èµ– Update ä¸­çš„å†·å´åˆ¤æ–­
+        // è¿™æ ·å¯ä»¥æ”¯æŒè¿›å…¥æ”»å‡»èŒƒå›´åç¨å¾®æœ‰ä¸€ç‚¹ååº”æ—¶é—´ï¼Œæˆ–è€…ç«‹å³æ”»å‡»ï¼ˆå–å†³äºä¹‹å‰çš„å†·å´ï¼‰
     }
 
     private void ChasePlayerMovement()
@@ -283,7 +283,7 @@ public class EnemyController : NetworkBehaviour,
             if (collider.gameObject == gameObject) continue;
             if (!collider.TryGetComponent<PlayerDataContainer>(out PlayerDataContainer playerData)) continue;
 
-            // ¼òµ¥µÄ¿É¼ûĞÔ¼ì²é£¨·ÀÖ¹¸ôÇ½Îü³ğºŞ£¬¿ÉÑ¡£©
+            // ç®€å•çš„å¯è§æ€§æ£€æŸ¥ï¼ˆé˜²æ­¢éš”å¢™å¸ä»‡æ¨ï¼Œå¯é€‰ï¼‰
             // if (Physics.Linecast(transform.position + Vector3.up, collider.transform.position + Vector3.up, GroundLayer)) continue;
 
             float d = Vector3.Distance(collider.transform.position, transform.position);
@@ -307,7 +307,7 @@ public class EnemyController : NetworkBehaviour,
         if (newHealth < 0) newHealth = 0;
         _currentHealth.Value = newHealth;
 
-        // ¼òµ¥µÄ·´»÷Âß¼­£ºÈç¹ûÔÚ°¤´òÇÒÃ»ÓĞÄ¿±ê£¬½«¹¥»÷ÕßÉèÎªÄ¿±ê
+        // ç®€å•çš„åå‡»é€»è¾‘ï¼šå¦‚æœåœ¨æŒ¨æ‰“ä¸”æ²¡æœ‰ç›®æ ‡ï¼Œå°†æ”»å‡»è€…è®¾ä¸ºç›®æ ‡
         if (_target == null && NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerId, out var attackerObj))
         {
             _target = attackerObj;

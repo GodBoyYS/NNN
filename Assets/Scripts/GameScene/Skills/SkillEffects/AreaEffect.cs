@@ -1,4 +1,4 @@
-// ¼¼ÄÜ»ıÄ¾£º·¶Î§ÉËº¦
+ï»¿// æŠ€èƒ½ç§¯æœ¨ï¼šèŒƒå›´ä¼¤å®³
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,48 +7,48 @@ using System.Collections;
 [Serializable]
 public class AreaEffect : SkillEffect
 {
-    [Header("AOE ÉèÖÃ")]
+    [Header("AOE è®¾ç½®")]
     public float radius = 3f;
     public float delay = 1.0f;
     public int damage = 10;
-    public GameObject vfxPrefab; // ±ÈÈçÒ»¸öµØÉÏµÄºìÈ¦ÌØĞ§(NetworkObject)
+    public GameObject vfxPrefab; // æ¯”å¦‚ä¸€ä¸ªåœ°ä¸Šçš„çº¢åœˆç‰¹æ•ˆ(NetworkObject)
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // 1. ÔÚÊ©·¨Î»ÖÃÉú³ÉÒ»¸öÌØĞ§ (´¿±íÏÖ£¬²»ĞèÒªÍøÂçÂß¼­£¬»òÕß Spawn Ò»¸ö²»´øÂß¼­µÄ NetworkObject)
+        // 1. åœ¨æ–½æ³•ä½ç½®ç”Ÿæˆä¸€ä¸ªç‰¹æ•ˆ (çº¯è¡¨ç°ï¼Œä¸éœ€è¦ç½‘ç»œé€»è¾‘ï¼Œæˆ–è€… Spawn ä¸€ä¸ªä¸å¸¦é€»è¾‘çš„ NetworkObject)
         if (vfxPrefab != null)
         {
             var vfx = GameObject.Instantiate(vfxPrefab, position, Quaternion.identity);
             vfx.GetComponent<NetworkObject>().Spawn();
-            // ÉèÖÃ¼¸Ãëºó×Ô¶¯Ïú»ÙÌØĞ§
+            // è®¾ç½®å‡ ç§’åè‡ªåŠ¨é”€æ¯ç‰¹æ•ˆ
             GameObject.Destroy(vfx, delay + 0.5f);
         }
 
-        // 2. ½èÓÃ Caster µÄ Mono ¿ªÆôĞ­³Ì£¬´¦ÀíÑÓ³ÙÂß¼­
-        // ×¢Òâ£ºÕâÀïÀûÓÃÁË±Õ°ü£¬Ğ­³Ì¿ÉÒÔÖ±½Ó·ÃÎÊ execute ´«ÈëµÄ²ÎÊı
+        // 2. å€Ÿç”¨ Caster çš„ Mono å¼€å¯åç¨‹ï¼Œå¤„ç†å»¶è¿Ÿé€»è¾‘
+        // æ³¨æ„ï¼šè¿™é‡Œåˆ©ç”¨äº†é—­åŒ…ï¼Œåç¨‹å¯ä»¥ç›´æ¥è®¿é—® execute ä¼ å…¥çš„å‚æ•°
         caster.GetComponent<NetworkBehaviour>().StartCoroutine(ExplodeRoutine(caster, position));
     }
 
     private IEnumerator ExplodeRoutine(GameObject caster, Vector3 centerPos)
     {
-        // µÈ´ıÑÓ³Ù
+        // ç­‰å¾…å»¶è¿Ÿ
         yield return new WaitForSeconds(delay);
 
-        // ·¶Î§¼ì²â
+        // èŒƒå›´æ£€æµ‹
         Collider[] hits = Physics.OverlapSphere(centerPos, radius);
         foreach (var hit in hits)
         {
-            // ÅÅ³ı×Ô¼º
+            // æ’é™¤è‡ªå·±
             if (hit.gameObject == caster) continue;
 
-            // Ôì³ÉÉËº¦
+            // é€ æˆä¼¤å®³
             if (hit.TryGetComponent<IDamageable>(out var damageable))
             {
                 damageable.TakeDamage(damage, caster.GetComponent<NetworkObject>().NetworkObjectId);
-                //// »ñÈ¡ attackerId
+                //// è·å– attackerId
                 //ulong attackerId = caster.GetComponent<NetworkObject>().OwnerClientId;
                 //health.RequestTakeDamage(damage, attackerId);
-                Debug.Log($"[Effect] AOE Õ¨µ½ÁË {hit.name}");
+                Debug.Log($"[Effect] AOE ç‚¸åˆ°äº† {hit.name}");
             }
         }
     }

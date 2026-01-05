@@ -1,12 +1,12 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class BufferedHealthBar : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Slider _mainSlider;   // ºìÉ«/ÂÌÉ«Ìõ
-    [SerializeField] private Slider _bufferSlider; // »ÆÉ«»º³åÌõ
-    [SerializeField] private CanvasGroup _canvasGroup; // ¡¾ĞÂÔö¡¿ÓÃÓÚ¿ØÖÆÕûÌåÏÔÒş
+    [SerializeField] private Slider _mainSlider;   // çº¢è‰²/ç»¿è‰²æ¡
+    [SerializeField] private Slider _bufferSlider; // é»„è‰²ç¼“å†²æ¡
+    [SerializeField] private CanvasGroup _canvasGroup; // ã€æ–°å¢ã€‘ç”¨äºæ§åˆ¶æ•´ä½“æ˜¾éš
 
     [Header("Settings")]
     [SerializeField] private float _bufferDropSpeed = 0.5f;
@@ -21,11 +21,11 @@ public class BufferedHealthBar : MonoBehaviour
     }
 
     /// <summary>
-    /// ÆÕÍ¨¸üĞÂ£º´ø»º³å¶¯»­
+    /// æ™®é€šæ›´æ–°ï¼šå¸¦ç¼“å†²åŠ¨ç”»
     /// </summary>
     public void UpdateHealth(int current, int max)
     {
-        // 1. Èç¹ûÑªÁ¿<=0£¬Òş²ØÑªÌõ£¨½â¾öÑªÌõ²»ÏûÊ§bug£©
+        // 1. å¦‚æœè¡€é‡<=0ï¼Œéšè—è¡€æ¡ï¼ˆè§£å†³è¡€æ¡ä¸æ¶ˆå¤±bugï¼‰
         if (current <= 0)
         {
             SetVisible(false);
@@ -36,27 +36,27 @@ public class BufferedHealthBar : MonoBehaviour
 
         float fillAmount = (float)current / max;
 
-        // ÉèÖÃÖ÷ÑªÌõ
+        // è®¾ç½®ä¸»è¡€æ¡
         _mainSlider.value = fillAmount;
 
-        // ´¦Àí»º³åÌõÂß¼­
+        // å¤„ç†ç¼“å†²æ¡é€»è¾‘
         if (_bufferSlider != null)
         {
             if (_mainSlider.value > _bufferSlider.value)
             {
-                // ¼ÓÑª£º»ÆÌõË²¼ä¸úÉÏ
+                // åŠ è¡€ï¼šé»„æ¡ç¬é—´è·Ÿä¸Š
                 _bufferSlider.value = _mainSlider.value;
             }
             else
             {
-                // ¿ÛÑª£ºÑÓ³Ù
+                // æ‰£è¡€ï¼šå»¶è¿Ÿ
                 _delayTimer = _bufferDelay;
             }
         }
     }
 
     /// <summary>
-    /// ¡¾ĞÂÔö¡¿Ç¿ÖÆÖØÖÃ£ºÓÃÓÚ¶ÔÏó³Ø¸´»îÊ±£¬Ë²¼ä»ØÂú£¬ÎŞ¶¯»­
+    /// ã€æ–°å¢ã€‘å¼ºåˆ¶é‡ç½®ï¼šç”¨äºå¯¹è±¡æ± å¤æ´»æ—¶ï¼Œç¬é—´å›æ»¡ï¼Œæ— åŠ¨ç”»
     /// </summary>
     public void ForceReset(int max)
     {
@@ -89,7 +89,7 @@ public class BufferedHealthBar : MonoBehaviour
         }
         else
         {
-            // Èç¹ûÃ»ÓĞCanvasGroup£¬¾Í±©Á¦µÄ¿ØÖÆ×ÓÎïÌå¿ª¹Ø£¬µ«½¨ÒéÓÃCanvasGroup
+            // å¦‚æœæ²¡æœ‰CanvasGroupï¼Œå°±æš´åŠ›çš„æ§åˆ¶å­ç‰©ä½“å¼€å…³ï¼Œä½†å»ºè®®ç”¨CanvasGroup
             foreach (Transform child in transform) child.gameObject.SetActive(isVisible);
         }
     }

@@ -1,9 +1,9 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBarUI : MonoBehaviour
 {
-    // Èç¹ûÊÇÈ«¾ÖÎ¨Ò»µÄÑªÌõ£¨±ÈÈçÆÁÄ»×óÉÏ½Ç£©£¬×ö¸öµ¥Àı×î·½±ã²éÕÒ
+    // å¦‚æœæ˜¯å…¨å±€å”¯ä¸€çš„è¡€æ¡ï¼ˆæ¯”å¦‚å±å¹•å·¦ä¸Šè§’ï¼‰ï¼Œåšä¸ªå•ä¾‹æœ€æ–¹ä¾¿æŸ¥æ‰¾
     public static HealthBarUI Instance { get; private set; }
 
     [SerializeField] private Slider healthSlider;
@@ -22,7 +22,7 @@ public class HealthBarUI : MonoBehaviour
     public void UpdateViewQskill(bool activeBefore, bool activeCurrent)
     {
         if(QSkill == null) return;
-        // ¸ù¾İÊÇ·ñ¿ÉÓÃÉèÖÃÑÕÉ«»Ò¶ÈÖµ
+        // æ ¹æ®æ˜¯å¦å¯ç”¨è®¾ç½®é¢œè‰²ç°åº¦å€¼
         QSkill.color = activeCurrent ? Color.yellow : Color.red;
     }
 }

@@ -1,9 +1,9 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public abstract class PlayerBaseState
 {
     protected PlayerMainController _controller; 
-    protected FrameInput _currentInput; // ÌáÉıÎª×Ö¶Î
+    protected FrameInput _currentInput; // æå‡ä¸ºå­—æ®µ
 
     public PlayerBaseState(PlayerMainController controller)
     {
@@ -14,8 +14,8 @@ public abstract class PlayerBaseState
 
     public virtual void OnUpdate()
     {
-        // 1. È«¾ÖËÀÍö¼ì²é (ÓÅÏÈ¼¶×î¸ß)
-        // ÎŞÂÛÊÇ²»ÊÇOwner£¬Èç¹ûÊı¾İ²ãËµËÀÁË£¬¾Í±ØĞë½øËÀÍö×´Ì¬
+        // 1. å…¨å±€æ­»äº¡æ£€æŸ¥ (ä¼˜å…ˆçº§æœ€é«˜)
+        // æ— è®ºæ˜¯ä¸æ˜¯Ownerï¼Œå¦‚æœæ•°æ®å±‚è¯´æ­»äº†ï¼Œå°±å¿…é¡»è¿›æ­»äº¡çŠ¶æ€
         if (_controller.DataContainer.IsDead)
         {
             if (!(_controller.StateMachine.CurrentState is PlayerNewStateDie))
@@ -25,7 +25,7 @@ public abstract class PlayerBaseState
             return;
         }
 
-        // 2. ¸üĞÂÊäÈë (½ö±¾µØÍæ¼ÒÓĞĞ§)
+        // 2. æ›´æ–°è¾“å…¥ (ä»…æœ¬åœ°ç©å®¶æœ‰æ•ˆ)
         if (_controller.IsOwner)
         {
             _currentInput = _controller.Input;
@@ -34,6 +34,6 @@ public abstract class PlayerBaseState
 
     public virtual void OnExit() { }
 
-    // Ç¿ÖÆ×ÓÀàÊµÏÖµÄºËĞÄÂß¼­Á÷
+    // å¼ºåˆ¶å­ç±»å®ç°çš„æ ¸å¿ƒé€»è¾‘æµ
     protected abstract void StateLogic();
 }

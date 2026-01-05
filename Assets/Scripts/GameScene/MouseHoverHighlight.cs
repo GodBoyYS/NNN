@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class MouseHoverHighlight : MonoBehaviour
@@ -35,18 +35,18 @@ public class MouseHoverHighlight : MonoBehaviour
     {
         foreach (var r in _renderers)
         {
-            // »ñÈ¡µ±Ç°µÄ PropertyBlock£¬ÒÔ·À±» DamageFlash µÈÆäËû×é¼şĞŞ¸Ä¹ı
+            // è·å–å½“å‰çš„ PropertyBlockï¼Œä»¥é˜²è¢« DamageFlash ç­‰å…¶ä»–ç»„ä»¶ä¿®æ”¹è¿‡
             r.GetPropertyBlock(_propBlock);
 
             if (active)
             {
-                // ¿ªÆô¸ßÁÁ£ºÉèÖÃ Emission Color
-                // ×¢Òâ£ºÄãµÄ Shader ĞèÒªÖ§³Ö _EmissionColor ÊôĞÔ£¬ÇÒ Enable Emission
+                // å¼€å¯é«˜äº®ï¼šè®¾ç½® Emission Color
+                // æ³¨æ„ï¼šä½ çš„ Shader éœ€è¦æ”¯æŒ _EmissionColor å±æ€§ï¼Œä¸” Enable Emission
                 _propBlock.SetColor("_EmissionColor", highlightColor * emissionIntensity);
             }
             else
             {
-                // ¹Ø±Õ¸ßÁÁ£º»Ö¸´ºÚÉ«£¨ÎŞ×Ô·¢¹â£©
+                // å…³é—­é«˜äº®ï¼šæ¢å¤é»‘è‰²ï¼ˆæ— è‡ªå‘å…‰ï¼‰
                 _propBlock.SetColor("_EmissionColor", Color.black);
             }
 

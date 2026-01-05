@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
@@ -7,15 +7,15 @@ using System.Collections;
 [Serializable]
 public class BossJumpEffect : SkillEffect
 {
-    [Header("ÌøÔ¾²ÎÊı")]
+    [Header("è·³è·ƒå‚æ•°")]
     public float height = 5.0f;
-    public float duration = 1.0f; // ÉÏÉı/ÏÂÂäµÄÊ±¼ä
-    public bool isLanding = false; // true=ÏÂÂäÔÒµØ£¬false=ÆğÌø
+    public float duration = 1.0f; // ä¸Šå‡/ä¸‹è½çš„æ—¶é—´
+    public bool isLanding = false; // true=ä¸‹è½ç ¸åœ°ï¼Œfalse=èµ·è·³
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
         if (!caster.TryGetComponent<UnityEngine.AI.NavMeshAgent>(out var agent)) return;
-        // Æô¶¯Ò»¸ö¶ÀÁ¢µÄÒÆ¶¯Ğ­³ÌÀ´´¦ÀíÆ½»¬Î»ÒÆ
+        // å¯åŠ¨ä¸€ä¸ªç‹¬ç«‹çš„ç§»åŠ¨åç¨‹æ¥å¤„ç†å¹³æ»‘ä½ç§»
         caster.GetComponent<NetworkBehaviour>().StartCoroutine(
             JumpRoutine(caster.transform, agent, isLanding)
         );
@@ -25,12 +25,12 @@ public class BossJumpEffect : SkillEffect
     {
         float timer = 0f;
         Vector3 startPos = bossInfo.position;
-        // Èç¹ûÊÇÆğÌø£ºÄ¿±êÊÇµ±Ç°Î»ÖÃÉÏ·½£»Èç¹ûÊÇÏÂÂä£ºÄ¿±êÊÇµØÃæ£¨¼òµ¥´¦ÀíÎª y=0 »ò raycast µØÃæ£©
+        // å¦‚æœæ˜¯èµ·è·³ï¼šç›®æ ‡æ˜¯å½“å‰ä½ç½®ä¸Šæ–¹ï¼›å¦‚æœæ˜¯ä¸‹è½ï¼šç›®æ ‡æ˜¯åœ°é¢ï¼ˆç®€å•å¤„ç†ä¸º y=0 æˆ– raycast åœ°é¢ï¼‰
         Vector3 endPos = landing ? new Vector3(startPos.x, 0, startPos.z) : startPos + Vector3.up * height;
 
         if (!landing)
         {
-            // ÆğÌøÇ°½ûÓÃ NavMeshAgent£¬·ñÔò Transform ÉõÖÁ¶¯²»ÁË
+            // èµ·è·³å‰ç¦ç”¨ NavMeshAgentï¼Œå¦åˆ™ Transform ç”šè‡³åŠ¨ä¸äº†
             agent.enabled = false;
         }
 
@@ -38,7 +38,7 @@ public class BossJumpEffect : SkillEffect
         {
             timer += Time.deltaTime;
             float t = timer / duration;
-            // Ê¹ÓÃ¼òµ¥µÄ Lerp£¬Èç¹ûÒªÆ½»¬¿ÉÒÔÓÃ AnimationCurve
+            // ä½¿ç”¨ç®€å•çš„ Lerpï¼Œå¦‚æœè¦å¹³æ»‘å¯ä»¥ç”¨ AnimationCurve
             bossInfo.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
@@ -47,9 +47,9 @@ public class BossJumpEffect : SkillEffect
 
         if (landing)
         {
-            // ÂäµØºó»Ö¸´ NavMeshAgent
+            // è½åœ°åæ¢å¤ NavMeshAgent
             agent.enabled = true;
-            // ¿ÉÒÔÔÚÕâÀï·ÀÖ¹´©Ä££¬ÖØĞÂ Warp µ½ NavMesh ÉÏ
+            // å¯ä»¥åœ¨è¿™é‡Œé˜²æ­¢ç©¿æ¨¡ï¼Œé‡æ–° Warp åˆ° NavMesh ä¸Š
             if (UnityEngine.AI.NavMesh.SamplePosition(bossInfo.position, out var hit, 2.0f, UnityEngine.AI.NavMesh.AllAreas))
             {
                 agent.Warp(hit.position);

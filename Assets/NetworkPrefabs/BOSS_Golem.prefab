@@ -240,12 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
   ShowTopMostFoldoutHeaderGroup: 1
-  _view: {fileID: 7721159412951348067}
   _skills:
   - {fileID: 11400000, guid: eb9092bca05d2df499a77d14e5e51269, type: 2}
-  - {fileID: 11400000, guid: 9303b4ea36bf8a64ea64024d600e7c50, type: 2}
-  - {fileID: 11400000, guid: 69587fb529ff7f348abf4790ceabd7a9, type: 2}
-  - {fileID: 11400000, guid: b1ae9c5aa9e0adc40b0a425691dde72e, type: 2}
   _maxHealth: 100
   ChaseRange: 30
   BasicAttackRange: 3.5
@@ -372,7 +368,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4894528786394434}
-  m_LocalEulerAnglesHint: {x: -0.66065073, y: -16.791199, z: -2.1882825}
+  m_LocalEulerAnglesHint: {x: -0.66065043, y: -16.791199, z: -2.1882823}
 --- !u!1 &1124596519333206
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +767,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4699477660470766}
-  m_LocalEulerAnglesHint: {x: 0.6606797, y: 16.79154, z: 177.81166}
+  m_LocalEulerAnglesHint: {x: 0.66067946, y: 16.79154, z: 177.81166}
 --- !u!1 &1623131121118994
 GameObject:
   m_ObjectHideFlags: 0

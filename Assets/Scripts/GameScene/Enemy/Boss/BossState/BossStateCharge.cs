@@ -1,129 +1,81 @@
-using System;
-using Unity.Netcode;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class BossStateCharge : BossBaseState
 {
-    private float _timer;
-    private float _duration;
+    private Coroutine _chargeCoroutine; private SkillDataSO _currentSkill;
 
     public BossStateCharge(BossController controller, BossStateMachine sm) : base(controller, sm) { }
 
-    public override void Enter()
+    public override void OnEnter()
     {
-        var skillData = _controller.CurrentSkillData;
-        string animName = skillData != null && !string.IsNullOrEmpty(skillData.chargeAnimationName)
-            ? skillData.chargeAnimationName
-            : "Idle";
+        int skillIndex = _stateMachine.PendingSkillIndex;
+        if (skillIndex == -1 || skillIndex >= _controller.Skills.Length)
+        {
+            // å¼‚å¸¸ä¿æŠ¤ï¼šå¦‚æœæ²¡æœ‰åˆæ³•æŠ€èƒ½ï¼Œç›´æ¥åˆ‡å› Idle
+            if (_controller.IsServer) _controller.SetState(BossController.BossMotionState.Idle);
+            return;
+        }
 
-        // [±íÏÖ] ²¥·ÅĞîÁ¦¶¯»­
-        _view.PlayAnimation(animName);
+        _currentSkill = _controller.Skills[skillIndex];
 
-        // [Âß¼­ - Server]
+        // æ’­æ”¾è“„åŠ›åŠ¨ç”»
+        string animName = !string.IsNullOrEmpty(_currentSkill.chargeAnimationName) ? _currentSkill.chargeAnimationName : "Idle";
+        PlayAnimation(animName, 0.05f);
+
         if (_controller.IsServer)
         {
-            _timer = 0f;
-            _duration = skillData != null ? skillData.chargeDuration : 0f;
-            if (_controller.Agent.isOnNavMesh) _controller.Agent.ResetPath();
+            if (_controller.Agent.isOnNavMesh)
+                _controller.Agent.ResetPath();
 
-            // --- ºËĞÄĞŞ¸´£º¼ÆËãÎ»ÖÃ²¢µ÷ÓÃ Controller µÄ·½·¨ ---
-            if (skillData != null)
+            // è§¦å‘è“„åŠ›ç‰¹æ•ˆ
+            Vector3 spawnPos = _controller.transform.position;
+            if (!_currentSkill.isSelfCentered && _controller.Target != null)
             {
-                // 1. ¼ÆËãÌØĞ§Éú³ÉÎ»ÖÃ
-                Vector3 spawnPos = _controller.transform.position; // Ä¬ÈÏ×ÔÉíÖĞĞÄ
+                spawnPos = _controller.Target.transform.position;
+            }
+            _controller.TriggerChargeVisuals(spawnPos, _currentSkill.chargeDuration);
 
-                // Èç¹û¼¼ÄÜ²»ÊÇÒÔ×ÔÉíÎªÖĞĞÄ£¬ÇÒÓĞÄ¿±ê£¬ÔòÔÚÄ¿±ê½ÅÏÂÉú³É
-                if (!skillData.isSelfCentered && _controller.Target != null)
-                {
-                    spawnPos = _controller.Target.transform.position;
-                }
+            // å¼€å¯è®¡æ—¶
+            _chargeCoroutine = _controller.StartCoroutine(EndChargeRoutine(_currentSkill.chargeDuration));
+        }
+    }
 
-                // 2. ´¥·¢ RPC
-                // ×¢Òâ£ºÕâÀï²»ĞèÒªÅĞ¿Õ prefabs£¬ÒòÎª RPC ÄÚ²¿»áÈ¥¼ì²é£¬
-                // ÕâÑù·şÎñ¶ËÂß¼­¸ü¼ò½à£¬Ö»¸ºÔğ¡°·¢ÆğÖ¸Áî¡±
-                _controller.TriggerChargeVisuals(spawnPos, _duration);
+    public override void OnUpdate()
+    {
+        if (!_controller.IsServer) return;
+
+        // æŒç»­æœå‘ç›®æ ‡
+        _controller.RotateTowardsTarget();
+
+        // ã€æ–°å¢é€»è¾‘ã€‘è“„åŠ›æ‰“æ–­æ£€æµ‹
+        if (_currentSkill != null && _currentSkill.ifChargeInteruptable && _controller.Target != null)
+        {
+            float dist = Vector3.Distance(_controller.transform.position, _controller.Target.transform.position);
+            // å¦‚æœç©å®¶é€ƒå‡ºäº†æŠ€èƒ½èŒƒå›´ï¼ˆåŠ ä¸Š 1.0f çš„å®½å®¹åº¦ï¼‰ï¼Œå–æ¶ˆè“„åŠ›
+            if (dist > _currentSkill.castRadius + 1.0f)
+            {
+                Debug.Log("[Boss] Target escaped charge range, switching to Move.");
+                _controller.SetState(BossController.BossMotionState.Chase);
+                return;
             }
         }
     }
 
-    public override void Update()
+    public override void OnExit()
     {
-        // [Í¨ÓÃ] ¿ÉÒÔÔÚÕâÀï´¦ÀíĞîÁ¦ÌØĞ§µÄUpdate (±ÈÈç¹âÈ¦±ä´ó)
-
-        // [Âß¼­ - Server]
-        if (_controller.IsServer)
+        // é€€å‡ºçŠ¶æ€æ—¶ï¼Œå¿…é¡»æ€æ­»åç¨‹
+        if (_chargeCoroutine != null)
         {
-            _timer += Time.deltaTime;
-            _controller.RotateTowardsTarget();
-
-            if (_timer >= _duration)
-            {
-                // ĞîÁ¦½áÊø£¬½øÈëÊÍ·Å×´Ì¬
-                _controller.SetState(BossController.BossMotionState.Skill);
-            }
+            _controller.StopCoroutine(_chargeCoroutine);
+            _chargeCoroutine = null;
         }
     }
 
-    // [ĞÂÔö] ×¨ÃÅÓÃÓÚÉú³É´¿ÊÓ¾õĞîÁ¦ÌØĞ§µÄ RPC
-    [ClientRpc]
-    private void SpawnChargeVisualsClientRpc()
-    {   // ²ÎÊı´«Èë ĞîÁ¦ÊÓ¾õĞ§¹ûÔ¤ÖÆÌåÁĞ±í List<GameObject>
-        // Éú³ÉÎïÌå
-        // Éú³ÉµÄÎïÌå×Ô¶¯¹ÜÀíÉúÃüÖÜÆÚ
-        // ²ÎÊı¿ÉÄÜ»¹ĞèÒªÉú³ÉÎ»ÖÃ£¬ÒÔ¼°ĞîÁ¦Ê±¼äÀ´¿ØÖÆ×Ô¼ºµÄ³É³¤ËÙ¶È
+    private IEnumerator EndChargeRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        // è“„åŠ›ç»“æŸï¼Œåˆ‡æ¢åˆ° Skill (Active) çŠ¶æ€
+        _controller.SetState(BossController.BossMotionState.Skill);
     }
 }
-
-//// [FILE START: Assets\Scripts\GameScene\Enemy\Boss\BossState\BossStateCharge.cs]
-//using UnityEngine;
-//using static BossController;
-
-//public class BossStateCharge : BossBaseState
-//{
-//    private float timer;
-//    public BossStateCharge(BossController bossController, BossPresentation view) : base(bossController, view)
-//    {
-//    }
-//    public override void Enter()
-//    {
-//        // ¿Í»§¶ËÂß¼­£º²¥·ÅĞîÁ¦¶¯»­£¨²»¹ÜÊÇServer»¹ÊÇClient£¬Ö»Òª±¾µØÓĞView¶¼ĞèÒª²¥£©
-//        if (base._view != null)
-//        {
-//            //base._view.Animator.CrossFade(base._bossController.CurrentChargeAnimName, 0.1f);
-//            // Éú³ÉĞîÁ¦ÌØĞ§
-//            //base._bossController.SpawnChargeVFX();
-//        }
-
-//        // ·şÎñ¶ËÂß¼­£ºÖØÖÃ¼ÆÊ±Æ÷
-//        if (base._bossController.IsServer)
-//        {
-//            timer = 0f;
-//        }
-//    }
-
-//    public override void Update()
-//    {
-//        // --- Âß¼­·ÖÁ÷ ---
-
-//        // ·şÎñ¶ËÖ°Ôğ£º´¦Àíµ¹¼ÆÊ±¡¢×´Ì¬ÇĞ»»¡¢Êı¾İ¼ÆËã
-//        if (base._bossController.IsServer)
-//        {
-//            timer += Time.deltaTime;
-//            // Ê¼ÖÕÃæÏòÍæ¼Ò
-//            //base._bossController.RotateToTarget();
-
-//            //if (timer >= base._bossController.CurrentSkillData.chargeDuration)
-//            //{
-//            //    // Ê±¼äµ½£¬ÇĞÈë Active ×´Ì¬
-//            //    base._bossController.StateMachine.ChangeState(BossMotionState.SkillActive);
-//            //}
-//        }
-
-//        // ¿Í»§¶ËÖ°Ôğ£ºÈç¹ûÓĞĞèÒªÃ¿Ö¡¸üĞÂµÄÊÓ¾õĞ§¹û£¨±ÈÈçºìÈ¦¸úËæ±äÉ«¡¢¾ÛÆøÁ£×ÓÔöÇ¿£©
-//        if (base._bossController.IsClient)
-//        {
-//            // ÕâÀï´¦Àí´¿ÊÓ¾õµÄÃ¿Ö¡¸üĞÂ
-//        }
-//    }
-//}
-//// [FILE END]

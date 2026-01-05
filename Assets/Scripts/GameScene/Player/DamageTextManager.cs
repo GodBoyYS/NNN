@@ -1,13 +1,13 @@
-using System.Net.NetworkInformation;
+ï»¿using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class DamageTextManager : MonoBehaviour
 {
     public static DamageTextManager Instance {  get; private set; }
-    [Header("ÅäÖÃ")]
+    [Header("é…ç½®")]
     [SerializeField] private DamageText textPrefab;
-    [SerializeField] private Canvas gameCanvas; // È·±£ÊÇscreen space - overlay
+    [SerializeField] private Canvas gameCanvas; // ç¡®ä¿æ˜¯screen space - overlay
 
     // 2.define the pool
     private ObjectPool<DamageText> _pool;
@@ -40,7 +40,7 @@ public class DamageTextManager : MonoBehaviour
     private void OnGetText(DamageText text)
     {
         text.gameObject.SetActive(true);
-        text.transform.localScale = Vector3.one; // ÖØÖÃËõ·Å£¬·ÀÖ¹ÉÏ´Î¶¯»­²ĞÁô
+        text.transform.localScale = Vector3.one; // é‡ç½®ç¼©æ”¾ï¼Œé˜²æ­¢ä¸Šæ¬¡åŠ¨ç”»æ®‹ç•™
         // here can make some animations
     }
     // C.what to do when release to the pool? --> hide
@@ -60,10 +60,10 @@ public class DamageTextManager : MonoBehaviour
         if (textPrefab == null) return;
         // 4. use Get instead of instantiate
         var instance = _pool.Get();
-        // 2.¼ÆËãÆÁÄ»Î»ÖÃ£¨ÊÀ½ç×ø±ê->ÆÁÄ»×ø±ê£©
+        // 2.è®¡ç®—å±å¹•ä½ç½®ï¼ˆä¸–ç•Œåæ ‡->å±å¹•åæ ‡ï¼‰
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
         instance.transform.position = screenPos;
-        // ÉèÖÃÊıÖµ
+        // è®¾ç½®æ•°å€¼
         instance.Setup(amount);
     }
 

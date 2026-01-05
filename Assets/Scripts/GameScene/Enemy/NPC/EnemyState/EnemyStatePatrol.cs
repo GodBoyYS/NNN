@@ -1,5 +1,5 @@
-public class EnemyStatePatrol : IEnemyState
-{   // ÔİÊ±²»×ö-->idleÊ±²»Ê±ÇĞ»»µ½patrol£¬patrolÇĞ»»µ½×·Öğ/¹¥»÷/idle
+ï»¿public class EnemyStatePatrol : IEnemyState
+{   // æš‚æ—¶ä¸åš-->idleæ—¶ä¸æ—¶åˆ‡æ¢åˆ°patrolï¼Œpatrolåˆ‡æ¢åˆ°è¿½é€/æ”»å‡»/idle
     public void Enter()
     {
     }

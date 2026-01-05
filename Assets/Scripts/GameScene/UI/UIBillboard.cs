@@ -1,4 +1,4 @@
-// [FILE START: Assets\Scripts\GameScene\UI\UIBillboard.cs]
+ï»¿// [FILE START: Assets\Scripts\GameScene\UI\UIBillboard.cs]
 using UnityEngine;
 
 public class UIBillboard : MonoBehaviour
@@ -15,8 +15,8 @@ public class UIBillboard : MonoBehaviour
         if (_mainCamera == null) _mainCamera = Camera.main;
         if (_mainCamera == null) return;
 
-        // ÈÃ UI Ğı×ªÒÔÃæ³¯ÉãÏñ»ú
-        // Ê¹ÓÃ LookAt µÄ·´ÏòÂß¼­»òÕß forward ¶ÔÆëÂß¼­
+        // è®© UI æ—‹è½¬ä»¥é¢æœæ‘„åƒæœº
+        // ä½¿ç”¨ LookAt çš„åå‘é€»è¾‘æˆ–è€… forward å¯¹é½é€»è¾‘
         transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward, _mainCamera.transform.rotation * Vector3.up);
     }
 }

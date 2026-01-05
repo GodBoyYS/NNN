@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Unity.Netcode;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -14,8 +14,8 @@ public class LaserVisual : NetworkBehaviour
     private void Awake()
     {
         _line = GetComponent<LineRenderer>();
-        // È·±£Ê¹ÓÃ±¾µØ×ø±ê£¬ÕâÑùÎÒÃÇÒÆ¶¯ÎïÌå£¬ÏßÒ²»á¸ú×Å¶¯£»
-        // Èç¹ûÏëÈÃ¼¤¹â¹Ì¶¨ÔÚÊÀ½ç×ø±ê²»ËæBOSS×ª¶¯£¬¿ÉÒÔÔÚÉú³Éºó²»ÉèParent
+        // ç¡®ä¿ä½¿ç”¨æœ¬åœ°åæ ‡ï¼Œè¿™æ ·æˆ‘ä»¬ç§»åŠ¨ç‰©ä½“ï¼Œçº¿ä¹Ÿä¼šè·Ÿç€åŠ¨ï¼›
+        // å¦‚æžœæƒ³è®©æ¿€å…‰å›ºå®šåœ¨ä¸–ç•Œåæ ‡ä¸éšBOSSè½¬åŠ¨ï¼Œå¯ä»¥åœ¨ç”ŸæˆåŽä¸è®¾Parent
         _line.useWorldSpace = false;
     }
 
@@ -29,7 +29,7 @@ public class LaserVisual : NetworkBehaviour
         _line.startWidth = width;
         _line.endWidth = width;
 
-        // ³õÊ¼»¯³¤¶È
+        // åˆå§‹åŒ–é•¿åº¦
         _line.SetPosition(0, Vector3.zero);
         _line.SetPosition(1, Vector3.forward * startLen);
 
@@ -44,10 +44,10 @@ public class LaserVisual : NetworkBehaviour
         _timer += Time.deltaTime;
         float progress = Mathf.Clamp01(_timer / _growthDuration);
 
-        // ¼ÆËãµ±Ç°³¤¶È
+        // è®¡ç®—å½“å‰é•¿åº¦
         float currentLen = Mathf.Lerp(_startLen, _maxLen, progress);
 
-        // ¸üÐÂ LineRenderer ÖÕµã (ÔÚ±¾µØ Z ÖáÑÓÉì)
+        // æ›´æ–° LineRenderer ç»ˆç‚¹ (åœ¨æœ¬åœ° Z è½´å»¶ä¼¸)
         _line.SetPosition(1, Vector3.forward * currentLen);
 
         if (progress >= 1.0f)

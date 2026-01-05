@@ -1,4 +1,4 @@
-using UnityEditor.VersionControl;
+﻿using UnityEditor.VersionControl;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]

@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerNetworkCore))]
@@ -27,11 +27,11 @@ public class PlayerInputManager : NetworkBehaviour
     {
         if (!IsOwner)
         {
-            enabled = false; // ·Çowner²»ÅÜ update
+            enabled = false; // éownerä¸è·‘ update
             return;
         }
         _mainCamera = Camera.main;
-        // ¿ÉÑ¡£¬ËÀÍöºó½ûÓÃÊäÈë£¨authorityÒ²»á¾Ü¾øÃüÁî£¬Ë«±£ÏÕ£©
+        // å¯é€‰ï¼Œæ­»äº¡åç¦ç”¨è¾“å…¥ï¼ˆauthorityä¹Ÿä¼šæ‹’ç»å‘½ä»¤ï¼ŒåŒä¿é™©ï¼‰
         if( _core != null )
         {
             _core.LifeVar.OnValueChanged += OnLifeChanged;
@@ -56,25 +56,25 @@ public class PlayerInputManager : NetworkBehaviour
         if (!IsOwner) return;
         //if (_authority == null) return;
         if (_movement == null) return;
-        // Stop:ÑİÊ¾S¼üÍ£Ö¹
+        // Stop:æ¼”ç¤ºSé”®åœæ­¢
         if (Input.GetKeyDown(KeyCode.S))
         {
             //_authority.RequestStop();
             _movement.RequestStop();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.A)) // ¼ÙÉèA¼ü²âÊÔÆÕ¹¥£¬»òÕßÓÃÊó±ê×ó¼ü
+        if (Input.GetKeyDown(KeyCode.A)) // å‡è®¾Aé”®æµ‹è¯•æ™®æ”»ï¼Œæˆ–è€…ç”¨é¼ æ ‡å·¦é”®
         {
-            // ÇëÇóË÷Òı 0 (ÆÕ¹¥)
-            // ÕâÀïµÄ aimPos ¿ÉÒÔÊÇÊó±êÖ¸ÏòµÄÎ»ÖÃ
+            // è¯·æ±‚ç´¢å¼• 0 (æ™®æ”»)
+            // è¿™é‡Œçš„ aimPos å¯ä»¥æ˜¯é¼ æ ‡æŒ‡å‘çš„ä½ç½®
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Vector3 aimPos = transform.position + transform.forward; // Ä¬ÈÏÇ°·½
+            Vector3 aimPos = transform.position + transform.forward; // é»˜è®¤å‰æ–¹
             _combat.RequestCastSkill(0, aimPos);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            // ÇëÇóË÷Òı 1 (Q¼¼ÄÜ)
+            // è¯·æ±‚ç´¢å¼• 1 (QæŠ€èƒ½)
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 aimPos = transform.position;
             if (Physics.Raycast(ray, out RaycastHit hit, rayMaxDistance, groundLayer))
@@ -88,7 +88,7 @@ public class PlayerInputManager : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            // ÇëÇóË÷Òı 1 (Q¼¼ÄÜ)
+            // è¯·æ±‚ç´¢å¼• 1 (QæŠ€èƒ½)
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 aimPos = transform.position;
             if (Physics.Raycast(ray, out RaycastHit hit, rayMaxDistance, groundLayer))
@@ -100,7 +100,7 @@ public class PlayerInputManager : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // ÇëÇóË÷Òı 1 (Q¼¼ÄÜ)
+            // è¯·æ±‚ç´¢å¼• 1 (QæŠ€èƒ½)
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             Vector3 aimPos = transform.position;
             if (Physics.Raycast(ray, out RaycastHit hit, rayMaxDistance, groundLayer))
@@ -111,23 +111,23 @@ public class PlayerInputManager : NetworkBehaviour
             return;
         }
 
-        // move:ÓÒ¼üµã»÷µØÃæ or ¿É½»»¥ÎïÌå
+        // move:å³é”®ç‚¹å‡»åœ°é¢ or å¯äº¤äº’ç‰©ä½“
         if (Input.GetMouseButtonDown(1))
         {
             if (_mainCamera == null) _mainCamera = Camera.main;
             if (_mainCamera == null) return;
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            // µã»÷µ½½»»¥²ã£¬ÏÈ²»´¦Àí
+            // ç‚¹å‡»åˆ°äº¤äº’å±‚ï¼Œå…ˆä¸å¤„ç†
             if (Physics.Raycast(ray, out RaycastHit interactHit, rayMaxDistance, interactLayer))
             {
                 if(interactHit.collider.TryGetComponent<IInteractable>(out var interact))
                 {
-                    // Èç¹û´æÔÚ ½»»¥prompt£¬ÄÇÃ´½Ó¿Ú´úÂëÊÇ·ñÓ¦¸ÃÊÇ
+                    // å¦‚æœå­˜åœ¨ äº¤äº’promptï¼Œé‚£ä¹ˆæ¥å£ä»£ç æ˜¯å¦åº”è¯¥æ˜¯
                     // interact.Interact(gameObject, "Open"/ "PickUp");
-                    Debug.Log("µã»÷µ½½»»¥²ã£¬»ñÈ¡½»»¥½Ó¿Ú");
+                    Debug.Log("ç‚¹å‡»åˆ°äº¤äº’å±‚ï¼Œè·å–äº¤äº’æ¥å£");
                     interact.Interact(gameObject);
                 }
-                //Debug.Log("µã»÷µ½½»»¥²ã£¬¹¥»÷ ×é¼şÔİÊ±Ã»ÓĞ´¦Àí¹¥»÷");
+                //Debug.Log("ç‚¹å‡»åˆ°äº¤äº’å±‚ï¼Œæ”»å‡» ç»„ä»¶æš‚æ—¶æ²¡æœ‰å¤„ç†æ”»å‡»");
                 //var netObj = interactHit.collider.GetComponentInParent<NetworkObject>();
                 //_authority.RequestAttack(netObj);
                 //_movement.RequestAttack(netObj);

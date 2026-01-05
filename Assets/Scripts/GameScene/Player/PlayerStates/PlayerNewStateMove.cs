@@ -1,4 +1,4 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 
 public class PlayerNewStateMove : PlayerBaseState
 {
@@ -32,7 +32,7 @@ public class PlayerNewStateMove : PlayerBaseState
         {
             StateLogic();
 
-            // 只有在当前状态仍为Move时才执行
+            // 鍙湁鍦ㄥ綋鍓嶇姸鎬佷粛涓篗ove鏃舵墠鎵ц
             if (_controller.StateMachine.CurrentState == this)
             {
                 PerformMove();
@@ -90,10 +90,14 @@ public class PlayerNewStateMove : PlayerBaseState
 
         if (skillIdx != -1)
         {
-            // 关键修改：检查CD
+            // 鍏抽敭淇敼锛氭鏌D
             if (_controller.Combat.IsSkillReadyClient(skillIdx))
             {
                 //_controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
+                // [淇] 璁板綍鎶�鑳界储寮曞拰榧犳爣鐩爣浣嶇疆
+                _controller.StateMachine.PendingSkillIndex = skillIdx;
+                _controller.StateMachine.PendingAimPosition = _currentInput.MouseWorldPos;
+
                 _controller.StateMachine.ChangeState(_controller.StateMachine.StateCharge);
                 return true;
             }

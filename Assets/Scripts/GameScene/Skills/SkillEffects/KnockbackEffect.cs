@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using System.Collections;
 
@@ -11,7 +11,7 @@ public class KnockbackEffect : SkillEffect
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // Ñ°ÕÒ·¶Î§ÄÚµÄµ¹Ã¹µ°
+        // å¯»æ‰¾èŒƒå›´å†…çš„å€’éœ‰è›‹
         Collider[] hits = Physics.OverlapSphere(caster.transform.position, radius);
         foreach (var hit in hits)
         {
@@ -19,10 +19,10 @@ public class KnockbackEffect : SkillEffect
             if (hit.TryGetComponent<IKnockBackable>(out var knockCmpnt))
             {
                 Vector3 dir = (hit.transform.position - caster.transform.position).normalized;
-                dir.y = 0.5f; // ¸ø¸ü¸ßµÄ Y Öµ£¬È·±£ÄÜÌøÆğÀ´
+                dir.y = 0.5f; // ç»™æ›´é«˜çš„ Y å€¼ï¼Œç¡®ä¿èƒ½è·³èµ·æ¥
 
                 knockCmpnt.ApplyKnockbackServer(dir, force);
-                Debug.Log($"»÷·ÉÁË {hit.name}");
+                Debug.Log($"å‡»é£äº† {hit.name}");
             }
         }
     }

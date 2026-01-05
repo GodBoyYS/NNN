@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerNewStateCharge : PlayerBaseState
 {
     private bool stateFinished = false;
     SkillDataSO _currentSkill;
-    // ¹Ø¼ü£º±£´æĞ­³ÌµÄÒıÓÃ
+    // å…³é”®ï¼šä¿å­˜åç¨‹çš„å¼•ç”¨
     private Coroutine _timerCoroutine;
     public PlayerNewStateCharge(PlayerMainController controller) : base(controller)
     {
@@ -15,47 +15,36 @@ public class PlayerNewStateCharge : PlayerBaseState
 
         if (_controller.IsOwner)
         {
-            // Á¢¼´¶ÁÈ¡ÊäÈë£¨Í¬ Move ×´Ì¬µÄĞŞ¸´Âß¼­£©
-            var input = _controller.Input;
-            int skillIndex = -1;
-
-            if (input.AttackDown) skillIndex = 0;
-            else if (input.SkillQDown) skillIndex = 1;
-            else if (input.SkillWDown) skillIndex = 2;
-            else if (input.SkillEDown) skillIndex = 3;
+            // ç«‹å³è¯»å–è¾“å…¥ï¼ˆåŒ Move çŠ¶æ€çš„ä¿®å¤é€»è¾‘ï¼‰
+            int skillIndex = _controller.StateMachine.PendingSkillIndex;
+            Vector3 aimPos = _controller.StateMachine.PendingAimPosition; // è·å–å­˜å‚¨çš„ä½ç½®
 
             if (skillIndex != -1)
             {
-                // ¡¾ĞÂÔö¡¿°ÑÕâ¸ö index ´æÈë×´Ì¬»ú£¬¹©ºóĞø×´Ì¬Ê¹ÓÃ
+                // ã€æ–°å¢ã€‘æŠŠè¿™ä¸ª index å­˜å…¥çŠ¶æ€æœºï¼Œä¾›åç»­çŠ¶æ€ä½¿ç”¨
                 _controller.StateMachine.PendingSkillIndex = skillIndex;
-                // 1. »ñÈ¡²¢²¥·Å¶¯»­
+                // 1. è·å–å¹¶æ’­æ”¾åŠ¨ç”»
                 //string animName = _controller.Combat.GetSkillAnimationName(skillIndex);
                 string animName = _controller.Combat.GetSkillChargeAnimation(skillIndex);
                 _controller.Animator.CrossFade(animName, 0.05f);
 
-                // 2. »ñÈ¡¼¼ÄÜÊı¾İÒÔ¼ÆËã³ÖĞøÊ±¼ä
-                 _currentSkill = _controller.Combat.GetSkillDataByIndex(skillIndex);
+                
+
+                // 3. è·å–æŠ€èƒ½æ•°æ®ä»¥è®¡ç®—æŒç»­æ—¶é—´
+                _currentSkill = _controller.Combat.GetSkillDataByIndex(skillIndex);
                 float duration = _currentSkill.chargeDuration;
-                //float duration = skillData != null ? 0.8f : 0.5f; // ½¨Òé´Ó SkillDataSO ÖĞ¶ÁÈ¡ AnimationDuration
-
-                // 3. ¼ÆËãÃé×¼Î»ÖÃ
-                //Vector3 aimPos = input.HasMouseTarget ? input.MouseWorldPos : _controller.transform.position + _controller.transform.forward;
-
-                // 4. ·¢ËÍÍøÂçÇëÇó
-                //_controller.Combat.RequestCastSkill(skillIndex, aimPos);
-
-                // 5. Æô¶¯½áÊøĞ­³Ì
+                // 5. å¯åŠ¨ç»“æŸåç¨‹
                 _timerCoroutine = _controller.StartCoroutine(EndStateRoutine(duration));
             }
             else
             {
-                // Èç¹ûÃ»ÓĞ¼ì²âµ½°´¼ü£¨Òì³£Çé¿ö£©£¬Ö±½ÓÍË³ö
+                // å¦‚æœæ²¡æœ‰æ£€æµ‹åˆ°æŒ‰é”®ï¼ˆå¼‚å¸¸æƒ…å†µï¼‰ï¼Œç›´æ¥é€€å‡º
                 stateFinished = true;
             }
         }
     }
 
-    // ÏÂÃæµÄ·½·¨ĞèÒª¸üĞÂÃû³ÆÎª£ºEndStateRoutine
+    // ä¸‹é¢çš„æ–¹æ³•éœ€è¦æ›´æ–°åç§°ä¸ºï¼šEndStateRoutine
     private System.Collections.IEnumerator EndStateRoutine(float time)
     {
         yield return new WaitForSeconds(time);
@@ -99,7 +88,7 @@ public class PlayerNewStateCharge : PlayerBaseState
     {
         if (_currentInput.InteractDown && _currentInput.HasMouseTarget && _currentSkill.ifChargeInteruptable)
         {
-            Debug.Log("ÔÚCharge×´Ì¬¼ì²âµ½ÒÆ¶¯ÊäÈë£¬ÇÒÓĞµã»÷µÄÄ¿±ê£¬×¼±¸ÇĞ»»µ½ ÒÆ¶¯×´Ì¬");
+            Debug.Log("åœ¨ChargeçŠ¶æ€æ£€æµ‹åˆ°ç§»åŠ¨è¾“å…¥ï¼Œä¸”æœ‰ç‚¹å‡»çš„ç›®æ ‡ï¼Œå‡†å¤‡åˆ‡æ¢åˆ° ç§»åŠ¨çŠ¶æ€");
             _controller.StateMachine.ChangeState(_controller.StateMachine.StateMove);
             return true;
         }

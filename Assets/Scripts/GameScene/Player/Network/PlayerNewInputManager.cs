@@ -1,24 +1,24 @@
-using System.Globalization;
+ï»¿using System.Globalization;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
-// 1. ¶¨ÒåÊäÈëÊı¾İ°ü
+// 1. å®šä¹‰è¾“å…¥æ•°æ®åŒ…
 public struct FrameInput
 {
-    public Vector2 MoveInput; // WASD ÊäÈë
-    public bool AttackDown; // ×ó¼ü
-    public bool SkillQDown; // Q¼ü
-    public bool SkillWDown; // W¼ü
-    public bool SkillEDown; // E¼ü
-    public bool StopDown; // S¼ü (Ç¿ÖÆÍ£Ö¹)
-    public bool InteractDown; // ÓÒ¼ü (½»»¥)
-    public Vector3 MouseWorldPos; // Êó±êµã»÷µÄÊÀ½ç×ø±ê(ÓÃÓÚÒÆ¶¯/¼¼ÄÜÃé×¼)
-    public bool HasMouseTarget; // Êó±êÊÇ·ñµãµ½ÁËÓĞĞ§µØÃæ/Ä¿±ê
+    public Vector2 MoveInput; // WASD è¾“å…¥
+    public bool AttackDown; // å·¦é”®
+    public bool SkillQDown; // Qé”®
+    public bool SkillWDown; // Wé”®
+    public bool SkillEDown; // Eé”®
+    public bool StopDown; // Sé”® (å¼ºåˆ¶åœæ­¢)
+    public bool InteractDown; // å³é”® (äº¤äº’)
+    public Vector3 MouseWorldPos; // é¼ æ ‡ç‚¹å‡»çš„ä¸–ç•Œåæ ‡(ç”¨äºç§»åŠ¨/æŠ€èƒ½ç„å‡†)
+    public bool HasMouseTarget; // é¼ æ ‡æ˜¯å¦ç‚¹åˆ°äº†æœ‰æ•ˆåœ°é¢/ç›®æ ‡
     public RaycastHit MouseHit;
 }
 
 
-// 2. ¸ÄÔì InputManager
+// 2. æ”¹é€  InputManager
 public class PlayerNewInputManager : NetworkBehaviour
 {
     [Header("Raycast Layers")]
@@ -33,7 +33,7 @@ public class PlayerNewInputManager : NetworkBehaviour
         }
         else
         {
-            enabled = false; // ·Ç±¾µØÍæ¼Ò²»ĞèÒª´¦ÀíÊäÈë
+            enabled = false; // éæœ¬åœ°ç©å®¶ä¸éœ€è¦å¤„ç†è¾“å…¥
         }
     }
     private void Update()
@@ -55,7 +55,7 @@ public class PlayerNewInputManager : NetworkBehaviour
             HasMouseTarget = false,
         };
 
-        // »ñÈ¡Êó±êÉäÏß½á¹û
+        // è·å–é¼ æ ‡å°„çº¿ç»“æœ
         if (_mainCamera != null)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);

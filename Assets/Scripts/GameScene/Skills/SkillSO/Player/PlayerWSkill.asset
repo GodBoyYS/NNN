@@ -12,25 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: PlayerWSkill
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
-  coolDown: 2
+  _chargeClip: {fileID: 7400000, guid: ef9208b506c12494a979b027e605aa33, type: 2}
+  _activeClip: {fileID: 7400000, guid: c7692027c6e060b49807c153154bffba, type: 2}
+  _recoveryClip: {fileID: 7400000, guid: 795d90b34afa1a742b70550293a5b57e, type: 2}
+  coolDown: 3
   castRadius: 2
-  chargeDuration: 1.5
-  chargeAnimationName: Idle
+  chargeDuration: 0.53333336
+  chargeAnimationName: NewWSkillCharge
   warningPrefab: {fileID: 0}
   chargeVisualPrefabs: []
-  skillActiveAnimationName: WSkill
+  ifChargeInteruptable: 1
+  activeDuration: 3.3333333
+  activeAnimationName: NewWSkill
   effects:
-  - rid: 3250261351905886277
-  isSelfCentered: 0
-  skillRecoveryAnimationName: 
+  - rid: 3626011346432163941
+  isSelfCentered: 1
+  ifActiveInteruptable: 0
+  canMoveDuringActive: 1
+  recoveryDuration: 0.5
+  recoveryAnimationName: NewWSkillRecovery
+  ifRecoveryInteruptable: 1
   references:
     version: 2
     RefIds:
-    - rid: 3250261351905886277
-      type: {class: AreaEffect, ns: , asm: Assembly-CSharp}
+    - rid: 3626011346432163941
+      type: {class: FollowAreaDamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        effectName: Boom!
+        effectName: "\u6301\u7EED\u968F\u8EAB\u8303\u56F4\u4F24\u5BB3"
+        auraPrefab: {fileID: 6566983740198862915, guid: 3e17b388d9b5f8c46b4d8c024a5faa1e, type: 3}
         radius: 5
-        delay: 2
-        damage: 20
-        vfxPrefab: {fileID: 2241295863583524399, guid: e9633357dbd6a0d419ed9aac502c831b, type: 3}
+        damagePerTick: 5
+        tickInterval: 0.5
+        duration: 3.33

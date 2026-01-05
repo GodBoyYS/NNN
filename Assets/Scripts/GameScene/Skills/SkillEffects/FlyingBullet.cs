@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
@@ -6,27 +6,27 @@ using System.Collections;
 [Serializable]
 public class FlyingBullet : SkillEffect
 {
-    [Header("Í¶ÉäÎïÅäÖÃ")]
+    [Header("æŠ•å°„ç‰©é…ç½®")]
     [SerializeField] private NetworkObject _bulletPrefab;
     public float speed = 10f;
     public float maxDistance = 20f;
     public int damage = 15;
     public float radius = 1f;
 
-    [Header("Ä£ĞÍĞŞÕı")]
-    [Tooltip("Èç¹û¼ıÊ¸·½Ïò²»¶Ô£¨ÀıÈç³¯ÉÏ£©£¬³¢ÊÔÉèÖÃÎª (90, 0, 0) »ò (-90, 0, 0) ÒÔĞŞÕı³¯Ïò")]
+    [Header("æ¨¡å‹ä¿®æ­£")]
+    [Tooltip("å¦‚æœç®­çŸ¢æ–¹å‘ä¸å¯¹ï¼ˆä¾‹å¦‚æœä¸Šï¼‰ï¼Œå°è¯•è®¾ç½®ä¸º (90, 0, 0) æˆ– (-90, 0, 0) ä»¥ä¿®æ­£æœå‘")]
     public Vector3 modelRotationOffset = Vector3.zero;
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // ¼ÆËãÉú³ÉÎ»ÖÃ
+        // è®¡ç®—ç”Ÿæˆä½ç½®
         Vector3 spawnPos = caster.transform.position + Vector3.up * 1.5f;
 
-        // ¼ÆËã·ÉĞĞ·½Ïò (Ë®Æ½)
+        // è®¡ç®—é£è¡Œæ–¹å‘ (æ°´å¹³)
         Vector3 direction = (position - caster.transform.position).normalized;
         direction.y = 0;
 
-        // ¼ÆËãĞı×ª (°üº¬Ä£ĞÍĞŞÕı)
+        // è®¡ç®—æ—‹è½¬ (åŒ…å«æ¨¡å‹ä¿®æ­£)
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         Quaternion finalRotation = lookRotation * Quaternion.Euler(modelRotationOffset);
 

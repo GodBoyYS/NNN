@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,35 +6,35 @@ using UnityEngine;
 [Serializable]
 public class ExpandingNukeEffect : SkillEffect
 {
-    [Header("ºË±¬ÊıÖµÅäÖÃ")]
-    public float damageRadius = 10f; // ÉËº¦°ë¾¶
-    public int killDamage = 9999;    // ÉËº¦ÊıÖµ
+    [Header("æ ¸çˆ†æ•°å€¼é…ç½®")]
+    public float damageRadius = 10f; // ä¼¤å®³åŠå¾„
+    public int killDamage = 9999;    // ä¼¤å®³æ•°å€¼
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // ÊÓ¾õĞ§¹ûÒÑ¾­ÓÉ BossController ÔÚĞîÁ¦½×¶Î²¥·ÅÍê±Ï
-        // ÕâÀïÖ»¸ºÔğ¡°½áËã¡±ÄÇÒ»Ë²¼äµÄÉËº¦
+        // è§†è§‰æ•ˆæœå·²ç»ç”± BossController åœ¨è“„åŠ›é˜¶æ®µæ’­æ”¾å®Œæ¯•
+        // è¿™é‡Œåªè´Ÿè´£â€œç»“ç®—â€é‚£ä¸€ç¬é—´çš„ä¼¤å®³
 
-        // 1. »ñÈ¡Ê©·¨ÕßID (ÓÃÓÚ·ÀÖ¹ÎóÉË)
+        // 1. è·å–æ–½æ³•è€…ID (ç”¨äºé˜²æ­¢è¯¯ä¼¤)
         ulong attackerId = 0;
         if (caster.TryGetComponent<NetworkObject>(out var netObj))
         {
             attackerId = netObj.NetworkObjectId;
         }
 
-        // 2. ·¶Î§¼ì²âÓëÉËº¦ÅĞ¶¨
+        // 2. èŒƒå›´æ£€æµ‹ä¸ä¼¤å®³åˆ¤å®š
         Collider[] hits = Physics.OverlapSphere(position, damageRadius);
         foreach (var hit in hits)
         {
-            if (hit.gameObject == caster) continue; // ²»Õ¨×Ô¼º
+            if (hit.gameObject == caster) continue; // ä¸ç‚¸è‡ªå·±
 
             if (hit.TryGetComponent<IDamageable>(out var damageable))
             {
                 damageable.TakeDamage(killDamage, attackerId);
-                Debug.Log($"[Effect] ºË±¬ÃüÖĞ: {hit.name}£¬Ôì³É {killDamage} ÉËº¦");
+                Debug.Log($"[Effect] æ ¸çˆ†å‘½ä¸­: {hit.name}ï¼Œé€ æˆ {killDamage} ä¼¤å®³");
             }
         }
 
-        // ¿ÉÑ¡£ºÔÚÕâÀïÉú³ÉÒ»¸ö¡°±¬Õ¨Ë²¼ä¡±µÄÌØĞ§£¨Explosion VFX£©£¬ÄÇÊÇÊôÓÚ Execution ½×¶ÎµÄÊÓ¾õ
+        // å¯é€‰ï¼šåœ¨è¿™é‡Œç”Ÿæˆä¸€ä¸ªâ€œçˆ†ç‚¸ç¬é—´â€çš„ç‰¹æ•ˆï¼ˆExplosion VFXï¼‰ï¼Œé‚£æ˜¯å±äº Execution é˜¶æ®µçš„è§†è§‰
     }
 }

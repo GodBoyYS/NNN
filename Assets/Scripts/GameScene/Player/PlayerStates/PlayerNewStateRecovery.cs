@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerNewStateRecovery : PlayerBaseState
 {
@@ -11,37 +11,37 @@ public class PlayerNewStateRecovery : PlayerBaseState
     public override void OnEnter()
     {
         _stateFinished = false;
-        // ¡¾ĞŞ¸Ä¡¿Ö±½Ó¶ÁÈ¡ Index
+        // ã€ä¿®æ”¹ã€‘ç›´æ¥è¯»å– Index
         int skillIndex = _controller.StateMachine.PendingSkillIndex;
         if (skillIndex != -1)
             {
-                // 1. »ñÈ¡²¢²¥·Å¶¯»­
+                // 1. è·å–å¹¶æ’­æ”¾åŠ¨ç”»
                 string animName = _controller.Combat.GetSkillRecoveryAnimation(skillIndex);
                 //string animName = _controller.Combat.GetSkillAnimationName(skillIndex);
                 _controller.Animator.CrossFade(animName, 0.05f);
 
-                // 2. »ñÈ¡¼¼ÄÜÊı¾İÒÔ¼ÆËã³ÖĞøÊ±¼ä
+                // 2. è·å–æŠ€èƒ½æ•°æ®ä»¥è®¡ç®—æŒç»­æ—¶é—´
                 _currentSkill = _controller.Combat.GetSkillDataByIndex(skillIndex);
                 float duration = _currentSkill.activeDuration;
 
-                // 3. ¼ÆËãÃé×¼Î»ÖÃ
+                // 3. è®¡ç®—ç„å‡†ä½ç½®
                 //Vector3 aimPos = input.HasMouseTarget ? input.MouseWorldPos : _controller.transform.position + _controller.transform.forward;
 
-                //// 4. ·¢ËÍÍøÂçÇëÇó
+                //// 4. å‘é€ç½‘ç»œè¯·æ±‚
                 //_controller.Combat.RequestCastSkill(skillIndex, aimPos);
 
-                // 5. Æô¶¯½áÊøĞ­³Ì
+                // 5. å¯åŠ¨ç»“æŸåç¨‹
                 _controller.StartCoroutine(EndStateRoutine(duration));
             }
             else
             {
-                // Èç¹ûÃ»ÓĞ¼ì²âµ½°´¼ü£¨Òì³£Çé¿ö£©£¬Ö±½ÓÍË³ö
+                // å¦‚æœæ²¡æœ‰æ£€æµ‹åˆ°æŒ‰é”®ï¼ˆå¼‚å¸¸æƒ…å†µï¼‰ï¼Œç›´æ¥é€€å‡º
                 _stateFinished = true;
             }
         }
   
 
-    // ÏÂÃæµÄ·½·¨ĞèÒª¸üĞÂÃû³ÆÎª£ºEndStateRoutine
+    // ä¸‹é¢çš„æ–¹æ³•éœ€è¦æ›´æ–°åç§°ä¸ºï¼šEndStateRoutine
     private System.Collections.IEnumerator EndStateRoutine(float time)
     {
         yield return new WaitForSeconds(time);
@@ -58,7 +58,7 @@ public class PlayerNewStateRecovery : PlayerBaseState
     }
     public override void OnExit()
     {
-        // É±µôĞ­³Ì
+        // æ€æ‰åç¨‹
         if (_timerCoroutine != null)
         {
             _controller.StopCoroutine(_timerCoroutine);
@@ -84,7 +84,7 @@ public class PlayerNewStateRecovery : PlayerBaseState
     {
         if (_currentInput.InteractDown && _currentInput.HasMouseTarget && _currentSkill.ifRecoveryInteruptable)
         {
-            Debug.Log("ÔÚRecovery×´Ì¬¼ì²âµ½ÒÆ¶¯ÊäÈë£¬ÇÒÓĞµã»÷µÄÄ¿±ê£¬×¼±¸ÇĞ»»µ½ ÒÆ¶¯×´Ì¬");
+            Debug.Log("åœ¨RecoveryçŠ¶æ€æ£€æµ‹åˆ°ç§»åŠ¨è¾“å…¥ï¼Œä¸”æœ‰ç‚¹å‡»çš„ç›®æ ‡ï¼Œå‡†å¤‡åˆ‡æ¢åˆ° ç§»åŠ¨çŠ¶æ€");
             _controller.StateMachine.ChangeState(_controller.StateMachine.StateMove);
             return true;
         }

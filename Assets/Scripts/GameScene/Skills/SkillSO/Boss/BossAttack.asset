@@ -12,17 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 377e8cfda27911c43b54ef9726d1c2cb, type: 3}
   m_Name: BossAttack
   m_EditorClassIdentifier: Assembly-CSharp::SkillDataSO
+  _chargeClip: {fileID: 7400000, guid: 4e991268f134af447a6a2743d4c79bcd, type: 2}
+  _activeClip: {fileID: 7400000, guid: 7845082110a39914887b7be6f4aebf31, type: 2}
+  _recoveryClip: {fileID: 7400000, guid: f45528da3d8b97a4785f98e36cda4fdb, type: 2}
   coolDown: 3
+  castRadius: 2
   chargeDuration: 1.5
-  chargeAnimationName: Idle
+  chargeAnimationName: BossNewAttackCharge
   warningPrefab: {fileID: 0}
   chargeVisualPrefabs: []
-  skillActiveAnimationName: Attack
+  ifChargeInteruptable: 1
+  activeDuration: 0
+  activeAnimationName: BossNewAttack
   effects:
   - rid: 3250261533355933766
   - rid: 3250261533355933965
   isSelfCentered: 0
-  skillRecoveryAnimationName: 
+  ifActiveInteruptable: 0
+  recoveryDuration: 0
+  recoveryAnimationName: BossNewAttackRecovery
+  ifRecoveryInteruptable: 1
   references:
     version: 2
     RefIds:
@@ -31,6 +40,8 @@ MonoBehaviour:
       data:
         effectName: "\u4F24\u5BB3"
         damageAmount: 10
+        forwardDistance: 3
+        attackRadius: 3
     - rid: 3250261533355933965
       type: {class: CameraShakeEffect, ns: , asm: Assembly-CSharp}
       data:

@@ -1,15 +1,15 @@
-using System;
+ï»¿using System;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
 {
-    [Header("ÉèÖÃ")]
+    [Header("è®¾ç½®")]
     [SerializeField] private int _maxHealth = 100;
     [Header("Feedback Settings")]
-    [SerializeField] private float knockbackForce = 15f; // Ä¬ÈÏÊÜ»÷»÷ÍËÁ¦¶È
-    // 1. È¨ÏŞ±ØĞëÊÇ Server¡£
-    // Ö»ÓĞ·şÎñÆ÷ÄÜ¸Ä£¬¿Í»§¶ËÖ»ÄÜ¿´¡£ÕâÊÇ×´Ì¬Í¬²½µÄÌúÂÉ¡£
+    [SerializeField] private float knockbackForce = 15f; // é»˜è®¤å—å‡»å‡»é€€åŠ›åº¦
+    // 1. æƒé™å¿…é¡»æ˜¯ Serverã€‚
+    // åªæœ‰æœåŠ¡å™¨èƒ½æ”¹ï¼Œå®¢æˆ·ç«¯åªèƒ½çœ‹ã€‚è¿™æ˜¯çŠ¶æ€åŒæ­¥çš„é“å¾‹ã€‚
     private readonly NetworkVariable<int> _currentHealth = new NetworkVariable<int>(
         0,
         NetworkVariableReadPermission.Everyone,
@@ -20,15 +20,15 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
     public int MaxHealth => _maxHealth;
     public bool IsDead => _currentHealth.Value < 0;
 
-    // ×é¼şÒıÓÃ
+    // ç»„ä»¶å¼•ç”¨
     private PlayerNetworkMovement _movement;
     private DamageFlash _damageFlash;
 
-    // ³Ö¾Ã×´Ì¬±ä»¯£¨ÊÊºÏUI/³ÖĞø±íÏÖ£©
+    // æŒä¹…çŠ¶æ€å˜åŒ–ï¼ˆé€‚åˆUI/æŒç»­è¡¨ç°ï¼‰
     public event Action<int, int> OnHealthChanged;
-    // Ë²Ê±ÊÂ¼ş£¨ÊÊºÏÊÜ»÷ÌØĞ§/ÒôĞ§£¬²»ÊÊºÏUI³õÊ¼Öµ£©
-    public event Action<int, ulong> OnDamaged; // ÉËº¦Á¿£¬ÉËº¦À´Ô´
-    public event Action<ulong> OnDied;  // ÉËº¦À´Ô´ÍøÂç¶ÔÏó id
+    // ç¬æ—¶äº‹ä»¶ï¼ˆé€‚åˆå—å‡»ç‰¹æ•ˆ/éŸ³æ•ˆï¼Œä¸é€‚åˆUIåˆå§‹å€¼ï¼‰
+    public event Action<int, ulong> OnDamaged; // ä¼¤å®³é‡ï¼Œä¼¤å®³æ¥æº
+    public event Action<ulong> OnDied;  // ä¼¤å®³æ¥æºç½‘ç»œå¯¹è±¡ id
     public event Action OnDiedServer;
 
     private void Awake()
@@ -42,11 +42,11 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
         _currentHealth.OnValueChanged += HandleHealthChanged;
         if (IsServer)
         {
-            // ³õÊ¼»¯Ö»ÄÜÓÉ·şÎñÆ÷×ö£¨±£Ö¤È¨Íş£©
+            // åˆå§‹åŒ–åªèƒ½ç”±æœåŠ¡å™¨åšï¼ˆä¿è¯æƒå¨ï¼‰
             _currentHealth.Value = _maxHealth;
         }
-        // ÕâÀïÍÆ¶¯Ò»´Î£¬±ÜÃâ½Å±¾¶©ÔÄÊ±Ğòµ¼ÖÂUI²»Ë¢ĞÂ
-        // ¼´±ãÖØ¸´µ÷ÓÃ£¬¶ÔUIÒ²Ö»ÊÇÖØ¸´¸³Öµ£¬²»»á²úÉú¡°²¹²¥ÌØĞ§¡±ÎÊÌâ
+        // è¿™é‡Œæ¨åŠ¨ä¸€æ¬¡ï¼Œé¿å…è„šæœ¬è®¢é˜…æ—¶åºå¯¼è‡´UIä¸åˆ·æ–°
+        // å³ä¾¿é‡å¤è°ƒç”¨ï¼Œå¯¹UIä¹Ÿåªæ˜¯é‡å¤èµ‹å€¼ï¼Œä¸ä¼šäº§ç”Ÿâ€œè¡¥æ’­ç‰¹æ•ˆâ€é—®é¢˜
         _currentHealth.Value = _maxHealth;
         OnHealthChanged?.Invoke(_currentHealth.Value, _maxHealth);
     }
@@ -68,9 +68,9 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
         ServerTakeDamage(damage, attackerCliendId);
     }
     // ===================
-    // serveronly api £¨Î¨Ò»ºÏ·¨µÄ¿ÛÑªÈë¿Ú£©
+    // serveronly api ï¼ˆå”¯ä¸€åˆæ³•çš„æ‰£è¡€å…¥å£ï¼‰
     // ===================
-    // ================= ºËĞÄĞŞ¸Ä£º·şÎñÆ÷´¦ÀíÉËº¦Óë»÷ÍË =================
+    // ================= æ ¸å¿ƒä¿®æ”¹ï¼šæœåŠ¡å™¨å¤„ç†ä¼¤å®³ä¸å‡»é€€ =================
     public void ServerTakeDamage(int damage, ulong attackerClientId = 0)
     {
         if (!IsServer) return;
@@ -80,31 +80,31 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
         int prev = _currentHealth.Value;
         int next = Mathf.Clamp(prev - damage, 0, MaxHealth);
 
-        // 1. ´¦ÀíÊıÖµ
+        // 1. å¤„ç†æ•°å€¼
         if (next != prev)
         {
             _currentHealth.Value = next;
         }
 
-        // 2. ´¥·¢¿Í»§¶ËÊÓ¾õ·´À¡ (¶ÙÖ¡¡¢ÉÁ°×¡¢Æ®×Ö)
+        // 2. è§¦å‘å®¢æˆ·ç«¯è§†è§‰åé¦ˆ (é¡¿å¸§ã€é—ªç™½ã€é£˜å­—)
         DamagedClientRpc(damage, attackerClientId);
 
-        // 3. ´¦ÀíÎïÀí»÷ÍË (½ö Server)
-        // »ñÈ¡¹¥»÷ÕßÎ»ÖÃÀ´¼ÆËã»÷ÍË·½Ïò
+        // 3. å¤„ç†ç‰©ç†å‡»é€€ (ä»… Server)
+        // è·å–æ”»å‡»è€…ä½ç½®æ¥è®¡ç®—å‡»é€€æ–¹å‘
         //if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerClientId, out var attackerObj))
         //{
         //    Vector3 direction = (transform.position - attackerObj.transform.position).normalized;
-        //    direction.y = 0; // ±£Ö¤Ë®Æ½»÷ÍË
+        //    direction.y = 0; // ä¿è¯æ°´å¹³å‡»é€€
 
-        //    // Èç¹ûÖ®Ç°ÓĞ PlayerNetworkMovement ½Å±¾£¬µ÷ÓÃËüµÄ»÷ÍËÂß¼­
+        //    // å¦‚æœä¹‹å‰æœ‰ PlayerNetworkMovement è„šæœ¬ï¼Œè°ƒç”¨å®ƒçš„å‡»é€€é€»è¾‘
         //    if (_movement != null)
         //    {
-        //        // ×¢Òâ£ºÕâÀïÊ¹ÓÃÄãÔÚÉÏÒ»ÂÖĞŞ¸ÄºÃµÄ ApplyKnockbackServer
+        //        // æ³¨æ„ï¼šè¿™é‡Œä½¿ç”¨ä½ åœ¨ä¸Šä¸€è½®ä¿®æ”¹å¥½çš„ ApplyKnockbackServer
         //        _movement.ApplyKnockbackServer(direction, knockbackForce);
         //    }
         //}
 
-        // 4. ´¦ÀíËÀÍö
+        // 4. å¤„ç†æ­»äº¡
         if (next <= 0)
         {
             DiedClientRpc(attackerClientId);
@@ -127,26 +127,26 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
     {
         OnDamaged?.Invoke(damage, attackerClientId);
 
-        // A. Æ®×Ö (±£ÁôÔ­ÓĞÂß¼­)
+        // A. é£˜å­— (ä¿ç•™åŸæœ‰é€»è¾‘)
         if (DamageTextManager.Instance != null)
         {
             Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 1.5f, 0);
             DamageTextManager.Instance.ShowDamage(damage, transform.position + randomOffset);
         }
 
-        // B. ÉÁ°× (ĞÂ¹¦ÄÜ)
+        // B. é—ªç™½ (æ–°åŠŸèƒ½)
         if (_damageFlash != null)
         {
             _damageFlash.TriggerFlash();
         }
 
-        // C. ¶ÙÖ¡ (ĞÂ¹¦ÄÜ - ½ö±¾µØÍæ¼ÒÊÜ»÷£¬»òÕß¹¥»÷ÕßÊÇ±¾µØÍæ¼ÒÊ±´¥·¢£¿)
-        // ²ßÂÔ£ºÎªÁË´ò»÷¸Ğ£¬Èç¹ûÊÇ"ÎÒ±»´ò"»òÕß"ÎÒ´òÈË"£¬¶¼Ó¦¸Ã¶ÙÒ»ÏÂ¡£
-        // µ«¼òµ¥Æğ¼û£¬Ö»ÒªÕâ¸ö Rpc ´¥·¢£¬¾Í¶ÙÖ¡£¬ÒâÎ¶×ÅÈ«³¡ÈÎºÎÈË±»´ò£¬ËùÓĞÈËÆÁÄ»¶¼»áÎ¢¿¨Ò»ÏÂ£¨ÀàËÆ¹íÆüÁª»ú£©¡£
-        // Èç¹û¾õµÃÌ«ÂÒ£¬¿ÉÒÔ¼ÓÅĞ¶Ï if (IsOwner || NetworkManager.Singleton.LocalClientId == attackerClientId)
+        // C. é¡¿å¸§ (æ–°åŠŸèƒ½ - ä»…æœ¬åœ°ç©å®¶å—å‡»ï¼Œæˆ–è€…æ”»å‡»è€…æ˜¯æœ¬åœ°ç©å®¶æ—¶è§¦å‘ï¼Ÿ)
+        // ç­–ç•¥ï¼šä¸ºäº†æ‰“å‡»æ„Ÿï¼Œå¦‚æœæ˜¯"æˆ‘è¢«æ‰“"æˆ–è€…"æˆ‘æ‰“äºº"ï¼Œéƒ½åº”è¯¥é¡¿ä¸€ä¸‹ã€‚
+        // ä½†ç®€å•èµ·è§ï¼Œåªè¦è¿™ä¸ª Rpc è§¦å‘ï¼Œå°±é¡¿å¸§ï¼Œæ„å‘³ç€å…¨åœºä»»ä½•äººè¢«æ‰“ï¼Œæ‰€æœ‰äººå±å¹•éƒ½ä¼šå¾®å¡ä¸€ä¸‹ï¼ˆç±»ä¼¼é¬¼æ³£è”æœºï¼‰ã€‚
+        // å¦‚æœè§‰å¾—å¤ªä¹±ï¼Œå¯ä»¥åŠ åˆ¤æ–­ if (IsOwner || NetworkManager.Singleton.LocalClientId == attackerClientId)
         if (HitStopManager.Instance != null)
         {
-            HitStopManager.Instance.TriggerHitStop(0.05f, 0.0f); // 0.0f ÒâÎ¶×ÅÍêÈ«¾²Ö¹Ò»Ë²¼ä£¬Á¦¶È¸üÇ¿
+            HitStopManager.Instance.TriggerHitStop(0.05f, 0.0f); // 0.0f æ„å‘³ç€å®Œå…¨é™æ­¢ä¸€ç¬é—´ï¼ŒåŠ›åº¦æ›´å¼º
         }
     }
     [ClientRpc]
@@ -157,11 +157,11 @@ public class PlayerNetworkHealth : NetworkBehaviour, IDamageable
     [ClientRpc]
     private void ShowDamagePopupClientRpc(int amount, Vector3 targetPos)
     {
-        // ¿Í»§¶ËÊÕµ½Ö¸Áî£¬µ÷ÓÃUI¹ÜÀíÆ÷
-        // ×öÒ»¸ö·À¿ÕÅĞ¶Ï£¬·ÀÖ¹³¡¾°ÇĞ»»Ê±UIÃ»¼ÓÔØ±¨´í
+        // å®¢æˆ·ç«¯æ”¶åˆ°æŒ‡ä»¤ï¼Œè°ƒç”¨UIç®¡ç†å™¨
+        // åšä¸€ä¸ªé˜²ç©ºåˆ¤æ–­ï¼Œé˜²æ­¢åœºæ™¯åˆ‡æ¢æ—¶UIæ²¡åŠ è½½æŠ¥é”™
         if(DamageTextManager.Instance != null)
         {
-            // ÎªÁËÔö¼ÓÒ»µã´ò»÷¸Ğ£¬¿ÉÒÔ¸øÎ»ÖÃ¼ÓÒ»µãËæ»úÆ«ÒÆ
+            // ä¸ºäº†å¢åŠ ä¸€ç‚¹æ‰“å‡»æ„Ÿï¼Œå¯ä»¥ç»™ä½ç½®åŠ ä¸€ç‚¹éšæœºåç§»
             Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 1.5f, 0);
             DamageTextManager.Instance.ShowDamage(amount, targetPos + randomOffset);
         }

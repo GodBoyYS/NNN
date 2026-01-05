@@ -1,28 +1,28 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 using System.Collections;
 
 public class NukeZoneVisual : NetworkBehaviour
 {
-    // Ä¿±êËõ·Å´óĞ¡
+    // ç›®æ ‡ç¼©æ”¾å¤§å°
     private float _targetScale;
-    // ÅòÕÍ³ÖĞøÊ±¼ä
+    // è†¨èƒ€æŒç»­æ—¶é—´
     private float _duration;
-    // ÊÇ·ñ¿ªÊ¼ÔËĞĞ
+    // æ˜¯å¦å¼€å§‹è¿è¡Œ
     private bool _isRunning = false;
     private float _timer = 0f;
 
-    // ¿Í»§¶Ëµ÷ÓÃ£º¿ªÊ¼²¥·ÅÅòÕÍ¶¯»­
+    // å®¢æˆ·ç«¯è°ƒç”¨ï¼šå¼€å§‹æ’­æ”¾è†¨èƒ€åŠ¨ç”»
     [ClientRpc]
     public void StartExpansionClientRpc(float targetRadius, float duration)
     {
-        // Ö±¾¶ = °ë¾¶ * 2
+        // ç›´å¾„ = åŠå¾„ * 2
         _targetScale = targetRadius * 2.0f;
         _duration = duration;
         _timer = 0f;
         _isRunning = true;
 
-        // ³õÊ¼´óĞ¡ÉèÎª½Ó½ü0
+        // åˆå§‹å¤§å°è®¾ä¸ºæ¥è¿‘0
         transform.localScale = Vector3.zero;
     }
 
@@ -40,7 +40,7 @@ public class NukeZoneVisual : NetworkBehaviour
         }
         else
         {
-            // Ê¹ÓÃÆ½»¬²åÖµ£¬ÉõÖÁ¿ÉÒÔÓÃ AnimationCurve ÈÃËüÏÈÂıºó¿ì
+            // ä½¿ç”¨å¹³æ»‘æ’å€¼ï¼Œç”šè‡³å¯ä»¥ç”¨ AnimationCurve è®©å®ƒå…ˆæ…¢åå¿«
             transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * _targetScale, progress);
         }
     }

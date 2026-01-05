@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -8,25 +8,25 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class DynamicLaserEffect : SkillEffect
 {
-    [Header("¼¤¹âÔ¤ÖÆÌå (Ğè¹Ò NetworkObject + NetworkTransform + LaserVisual)")]
+    [Header("æ¿€å…‰é¢„åˆ¶ä½“ (éœ€æŒ‚ NetworkObject + NetworkTransform + LaserVisual)")]
     [SerializeField] private NetworkObject _laserPrefab;
 
-    [Header("·¶Î§ÉèÖÃ")]
-    [Range(0, 180)] public float baseConeAngle = 60f; // »ù´¡ÉÈĞÎ·¶Î§
+    [Header("èŒƒå›´è®¾ç½®")]
+    [Range(0, 180)] public float baseConeAngle = 60f; // åŸºç¡€æ‰‡å½¢èŒƒå›´
     public int rayCount = 5;
 
-    [Header("¶¯Ì¬É¨ÉäÉèÖÃ (Snake Motion)")]
-    public float sweepSpeed = 2.0f; // É¨ÉäËÙ¶È
-    public float sweepAmplitude = 30f; // É¨Éä·ù¶È(½Ç¶È)
-    public bool syncRotationWithBoss = true; // ÊÇ·ñ¸úËæBossÉíÌå×ªÏò
+    [Header("åŠ¨æ€æ‰«å°„è®¾ç½® (Snake Motion)")]
+    public float sweepSpeed = 2.0f; // æ‰«å°„é€Ÿåº¦
+    public float sweepAmplitude = 30f; // æ‰«å°„å¹…åº¦(è§’åº¦)
+    public bool syncRotationWithBoss = true; // æ˜¯å¦è·ŸéšBossèº«ä½“è½¬å‘
 
-    [Header("Éú³¤ÉèÖÃ")]
+    [Header("ç”Ÿé•¿è®¾ç½®")]
     public float startLength = 0.5f;
     public float maxLength = 20f;
     public float growthTime = 1.0f;
     public float totalDuration = 5.0f;
 
-    [Header("Õ½¶·²ÎÊı")]
+    [Header("æˆ˜æ–—å‚æ•°")]
     public float rayWidth = 0.5f;
     public int damagePerTick = 10;
     public float damageInterval = 0.5f;
@@ -41,20 +41,20 @@ public class DynamicLaserEffect : SkillEffect
     private IEnumerator LaserBarrageRoutine(GameObject caster)
     {
         List<NetworkObject> activeLasers = new List<NetworkObject>();
-        // ´æ´¢Ã¿Ìõ¼¤¹âµÄ¡°»ù´¡Æ«ÒÆ½Ç¡±£¬±ÈÈçµÚ1ÌõÊÇ-30¶È£¬µÚ2ÌõÊÇ-15¶È...
+        // å­˜å‚¨æ¯æ¡æ¿€å…‰çš„â€œåŸºç¡€åç§»è§’â€ï¼Œæ¯”å¦‚ç¬¬1æ¡æ˜¯-30åº¦ï¼Œç¬¬2æ¡æ˜¯-15åº¦...
         List<float> initialYOffsets = new List<float>();
-        // ´æ´¢Ã¿Ìõ¼¤¹âµÄËæ»úÖÖ×Ó£¬ÈÃËüÃÇÉ¨ÉäµÄÆµÂÊ²»Ò»Ñù£¬¿´ÆğÀ´¸üÂÒ
+        // å­˜å‚¨æ¯æ¡æ¿€å…‰çš„éšæœºç§å­ï¼Œè®©å®ƒä»¬æ‰«å°„çš„é¢‘ç‡ä¸ä¸€æ ·ï¼Œçœ‹èµ·æ¥æ›´ä¹±
         List<float> noiseSeeds = new List<float>();
 
-        // 1. Éú³É (Spawn Phase)
+        // 1. ç”Ÿæˆ (Spawn Phase)
         for (int i = 0; i < rayCount; i++)
         {
-            // ¼ÆËã¾ùÔÈ·Ö²¼µÄ½Ç¶È (»òÕßËæ»ú·Ö²¼)
-            // ÕâÀïÓÃ¾ùÔÈ·Ö²¼¿´ÆğÀ´¸üÓĞ¹æÂÉ£¬È»ºóÍ¨¹ı¶¯Ì¬É¨Éä´òÂÒ
+            // è®¡ç®—å‡åŒ€åˆ†å¸ƒçš„è§’åº¦ (æˆ–è€…éšæœºåˆ†å¸ƒ)
+            // è¿™é‡Œç”¨å‡åŒ€åˆ†å¸ƒçœ‹èµ·æ¥æ›´æœ‰è§„å¾‹ï¼Œç„¶åé€šè¿‡åŠ¨æ€æ‰«å°„æ‰“ä¹±
             float t = rayCount > 1 ? (float)i / (rayCount - 1) : 0.5f;
             float baseAngle = Mathf.Lerp(-baseConeAngle / 2f, baseConeAngle / 2f, t);
 
-            // ³õÊ¼Î»ÖÃ
+            // åˆå§‹ä½ç½®
             Vector3 spawnPos = caster.transform.position + Vector3.up * 1.0f;
             Quaternion spawnRot = caster.transform.rotation * Quaternion.Euler(0, baseAngle, 0);
 
@@ -63,9 +63,9 @@ public class DynamicLaserEffect : SkillEffect
 
             activeLasers.Add(laserInstance);
             initialYOffsets.Add(baseAngle);
-            noiseSeeds.Add(Random.Range(0f, 100f)); // Ëæ»úÖÖ×Ó
+            noiseSeeds.Add(Random.Range(0f, 100f)); // éšæœºç§å­
 
-            // ³õÊ¼»¯ÊÓ¾õ
+            // åˆå§‹åŒ–è§†è§‰
             if (laserInstance.TryGetComponent<LaserVisual>(out var visual))
             {
                 visual.InitializeLaserClientRpc(startLength, maxLength, growthTime, rayWidth);
@@ -75,16 +75,16 @@ public class DynamicLaserEffect : SkillEffect
         float timer = 0f;
         Dictionary<string, float> hitRecords = new Dictionary<string, float>();
 
-        // 2. Ñ­»·¸üĞÂ (Update Phase)
+        // 2. å¾ªç¯æ›´æ–° (Update Phase)
         while (timer < totalDuration)
         {
-            if (caster == null) break; // BossËÀÁË¾ÍÍ£Ö¹
+            if (caster == null) break; // Bossæ­»äº†å°±åœæ­¢
 
             timer += Time.deltaTime;
             float growProgress = Mathf.Clamp01(timer / growthTime);
             float currentLogicLen = Mathf.Lerp(startLength, maxLength, growProgress);
 
-            // »ñÈ¡ Boss µ±Ç°µÄ×´Ì¬
+            // è·å– Boss å½“å‰çš„çŠ¶æ€
             Vector3 bossCenter = caster.transform.position + Vector3.up * 1.0f;
             Quaternion bossForwardRot = syncRotationWithBoss ? caster.transform.rotation : Quaternion.identity;
 
@@ -93,27 +93,27 @@ public class DynamicLaserEffect : SkillEffect
                 var laserObj = activeLasers[i];
                 if (laserObj == null || !laserObj.IsSpawned) continue;
 
-                // === A. ºËĞÄĞŞ¸Ä£ºÃ¿Ö¡¸üĞÂÎ»ÖÃ¸úËæ Boss ===
+                // === A. æ ¸å¿ƒä¿®æ”¹ï¼šæ¯å¸§æ›´æ–°ä½ç½®è·Ÿéš Boss ===
                 laserObj.transform.position = bossCenter;
 
-                // === B. ºËĞÄĞŞ¸Ä£º¼ÆËã¡°ÉßĞÎ¡±Ğı×ª ===
-                // 1. »ù´¡½Ç¶È
+                // === B. æ ¸å¿ƒä¿®æ”¹ï¼šè®¡ç®—â€œè›‡å½¢â€æ—‹è½¬ ===
+                // 1. åŸºç¡€è§’åº¦
                 float baseOffset = initialYOffsets[i];
 
-                // 2. ¶¯Ì¬É¨Éä (Ê¹ÓÃ PerlinNoise ²úÉúÆ½»¬µÄËæ»ú°Ú¶¯)
-                // Time.time * sweepSpeed: Ê±¼äÇı¶¯
-                // noiseSeeds[i]: ÈÃÃ¿ÌõÏß°Ú¶¯µÄ²»Ò»Ñù
+                // 2. åŠ¨æ€æ‰«å°„ (ä½¿ç”¨ PerlinNoise äº§ç”Ÿå¹³æ»‘çš„éšæœºæ‘†åŠ¨)
+                // Time.time * sweepSpeed: æ—¶é—´é©±åŠ¨
+                // noiseSeeds[i]: è®©æ¯æ¡çº¿æ‘†åŠ¨çš„ä¸ä¸€æ ·
                 float noiseVal = Mathf.PerlinNoise(Time.time * sweepSpeed, noiseSeeds[i]);
-                // PerlinNoise ·µ»Ø 0~1£¬ÎÒÃÇĞèÒªÓ³Éäµ½ -1~1
+                // PerlinNoise è¿”å› 0~1ï¼Œæˆ‘ä»¬éœ€è¦æ˜ å°„åˆ° -1~1
                 float sweepOffset = (noiseVal - 0.5f) * 2f * sweepAmplitude;
 
-                // 3. ºÏ³É×îÖÕ½Ç¶È
-                // ×îÖÕĞı×ª = Boss³¯Ïò * »ù´¡Æ«ÒÆ * É¨ÉäÆ«ÒÆ
+                // 3. åˆæˆæœ€ç»ˆè§’åº¦
+                // æœ€ç»ˆæ—‹è½¬ = Bossæœå‘ * åŸºç¡€åç§» * æ‰«å°„åç§»
                 Quaternion targetRot = bossForwardRot * Quaternion.Euler(0, baseOffset + sweepOffset, 0);
 
                 laserObj.transform.rotation = targetRot;
 
-                // === C. ÉËº¦¼ì²â (Âß¼­²»±ä) ===
+                // === C. ä¼¤å®³æ£€æµ‹ (é€»è¾‘ä¸å˜) ===
                 Vector3 dir = laserObj.transform.forward;
                 RaycastHit[] hits = Physics.SphereCastAll(bossCenter, rayWidth / 2f, dir, currentLogicLen);
 
@@ -121,7 +121,7 @@ public class DynamicLaserEffect : SkillEffect
                 {
                     if (hit.collider.gameObject == caster) continue;
 
-                    // ºöÂÔÆäËü¼¤¹â
+                    // å¿½ç•¥å…¶å®ƒæ¿€å…‰
                     if (activeLasers.Contains(hit.collider.GetComponent<NetworkObject>())) continue;
 
                     if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
@@ -141,7 +141,7 @@ public class DynamicLaserEffect : SkillEffect
             yield return null;
         }
 
-        // 3. ÇåÀí
+        // 3. æ¸…ç†
         foreach (var laser in activeLasers)
         {
             if (laser != null && laser.IsSpawned) laser.Despawn();

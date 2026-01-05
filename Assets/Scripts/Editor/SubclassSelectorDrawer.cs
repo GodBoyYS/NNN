@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,18 +8,18 @@ public class SubclassSelectorDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        // Ö»ÓĞ±ê¼ÇÁË [SerializeReference] µÄ×Ö¶Î²Å´¦Àí
+        // åªæœ‰æ ‡è®°äº† [SerializeReference] çš„å­—æ®µæ‰å¤„ç†
         if (property.propertyType != SerializedPropertyType.ManagedReference)
         {
             EditorGUI.PropertyField(position, property, label, true);
             return;
         }
 
-        // 1. »æÖÆ×ó²àµÄ Label
+        // 1. ç»˜åˆ¶å·¦ä¾§çš„ Label
         var labelRect = new Rect(position.x, position.y, EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
         EditorGUI.LabelField(labelRect, label);
 
-        // 2. »æÖÆÓÒ²àµÄÀàĞÍÑ¡ÔñÏÂÀ­°´Å¥
+        // 2. ç»˜åˆ¶å³ä¾§çš„ç±»å‹é€‰æ‹©ä¸‹æ‹‰æŒ‰é’®
         var buttonRect = new Rect(position.x + EditorGUIUtility.labelWidth, position.y, position.width - EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
 
         string typeName = GetTypeName(property);
@@ -28,7 +28,7 @@ public class SubclassSelectorDrawer : PropertyDrawer
             ShowTypeMenu(property);
         }
 
-        // 3. »æÖÆÊôĞÔ±¾ÉíµÄ×ÓÄÚÈİ£¨Õ¹¿ªºóµÄ×Ö¶Î£©
+        // 3. ç»˜åˆ¶å±æ€§æœ¬èº«çš„å­å†…å®¹ï¼ˆå±•å¼€åçš„å­—æ®µï¼‰
         EditorGUI.PropertyField(position, property, GUIContent.none, true);
     }
 
@@ -36,8 +36,8 @@ public class SubclassSelectorDrawer : PropertyDrawer
     {
         var menu = new GenericMenu();
 
-        // --- ĞŞ¸´¿ªÊ¼£ºÊ¹ÓÃ Unity Ìá¹©µÄÔ­Éú API »ñÈ¡×¼È·µÄ»ùÀàÀàĞÍ ---
-        // managedReferenceFieldTypename ¸ñÊ½Í¨³£Îª "Assembly-Name Type-Full-Name"
+        // --- ä¿®å¤å¼€å§‹ï¼šä½¿ç”¨ Unity æä¾›çš„åŸç”Ÿ API è·å–å‡†ç¡®çš„åŸºç±»ç±»å‹ ---
+        // managedReferenceFieldTypename æ ¼å¼é€šå¸¸ä¸º "Assembly-Name Type-Full-Name"
         string typeName = property.managedReferenceFieldTypename;
         if (string.IsNullOrEmpty(typeName)) return;
 
@@ -45,25 +45,25 @@ public class SubclassSelectorDrawer : PropertyDrawer
         var assemblyName = splitTypeString[0];
         var className = splitTypeString[1];
 
-        // ´Óµ±Ç°ÓòÖĞÕÒµ½¶ÔÓ¦µÄ Assembly ºÍ Type
+        // ä»å½“å‰åŸŸä¸­æ‰¾åˆ°å¯¹åº”çš„ Assembly å’Œ Type
         var assembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(a => a.GetName().Name == assemblyName);
 
         if (assembly == null)
         {
-            Debug.LogError($"[SubclassSelector] ÕÒ²»µ½ Assembly: {assemblyName}");
+            Debug.LogError($"[SubclassSelector] æ‰¾ä¸åˆ° Assembly: {assemblyName}");
             return;
         }
 
         Type baseType = assembly.GetType(className);
         if (baseType == null)
         {
-            Debug.LogError($"[SubclassSelector] ÕÒ²»µ½ÀàĞÍ: {className}");
+            Debug.LogError($"[SubclassSelector] æ‰¾ä¸åˆ°ç±»å‹: {className}");
             return;
         }
-        // --- ĞŞ¸´½áÊø ---
+        // --- ä¿®å¤ç»“æŸ ---
 
-        // ×Ô¶¯·´Éä²éÕÒËùÓĞ×ÓÀà
+        // è‡ªåŠ¨åå°„æŸ¥æ‰¾æ‰€æœ‰å­ç±»
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => baseType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
@@ -75,14 +75,14 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
         foreach (var type in types)
         {
-            // Ê¹ÓÃ type.FullName È·±£Í¬ÃûÀà£¨²»Í¬ÃüÃû¿Õ¼ä£©Ò²ÄÜÇø·Ö
+            // ä½¿ç”¨ type.FullName ç¡®ä¿åŒåç±»ï¼ˆä¸åŒå‘½åç©ºé—´ï¼‰ä¹Ÿèƒ½åŒºåˆ†
             string menuLabel = type.Name;
 
-            // Èç¹ûÓĞÃüÃû¿Õ¼ä£¬Ò²¿ÉÒÔ¼ÓÉÏ£¬¿´ÄãÏ²ºÃ
+            // å¦‚æœæœ‰å‘½åç©ºé—´ï¼Œä¹Ÿå¯ä»¥åŠ ä¸Šï¼Œçœ‹ä½ å–œå¥½
             // string menuLabel = string.IsNullOrEmpty(type.Namespace) ? type.Name : $"{type.Namespace}/{type.Name}";
 
             menu.AddItem(new GUIContent(menuLabel), false, () => {
-                // ±ØĞëÊ¹ÓÃÎŞ²Î¹¹Ôìº¯Êı
+                // å¿…é¡»ä½¿ç”¨æ— å‚æ„é€ å‡½æ•°
                 property.managedReferenceValue = Activator.CreateInstance(type);
                 property.serializedObject.ApplyModifiedProperties();
             });
@@ -98,7 +98,7 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        // ±ØĞë·µ»ØÄÚÈİµÄ¸ß¶È£¬·ñÔò×Ö¶Î»áÖØµş
+        // å¿…é¡»è¿”å›å†…å®¹çš„é«˜åº¦ï¼Œå¦åˆ™å­—æ®µä¼šé‡å 
         return EditorGUI.GetPropertyHeight(property, label, true);
     }
 }

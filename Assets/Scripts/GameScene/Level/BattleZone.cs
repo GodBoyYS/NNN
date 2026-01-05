@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.AI; // ÒıÈë NavMesh ÃüÃû¿Õ¼ä
+using UnityEngine.AI; // å¼•å…¥ NavMesh å‘½åç©ºé—´
 
 [RequireComponent(typeof(BoxCollider))]
 public class BattleZone : NetworkBehaviour
 {
-    [Header("ÅäÖÃ")]
+    [Header("é…ç½®")]
     [SerializeField] private GateController _exitGate;
     [SerializeField] private GateController _entryGate;
 
@@ -16,15 +16,15 @@ public class BattleZone : NetworkBehaviour
     {
         public GameObject EnemyPrefab;
         public Transform SpawnPoint;
-        [Tooltip("ÔÚ¸Ã°ë¾¶ÄÚËæ»úÉú³É")]
-        public float SpawnRadius; // ĞÂÔö£ºÃ¿¸ö²¨´Î¿ÉÒÔÅäÖÃÉú³É°ë¾¶
-        [Tooltip("Ò»´ÎÉú³ÉÊıÁ¿")]
-        public int Count; // ĞÂÔö£ºÖ§³ÖÅäÖÃÕâ¸öµãÒ»´ÎÉú¼¸Ö»¹Ö
+        [Tooltip("åœ¨è¯¥åŠå¾„å†…éšæœºç”Ÿæˆ")]
+        public float SpawnRadius; // æ–°å¢ï¼šæ¯ä¸ªæ³¢æ¬¡å¯ä»¥é…ç½®ç”ŸæˆåŠå¾„
+        [Tooltip("ä¸€æ¬¡ç”Ÿæˆæ•°é‡")]
+        public int Count; // æ–°å¢ï¼šæ”¯æŒé…ç½®è¿™ä¸ªç‚¹ä¸€æ¬¡ç”Ÿå‡ åªæ€ª
     }
 
     [SerializeField] private List<EnemyWave> _enemiesToSpawn;
 
-    [Header("×´Ì¬")]
+    [Header("çŠ¶æ€")]
     private bool _isZoneActive = false;
     private bool _isZoneCleared = false;
     private int _aliveEnemyCount = 0;
@@ -53,7 +53,7 @@ public class BattleZone : NetworkBehaviour
     private void StartBattle()
     {
         _isZoneActive = true;
-        Debug.Log($"[BattleZone] {gameObject.name} Õ½¶·¿ªÊ¼£¡");
+        Debug.Log($"[BattleZone] {gameObject.name} æˆ˜æ–—å¼€å§‹ï¼");
 
         if (_entryGate != null) _entryGate.SetLocked(true);
 
@@ -67,23 +67,23 @@ public class BattleZone : NetworkBehaviour
 
         foreach (var waveData in _enemiesToSpawn)
         {
-            // Ä¬ÈÏÊıÁ¿Îª1£¬Èç¹ûÎ´ÅäÖÃCount»òÕßÊÇ0£¬ÔòÊÓÎª1
+            // é»˜è®¤æ•°é‡ä¸º1ï¼Œå¦‚æœæœªé…ç½®Countæˆ–è€…æ˜¯0ï¼Œåˆ™è§†ä¸º1
             int spawnCount = waveData.Count > 0 ? waveData.Count : 1;
-            // Ä¬ÈÏ°ë¾¶£¬Èç¹ûÎ´ÅäÖÃÔò¸øÒ»¸öĞ¡·¶Î§·ÀÖ¹ÍêÈ«ÖØµş
+            // é»˜è®¤åŠå¾„ï¼Œå¦‚æœæœªé…ç½®åˆ™ç»™ä¸€ä¸ªå°èŒƒå›´é˜²æ­¢å®Œå…¨é‡å 
             float radius = waveData.SpawnRadius > 0 ? waveData.SpawnRadius : 2.0f;
 
             for (int i = 0; i < spawnCount; i++)
             {
-                // --- ¼ÆËãËæ»úÎ»ÖÃ ---
+                // --- è®¡ç®—éšæœºä½ç½® ---
                 Vector3 spawnPos = waveData.SpawnPoint.position;
 
-                // ÔÚÔ²ÄÚËæ»úÈ¡µã (2D)
+                // åœ¨åœ†å†…éšæœºå–ç‚¹ (2D)
                 Vector2 randomCircle = Random.insideUnitCircle * radius;
-                // ×ª»»Îª 3D ×ø±ê (¼ÙÉèµØÃæÊÇ XZ Æ½Ãæ)
+                // è½¬æ¢ä¸º 3D åæ ‡ (å‡è®¾åœ°é¢æ˜¯ XZ å¹³é¢)
                 Vector3 randomOffset = new Vector3(randomCircle.x, 0, randomCircle.y);
                 Vector3 potentialPos = spawnPos + randomOffset;
 
-                // ¡¾¹Ø¼ü¡¿È·±£µãÔÚ NavMesh ÉÏ (·ÀÖ¹Éú³Éµ½Ç½Àï»òµØ°åÏÂ)
+                // ã€å…³é”®ã€‘ç¡®ä¿ç‚¹åœ¨ NavMesh ä¸Š (é˜²æ­¢ç”Ÿæˆåˆ°å¢™é‡Œæˆ–åœ°æ¿ä¸‹)
                 if (NavMesh.SamplePosition(potentialPos, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
                 {
                     spawnPos = hit.position;
@@ -92,7 +92,7 @@ public class BattleZone : NetworkBehaviour
 
                 NetworkObject enemyNetObj = NetworkObjectPool.Instance.GetNetworkObject(
                     waveData.EnemyPrefab,
-                    spawnPos, // Ê¹ÓÃ¼ÆËãºóµÄËæ»úÎ»ÖÃ
+                    spawnPos, // ä½¿ç”¨è®¡ç®—åçš„éšæœºä½ç½®
                     waveData.SpawnPoint.rotation
                 );
 
@@ -100,12 +100,12 @@ public class BattleZone : NetworkBehaviour
                 {
                     if (enemyNetObj.TryGetComponent<EnemyController>(out var enemyScript))
                     {
-                        // ÕâÀï¼ÇµÃÒª¸ù¾İÄãµÄ EnemyController ¶¨ÒåĞŞ¸Ä
-                        // È·±£ÄãÒÑ¾­Ìí¼ÓÁË Action<NetworkObject> OnDied ÊÂ¼ş
+                        // è¿™é‡Œè®°å¾—è¦æ ¹æ®ä½ çš„ EnemyController å®šä¹‰ä¿®æ”¹
+                        // ç¡®ä¿ä½ å·²ç»æ·»åŠ äº† Action<NetworkObject> OnDied äº‹ä»¶
                         enemyScript.OnDied += HandleEnemyDeath;
 
-                        // ¡¾ĞŞ¸´ÎÊÌâ1µÄ²¹³ä¡¿£ºÈç¹ûÔ¤ÖÆÌå½ûÓÃÁËAgent£¬ÕâÀï¿ÉÒÔ¿ªÆô
-                        // Èç¹û EnemyController ×Ô¼º»áÔÚ OnNetworkSpawn Àï¿ªÆô£¬ÕâÀï¾Í²»ĞèÒªĞ´
+                        // ã€ä¿®å¤é—®é¢˜1çš„è¡¥å……ã€‘ï¼šå¦‚æœé¢„åˆ¶ä½“ç¦ç”¨äº†Agentï¼Œè¿™é‡Œå¯ä»¥å¼€å¯
+                        // å¦‚æœ EnemyController è‡ªå·±ä¼šåœ¨ OnNetworkSpawn é‡Œå¼€å¯ï¼Œè¿™é‡Œå°±ä¸éœ€è¦å†™
                         var agent = enemyNetObj.GetComponent<NavMeshAgent>();
                         if (agent != null) agent.enabled = true;
 
@@ -120,7 +120,7 @@ public class BattleZone : NetworkBehaviour
             }
         }
 
-        Debug.Log($"[BattleZone] Éú³ÉÁË {_aliveEnemyCount} ¸öµĞÈË");
+        Debug.Log($"[BattleZone] ç”Ÿæˆäº† {_aliveEnemyCount} ä¸ªæ•Œäºº");
     }
 
     private void HandleEnemyDeath(NetworkObject deadEnemy)
@@ -150,7 +150,7 @@ public class BattleZone : NetworkBehaviour
         _isZoneCleared = true;
         _isZoneActive = false;
 
-        Debug.Log($"[BattleZone] {gameObject.name} ÇåÀíÍê±Ï£¡");
+        Debug.Log($"[BattleZone] {gameObject.name} æ¸…ç†å®Œæ¯•ï¼");
 
         if (_exitGate != null) _exitGate.SetLocked(false);
         if (_entryGate != null) _entryGate.SetLocked(false);
@@ -161,6 +161,6 @@ public class BattleZone : NetworkBehaviour
     [ClientRpc]
     private void ShowZoneClearClientRpc()
     {
-        // UI ±íÏÖ
+        // UI è¡¨ç°
     }
 }

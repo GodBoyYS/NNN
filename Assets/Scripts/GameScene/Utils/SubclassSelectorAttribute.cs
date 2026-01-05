@@ -1,7 +1,7 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-// ÕâÊÇÒ»¸öÔËĞĞÊ±ÊôĞÔ£¬¾ø¶Ô²»ÄÜ·ÅÔÚ Editor ÎÄ¼ş¼ĞÀï£¡
+// è¿™æ˜¯ä¸€ä¸ªè¿è¡Œæ—¶å±æ€§ï¼Œç»å¯¹ä¸èƒ½æ”¾åœ¨ Editor æ–‡ä»¶å¤¹é‡Œï¼
 public class SubclassSelectorAttribute : PropertyAttribute
 {
-    // ÕâÀïÁô¿Õ¼´¿É£¬ËüÖ»ÊÇÒ»¸ö±ê¼Ç
+    // è¿™é‡Œç•™ç©ºå³å¯ï¼Œå®ƒåªæ˜¯ä¸€ä¸ªæ ‡è®°
 }

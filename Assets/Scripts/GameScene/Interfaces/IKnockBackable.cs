@@ -1,7 +1,7 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 
 public interface IKnockBackable
 {
-    // forceDir: 方向, forceStrength: 力度
+    // forceDir: 鏂瑰悜, forceStrength: 鍔涘害
     void ApplyKnockbackServer(Vector3 forceDir, float forceStrength);
 }

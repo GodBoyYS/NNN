@@ -1,8 +1,8 @@
-using System;
+ï»¿using System;
 using Unity.Netcode;
 using UnityEngine;
 /// <summary>
-/// ¹ÒÔØÔÚÍ¶ÉäÎïÔ¤ÖÆÌåÉÏ£¬¸ºÔğ·ÉĞĞ¡¢Åö×²ºÍÏú»Ù
+/// æŒ‚è½½åœ¨æŠ•å°„ç‰©é¢„åˆ¶ä½“ä¸Šï¼Œè´Ÿè´£é£è¡Œã€ç¢°æ’å’Œé”€æ¯
 /// </summary>
 public class ProjectileController : NetworkBehaviour
 {
@@ -11,14 +11,14 @@ public class ProjectileController : NetworkBehaviour
     private int _damage;
     private float _radius;
     private ulong _attackerId;
-    private GameObject _caster; // ÓÃÓÚ±ÜÃâ»÷ÖĞÊ©·¨Õß×Ô¼º
+    private GameObject _caster; // ç”¨äºé¿å…å‡»ä¸­æ–½æ³•è€…è‡ªå·±
 
     private Vector3 _startPos;
     private Vector3 _direction;
     private float _traveledDistance;
     private bool _isInitialized = false;
 
-    // ·şÎñÆ÷¶Ë³õÊ¼»¯·½·¨
+    // æœåŠ¡å™¨ç«¯åˆå§‹åŒ–æ–¹æ³•
     public void Initialize(Vector3 direction, float speed, float maxDistance, int damage, float radius, ulong attackerId, GameObject caster)
     {
         _direction = direction;
@@ -36,7 +36,7 @@ public class ProjectileController : NetworkBehaviour
 
     private void Update()
     {
-        // Ö»ÓĞ·şÎñÆ÷¸ºÔğÒÆ¶¯ºÍÉËº¦ÅĞ¶¨
+        // åªæœ‰æœåŠ¡å™¨è´Ÿè´£ç§»åŠ¨å’Œä¼¤å®³åˆ¤å®š
         if (!IsServer || !_isInitialized) return;
 
         ProcessMovement();
@@ -48,15 +48,15 @@ public class ProjectileController : NetworkBehaviour
         transform.position += _direction * step;
         _traveledDistance += step;
 
-        // 1. ¾àÀë¼ì²â
+        // 1. è·ç¦»æ£€æµ‹
         if (_traveledDistance >= _maxDistance)
         {
             DespawnObject();
             return;
         }
 
-        // 2. Åö×²¼ì²â
-        // Ê¹ÓÃ CheckSphere ÉÔÎ¢ÓÅ»¯ĞÔÄÜ£¬Ö»ÓĞÌ½²âµ½¶«Î÷Ê±²ÅÊ¹ÓÃ OverlapSphere »ñÈ¡ÏêÇé
+        // 2. ç¢°æ’æ£€æµ‹
+        // ä½¿ç”¨ CheckSphere ç¨å¾®ä¼˜åŒ–æ€§èƒ½ï¼Œåªæœ‰æ¢æµ‹åˆ°ä¸œè¥¿æ—¶æ‰ä½¿ç”¨ OverlapSphere è·å–è¯¦æƒ…
         if (Physics.CheckSphere(transform.position, _radius, LayerMask.GetMask("Player", "Enemy")))
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
@@ -64,9 +64,9 @@ public class ProjectileController : NetworkBehaviour
 
             foreach (var hit in hits)
             {
-                // ºöÂÔÊ©·¨Õß×Ô¼º
+                // å¿½ç•¥æ–½æ³•è€…è‡ªå·±
                 if (hit.gameObject == _caster) continue;
-                // ºöÂÔÍ¶ÉäÎï×Ô¼º
+                // å¿½ç•¥æŠ•å°„ç‰©è‡ªå·±
                 if (hit.gameObject == gameObject) continue;
 
                 if (hit.TryGetComponent<IDamageable>(out var damageCmp))
@@ -77,7 +77,7 @@ public class ProjectileController : NetworkBehaviour
                 }
             }
 
-            // Èç¹û»÷ÖĞÁËÓĞĞ§µÄ¿É¹¥»÷Ä¿±ê£¬Ïú»ÙÍ¶ÉäÎï
+            // å¦‚æœå‡»ä¸­äº†æœ‰æ•ˆçš„å¯æ”»å‡»ç›®æ ‡ï¼Œé”€æ¯æŠ•å°„ç‰©
             if (hitValidTarget)
             {
                 DespawnObject();
@@ -88,15 +88,15 @@ public class ProjectileController : NetworkBehaviour
     private void DespawnObject()
     {
         if (!IsServer) return;
-        // ¼ì²éÊÇ·ñÓĞ³Ø×ÓÔÚÔËĞĞ
+        // æ£€æŸ¥æ˜¯å¦æœ‰æ± å­åœ¨è¿è¡Œ
         if (NetworkObjectPool.Instance != null)
         {
-            // Í¨¹ı³Ø×Ó»ØÊÕ
+            // é€šè¿‡æ± å­å›æ”¶
             NetworkObjectPool.Instance.ReturnNetworkObject(NetworkObject);
         }
         else
         {
-            // Èç¹ûÃ»ÓĞ³Ø×Ó£¨±ÈÈç²âÊÔ³¡¾°Íü¼Ç·ÅÁË£©£¬»¹ÊÇ×ßÀÏÂ·
+            // å¦‚æœæ²¡æœ‰æ± å­ï¼ˆæ¯”å¦‚æµ‹è¯•åœºæ™¯å¿˜è®°æ”¾äº†ï¼‰ï¼Œè¿˜æ˜¯èµ°è€è·¯
             if (NetworkObject != null && NetworkObject.IsSpawned)
             {
                 NetworkObject.Despawn();

@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Text;
@@ -7,19 +7,19 @@ using System.Collections.Generic;
 
 public class CodeCopyer : EditorWindow
 {
-    // --- Êı¾İ½á¹¹£ºÊ÷ĞÎ½Úµã ---
+    // --- æ•°æ®ç»“æ„ï¼šæ ‘å½¢èŠ‚ç‚¹ ---
     private class FolderNode
     {
-        public string Name;             // ÎÄ¼ş¼ĞÃû
-        public string FullPath;         // ÍêÕûÂ·¾¶
-        public bool IsSelected;         // ÊÇ·ñ±»¹´Ñ¡
-        public bool IsExpanded = true;  // UIÕÛµş×´Ì¬
-        public bool HasCodeFiles;       // µ±Ç°ÎÄ¼ş¼ĞÏÂÊÇ·ñÓĞ´úÂëÎÄ¼ş£¨²»º¬×ÓÄ¿Â¼£©
-        public List<FolderNode> Children = new List<FolderNode>(); // ×ÓÎÄ¼ş¼Ğ
-        public FolderNode Parent;       // ¸¸½ÚµãÒıÓÃ
+        public string Name;             // æ–‡ä»¶å¤¹å
+        public string FullPath;         // å®Œæ•´è·¯å¾„
+        public bool IsSelected;         // æ˜¯å¦è¢«å‹¾é€‰
+        public bool IsExpanded = true;  // UIæŠ˜å çŠ¶æ€
+        public bool HasCodeFiles;       // å½“å‰æ–‡ä»¶å¤¹ä¸‹æ˜¯å¦æœ‰ä»£ç æ–‡ä»¶ï¼ˆä¸å«å­ç›®å½•ï¼‰
+        public List<FolderNode> Children = new List<FolderNode>(); // å­æ–‡ä»¶å¤¹
+        public FolderNode Parent;       // çˆ¶èŠ‚ç‚¹å¼•ç”¨
     }
 
-    private FolderNode _rootNode;       // Ê÷µÄ¸ù½Úµã
+    private FolderNode _rootNode;       // æ ‘çš„æ ¹èŠ‚ç‚¹
     private Vector2 _scrollPosition;
     private string _extractedCode = "";
     private bool _hasScanned = false;
@@ -33,80 +33,80 @@ public class CodeCopyer : EditorWindow
     private void OnGUI()
     {
         GUILayout.Space(10);
-        GUILayout.Label("´úÂëÌáÈ¡ÖúÊÖ (Ê÷ĞÎĞŞÕı°æ)", EditorStyles.boldLabel);
+        GUILayout.Label("ä»£ç æå–åŠ©æ‰‹ (æ ‘å½¢ä¿®æ­£ç‰ˆ)", EditorStyles.boldLabel);
         GUILayout.Space(5);
 
-        // 1. É¨ÃèÇøÓò
-        if (GUILayout.Button("É¨Ãè Assets/Scripts Ä¿Â¼", GUILayout.Height(30)))
+        // 1. æ‰«æåŒºåŸŸ
+        if (GUILayout.Button("æ‰«æ Assets/Scripts ç›®å½•", GUILayout.Height(30)))
         {
             ScanFoldersTree();
         }
 
         GUILayout.Space(10);
 
-        // 2. Ê÷ĞÎÁĞ±íÇøÓò
+        // 2. æ ‘å½¢åˆ—è¡¨åŒºåŸŸ
         if (_hasScanned && _rootNode != null)
         {
-            GUILayout.Label("ÇëÑ¡ÔñÒªÌáÈ¡µÄÄ£¿é:", EditorStyles.label);
+            GUILayout.Label("è¯·é€‰æ‹©è¦æå–çš„æ¨¡å—:", EditorStyles.label);
 
-            // È«Ñ¡/·´Ñ¡¹¤¾ßÀ¸
+            // å…¨é€‰/åé€‰å·¥å…·æ 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("È«Ñ¡", GUILayout.Width(60))) SetTreeSelection(_rootNode, true);
-            if (GUILayout.Button("È«²»Ñ¡", GUILayout.Width(60))) SetTreeSelection(_rootNode, false);
-            if (GUILayout.Button("È«²¿Õ¹¿ª", GUILayout.Width(70))) SetTreeExpansion(_rootNode, true);
-            if (GUILayout.Button("È«²¿ÕÛµş", GUILayout.Width(70))) SetTreeExpansion(_rootNode, false);
+            if (GUILayout.Button("å…¨é€‰", GUILayout.Width(60))) SetTreeSelection(_rootNode, true);
+            if (GUILayout.Button("å…¨ä¸é€‰", GUILayout.Width(60))) SetTreeSelection(_rootNode, false);
+            if (GUILayout.Button("å…¨éƒ¨å±•å¼€", GUILayout.Width(70))) SetTreeExpansion(_rootNode, true);
+            if (GUILayout.Button("å…¨éƒ¨æŠ˜å ", GUILayout.Width(70))) SetTreeExpansion(_rootNode, false);
             GUILayout.EndHorizontal();
 
-            // ¹ö¶¯ÊÓÍ¼
+            // æ»šåŠ¨è§†å›¾
             _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, "box", GUILayout.Height(300));
-            DrawFolderNode(_rootNode, 0); // µİ¹é»æÖÆÊ÷
+            DrawFolderNode(_rootNode, 0); // é€’å½’ç»˜åˆ¶æ ‘
             GUILayout.EndScrollView();
         }
         else if (_hasScanned && _rootNode == null)
         {
-            GUILayout.Label("Î´ÕÒµ½°üº¬´úÂëµÄÎÄ¼ş¼Ğ¡£");
+            GUILayout.Label("æœªæ‰¾åˆ°åŒ…å«ä»£ç çš„æ–‡ä»¶å¤¹ã€‚");
         }
 
         GUILayout.Space(10);
 
-        // 3. ÌáÈ¡²Ù×÷ÇøÓò
-        if (GUILayout.Button("ÌáÈ¡²¢Ñ¹Ëõ´úÂë", GUILayout.Height(30)))
+        // 3. æå–æ“ä½œåŒºåŸŸ
+        if (GUILayout.Button("æå–å¹¶å‹ç¼©ä»£ç ", GUILayout.Height(30)))
         {
             ExtractCodesFromTree();
         }
 
         GUILayout.Space(10);
 
-        // 4. ½á¹ûÓë¸´ÖÆ
-        GUILayout.Label("´úÂë´æ·ÅÇø:", EditorStyles.boldLabel);
+        // 4. ç»“æœä¸å¤åˆ¶
+        GUILayout.Label("ä»£ç å­˜æ”¾åŒº:", EditorStyles.boldLabel);
         var textAreaStyle = new GUIStyle(EditorStyles.textArea);
         textAreaStyle.wordWrap = true;
         _extractedCode = EditorGUILayout.TextArea(_extractedCode, textAreaStyle, GUILayout.Height(150));
 
         GUILayout.Space(5);
 
-        if (GUILayout.Button("Copy All (¸´ÖÆµ½¼ôÌù°å)", GUILayout.Height(40)))
+        if (GUILayout.Button("Copy All (å¤åˆ¶åˆ°å‰ªè´´æ¿)", GUILayout.Height(40)))
         {
             if (!string.IsNullOrEmpty(_extractedCode))
             {
                 EditorGUIUtility.systemCopyBuffer = _extractedCode;
-                EditorUtility.DisplayDialog("³É¹¦", "´úÂëÒÑ¸´ÖÆµ½¼ôÌù°å£¡", "OK");
+                EditorUtility.DisplayDialog("æˆåŠŸ", "ä»£ç å·²å¤åˆ¶åˆ°å‰ªè´´æ¿ï¼", "OK");
             }
             else
             {
-                EditorUtility.DisplayDialog("ÌáÊ¾", "Ã»ÓĞ¿É¸´ÖÆµÄÄÚÈİ", "OK");
+                EditorUtility.DisplayDialog("æç¤º", "æ²¡æœ‰å¯å¤åˆ¶çš„å†…å®¹", "OK");
             }
         }
     }
 
-    // --- ºËĞÄÂß¼­£º¹¹½¨Ê÷ ---
+    // --- æ ¸å¿ƒé€»è¾‘ï¼šæ„å»ºæ ‘ ---
     private void ScanFoldersTree()
     {
         string scriptsRoot = Path.Combine(Application.dataPath, "Scripts");
 
         if (!Directory.Exists(scriptsRoot))
         {
-            EditorUtility.DisplayDialog("´íÎó", "Î´ÕÒµ½ 'Assets/Scripts' ÎÄ¼ş¼Ğ£¡", "OK");
+            EditorUtility.DisplayDialog("é”™è¯¯", "æœªæ‰¾åˆ° 'Assets/Scripts' æ–‡ä»¶å¤¹ï¼", "OK");
             return;
         }
 
@@ -159,7 +159,7 @@ public class CodeCopyer : EditorWindow
         return node;
     }
 
-    // --- ºËĞÄÂß¼­£ºµİ¹é»æÖÆ UI ---
+    // --- æ ¸å¿ƒé€»è¾‘ï¼šé€’å½’ç»˜åˆ¶ UI ---
     private void DrawFolderNode(FolderNode node, int indentLevel)
     {
         GUILayout.BeginHorizontal();
@@ -175,12 +175,12 @@ public class CodeCopyer : EditorWindow
         }
 
         bool prevSelected = node.IsSelected;
-        string displayName = node.Name + (node.HasCodeFiles ? " (º¬´úÂë)" : "");
+        string displayName = node.Name + (node.HasCodeFiles ? " (å«ä»£ç )" : "");
 
-        // »æÖÆ Toggle
+        // ç»˜åˆ¶ Toggle
         node.IsSelected = EditorGUILayout.ToggleLeft(displayName, node.IsSelected);
 
-        // Èç¹ûµã»÷ÁË¸¸¼¶£¬Áª¶¯×Ó¼¶
+        // å¦‚æœç‚¹å‡»äº†çˆ¶çº§ï¼Œè”åŠ¨å­çº§
         if (node.IsSelected != prevSelected)
         {
             SetTreeSelection(node, node.IsSelected);
@@ -217,7 +217,7 @@ public class CodeCopyer : EditorWindow
         }
     }
 
-    // --- ºËĞÄÂß¼­£ºÌáÈ¡´úÂë (ĞŞ¸´ Bug ´¦) ---
+    // --- æ ¸å¿ƒé€»è¾‘ï¼šæå–ä»£ç  (ä¿®å¤ Bug å¤„) ---
     private void ExtractCodesFromTree()
     {
         if (_rootNode == null) return;
@@ -231,20 +231,20 @@ public class CodeCopyer : EditorWindow
 
         if (totalFiles == 0)
         {
-            _extractedCode = "Î´Ñ¡ÔñÈÎºÎ°üº¬´úÂëµÄÎÄ¼ş¼Ğ¡£";
+            _extractedCode = "æœªé€‰æ‹©ä»»ä½•åŒ…å«ä»£ç çš„æ–‡ä»¶å¤¹ã€‚";
         }
         else
         {
-            Debug.Log($"ÌáÈ¡Íê³É£º¹²´¦Àí {totalFiles} ¸öÎÄ¼ş¡£");
+            Debug.Log($"æå–å®Œæˆï¼šå…±å¤„ç† {totalFiles} ä¸ªæ–‡ä»¶ã€‚");
         }
     }
 
     private void CollectCodesRecursive(FolderNode node, StringBuilder sb, ref int count)
     {
-        // [ĞŞ¸´µã]£º²»ÒªÔÚÕâÀïĞ´ if (!node.IsSelected) return;
-        // ¼´Ê¹µ±Ç°ÎÄ¼ş¼ĞÃ»±»Ñ¡ÖĞ£¬Ò²Òª¼ÌĞøÏòÏÂ±éÀú£¬ÒòÎª×ÓÎÄ¼ş¼Ğ¿ÉÄÜ±»Ñ¡ÖĞÁË£¡
+        // [ä¿®å¤ç‚¹]ï¼šä¸è¦åœ¨è¿™é‡Œå†™ if (!node.IsSelected) return;
+        // å³ä½¿å½“å‰æ–‡ä»¶å¤¹æ²¡è¢«é€‰ä¸­ï¼Œä¹Ÿè¦ç»§ç»­å‘ä¸‹éå†ï¼Œå› ä¸ºå­æ–‡ä»¶å¤¹å¯èƒ½è¢«é€‰ä¸­äº†ï¼
 
-        // 1. Èç¹ûµ±Ç°ÎÄ¼ş¼Ğ±»Ñ¡ÖĞ£¬ÇÒÓĞ´úÂë£¬ÌáÈ¡Ëü
+        // 1. å¦‚æœå½“å‰æ–‡ä»¶å¤¹è¢«é€‰ä¸­ï¼Œä¸”æœ‰ä»£ç ï¼Œæå–å®ƒ
         if (node.IsSelected && node.HasCodeFiles)
         {
             string[] files = Directory.GetFiles(node.FullPath, "*.cs", SearchOption.TopDirectoryOnly);
@@ -255,7 +255,7 @@ public class CodeCopyer : EditorWindow
             }
         }
 
-        // 2. ÎŞÂÛµ±Ç°ÎÄ¼ş¼ĞÊÇ·ñÑ¡ÖĞ£¬¶¼Òªµİ¹é¼ì²é×Ó½Úµã
+        // 2. æ— è®ºå½“å‰æ–‡ä»¶å¤¹æ˜¯å¦é€‰ä¸­ï¼Œéƒ½è¦é€’å½’æ£€æŸ¥å­èŠ‚ç‚¹
         foreach (var child in node.Children)
         {
             CollectCodesRecursive(child, sb, ref count);
@@ -264,11 +264,11 @@ public class CodeCopyer : EditorWindow
 
     private void ProcessFile(string path, StringBuilder sb)
     {
-        // Ç¿ÖÆ UTF-8 ¶ÁÈ¡
+        // å¼ºåˆ¶ UTF-8 è¯»å–
         string content = File.ReadAllText(path, Encoding.UTF8);
         string compressedContent = CompressCode(content);
 
-        // »ñÈ¡Ïà¶ÔÂ·¾¶
+        // è·å–ç›¸å¯¹è·¯å¾„
         string relativePath = path.Replace(Application.dataPath, "Assets");
 
         sb.Append($"\n[FILE START: {relativePath}]\n");

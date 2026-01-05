@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,38 +7,45 @@ using static UnityEngine.CullingGroup;
 [CreateAssetMenu(fileName = "NewSkill", menuName = "Game/Skill Data")]
 public class SkillDataSO : ScriptableObject
 {
+    [SerializeField] AnimationClip _chargeClip;
+    [SerializeField] AnimationClip _activeClip;
+    [SerializeField] AnimationClip _recoveryClip;
+
     #region skill base properties
-    [Header("¼¼ÄÜ»ù´¡ÅäÖÃ")]
+    [Header("æŠ€èƒ½åŸºç¡€é…ç½®")]
     public float coolDown = 1.0f;
-    [Tooltip("Ê©·¨¾àÀë/¹¥»÷°ë¾¶£ºÍæ¼Ò½øÈë´Ë·¶Î§ÄÚÊ±£¬µĞÈË½«Í£Ö¹ÒÆ¶¯²¢¿ªÊ¼¹¥»÷")]
-    public float castRadius = 2.0f; // ĞÂÔöÊôĞÔ£º¾ö¶¨ÁËÊÇ½üÕ½(Èç2.0)»¹ÊÇÔ¶³Ì(Èç15.0)
+    [Tooltip("æ–½æ³•è·ç¦»/æ”»å‡»åŠå¾„ï¼šç©å®¶è¿›å…¥æ­¤èŒƒå›´å†…æ—¶ï¼Œæ•Œäººå°†åœæ­¢ç§»åŠ¨å¹¶å¼€å§‹æ”»å‡»")]
+    public float castRadius = 2.0f; // æ–°å¢å±æ€§ï¼šå†³å®šäº†æ˜¯è¿‘æˆ˜(å¦‚2.0)è¿˜æ˜¯è¿œç¨‹(å¦‚15.0)
     #endregion
 
     #region skill pahse charge
-    [Header("Ç°Ò¡½×¶Î")]
-    [Tooltip("Ç°Ò¡Ê±¼ä£¨Ãë£©£¬¶ÔÓ¦Ô¤¾¯È¦Ê±¼ä")]
+    [Header("å‰æ‘‡é˜¶æ®µ")]
+    [Tooltip("å‰æ‘‡æ—¶é—´ï¼ˆç§’ï¼‰ï¼Œå¯¹åº”é¢„è­¦åœˆæ—¶é—´")]
     public float chargeDuration = 1.5f;
-    [Tooltip("Ç°Ò¡¶¯×÷Ãû³Æ")]
+    [Tooltip("å‰æ‘‡åŠ¨ä½œåç§°")]
     public string chargeAnimationName = "Idle";
-    [Tooltip("Ô¤¾¯È¦ Prefab")]
+    [Tooltip("é¢„è­¦åœˆ Prefab")]
     public GameObject warningPrefab;
-    [Tooltip("ĞîÁ¦ÊÓ¾õÌØĞ§ prefab list")]
+    [Tooltip("è“„åŠ›è§†è§‰ç‰¹æ•ˆ prefab list")]
     public List<GameObject> chargeVisualPrefabs;
     public bool ifChargeInteruptable = true;
     #endregion
 
     #region skill pahse active
-    [Header("ÊÍ·Å½×¶Î")]
+    [Header("é‡Šæ”¾é˜¶æ®µ")]
     public float activeDuration;
     public string activeAnimationName;
     [SerializeReference, SubclassSelector]
     public List<SkillEffect> effects = new List<SkillEffect>();
     public bool isSelfCentered;
     public bool ifActiveInteruptable = false;
+    // ã€æ–°å¢ã€‘æ˜¯å¦å…è®¸åœ¨ Active é˜¶æ®µç§»åŠ¨
+    [Tooltip("å¦‚æœå‹¾é€‰ï¼Œç©å®¶åœ¨æŠ€èƒ½é‡Šæ”¾æœŸé—´ï¼ˆActiveé˜¶æ®µï¼‰å¯ä»¥ç§»åŠ¨")]
+    public bool canMoveDuringActive = false;
     #endregion
 
     #region skill phase recovery
-    [Header("ºóÒ¡½×¶Î")]
+    [Header("åæ‘‡é˜¶æ®µ")]
     public float recoveryDuration;
     public string recoveryAnimationName;
     public bool ifRecoveryInteruptable;
@@ -70,5 +77,11 @@ public class SkillDataSO : ScriptableObject
             effect.Execute(caster, target, position);
         }
     }
- 
+
+    public void SetDurations()
+    {
+        chargeDuration = _chargeClip.length;
+        activeDuration = _activeClip.length;
+        recoveryDuration = _recoveryClip.length;
+    }
 }

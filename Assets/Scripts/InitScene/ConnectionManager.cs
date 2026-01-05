@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using Unity.Netcode;
@@ -28,18 +28,18 @@ public class ConnectionManager : MonoBehaviour
 
     private void SubscribeEvents()
     {
-        // ÏÈÒÆ³ı£¬·ÀÖØ¸´
+        // å…ˆç§»é™¤ï¼Œé˜²é‡å¤
         UnsubscribeEvents();
 
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
 
-        // ¡¾¹Ø¼üĞŞ¸Ä 1¡¿ÕâÀï²»Òª¶©ÔÄ SceneManager£¡
-        // ÒòÎª´ËÊ± Server »¹Ã»Æô¶¯£¬SceneManager ÊÇ¿ÕµÄ£¬¶©ÔÄ±Ø±¨´í¡£
-        // ÎÒÃÇ°ÑËüÒÆµ½ StartHost ³É¹¦Ö®ºóÈ¥¶©ÔÄ¡£
+        // ã€å…³é”®ä¿®æ”¹ 1ã€‘è¿™é‡Œä¸è¦è®¢é˜… SceneManagerï¼
+        // å› ä¸ºæ­¤æ—¶ Server è¿˜æ²¡å¯åŠ¨ï¼ŒSceneManager æ˜¯ç©ºçš„ï¼Œè®¢é˜…å¿…æŠ¥é”™ã€‚
+        // æˆ‘ä»¬æŠŠå®ƒç§»åˆ° StartHost æˆåŠŸä¹‹åå»è®¢é˜…ã€‚
 
-        Debug.Log("ConnectionManager: »ù´¡ÊÂ¼ş¶©ÔÄ³É¹¦£¡");
+        Debug.Log("ConnectionManager: åŸºç¡€äº‹ä»¶è®¢é˜…æˆåŠŸï¼");
     }
 
     private void UnsubscribeEvents()
@@ -50,8 +50,8 @@ public class ConnectionManager : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
 
-        // ¡¾¹Ø¼üĞŞ¸Ä 2¡¿°²È«ÒÆ³ı¶©ÔÄ
-        // Ö»ÓĞµ± SceneManager ´æÔÚÊ±²ÅÈ¥È¡Ïû¶©ÔÄ
+        // ã€å…³é”®ä¿®æ”¹ 2ã€‘å®‰å…¨ç§»é™¤è®¢é˜…
+        // åªæœ‰å½“ SceneManager å­˜åœ¨æ—¶æ‰å»å–æ¶ˆè®¢é˜…
         if (NetworkManager.Singleton.SceneManager != null)
         {
             NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnSceneLoadComplete;
@@ -63,36 +63,36 @@ public class ConnectionManager : MonoBehaviour
         UnsubscribeEvents();
     }
 
-    // ================= 1. Æô¶¯Èë¿Ú =================
+    // ================= 1. å¯åŠ¨å…¥å£ =================
 
     public void StartHostWithCharacter(int characterIndex)
     {
-        // 1. ×¼±¸Êı¾İ
+        // 1. å‡†å¤‡æ•°æ®
         SubscribeEvents();
         var payload = Encoding.ASCII.GetBytes(characterIndex.ToString());
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payload;
         NetworkManager.Singleton.NetworkConfig.PlayerPrefab = null;
 
-        Debug.Log($"1. [Host] ×¼±¸Æô¶¯£¬Ñ¡Ôñ½ÇÉ«: {characterIndex}");
+        Debug.Log($"1. [Host] å‡†å¤‡å¯åŠ¨ï¼Œé€‰æ‹©è§’è‰²: {characterIndex}");
 
-        // 2. Æô¶¯ Host
+        // 2. å¯åŠ¨ Host
         if (NetworkManager.Singleton.StartHost())
         {
-            Debug.Log("2. [Host] Æô¶¯³É¹¦£¡");
+            Debug.Log("2. [Host] å¯åŠ¨æˆåŠŸï¼");
 
-            // ¡¾¹Ø¼üĞŞ¸Ä 3¡¿ÔÚÕâÀï¶©ÔÄ³¡¾°ÊÂ¼ş£¡
-            // ´ËÊ± Host ÒÑ¾­Æô¶¯£¬SceneManager ÒÑ¾­´´½¨³öÀ´ÁË£¬²»»á±¨´í¡£
+            // ã€å…³é”®ä¿®æ”¹ 3ã€‘åœ¨è¿™é‡Œè®¢é˜…åœºæ™¯äº‹ä»¶ï¼
+            // æ­¤æ—¶ Host å·²ç»å¯åŠ¨ï¼ŒSceneManager å·²ç»åˆ›å»ºå‡ºæ¥äº†ï¼Œä¸ä¼šæŠ¥é”™ã€‚
             if (NetworkManager.Singleton.SceneManager != null)
             {
                 NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnSceneLoadComplete;
-                Debug.Log("   -> ³¡¾°ÊÂ¼ş¶©ÔÄ³É¹¦");
+                Debug.Log("   -> åœºæ™¯äº‹ä»¶è®¢é˜…æˆåŠŸ");
 
-                // 3. ¼ÓÔØ³¡¾°
+                // 3. åŠ è½½åœºæ™¯
                 NetworkManager.Singleton.SceneManager.LoadScene(gameSceneName, LoadSceneMode.Single);
             }
             else
             {
-                Debug.LogError("!!! ÖÂÃü´íÎó£ºSceneManager ÒÀÈ»Îª¿Õ£¡Çë¼ì²é Inspector ÖĞÊÇ·ñ¹´Ñ¡ÁË 'Enable Scene Management' !!!");
+                Debug.LogError("!!! è‡´å‘½é”™è¯¯ï¼šSceneManager ä¾ç„¶ä¸ºç©ºï¼è¯·æ£€æŸ¥ Inspector ä¸­æ˜¯å¦å‹¾é€‰äº† 'Enable Scene Management' !!!");
             }
         }
     }
@@ -104,13 +104,13 @@ public class ConnectionManager : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.ConnectionData = payload;
         NetworkManager.Singleton.NetworkConfig.PlayerPrefab = null;
 
-        Debug.Log($"1. [Client] ×¼±¸Á¬½Ó£¬Ñ¡Ôñ½ÇÉ«: {characterIndex}");
+        Debug.Log($"1. [Client] å‡†å¤‡è¿æ¥ï¼Œé€‰æ‹©è§’è‰²: {characterIndex}");
         NetworkManager.Singleton.StartClient();
 
-        // ¿Í»§¶Ë²»ĞèÒª¶©ÔÄ SceneManager£¬ÒòÎªÉú³É½ÇÉ«µÄÈ¨Á¦ÔÚ·şÎñÆ÷ÊÖÀï
+        // å®¢æˆ·ç«¯ä¸éœ€è¦è®¢é˜… SceneManagerï¼Œå› ä¸ºç”Ÿæˆè§’è‰²çš„æƒåŠ›åœ¨æœåŠ¡å™¨æ‰‹é‡Œ
     }
 
-    // ================= 2. ÉóÅú (¼ÇÕË) =================
+    // ================= 2. å®¡æ‰¹ (è®°è´¦) =================
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
     {
         int charId = 0;
@@ -124,51 +124,51 @@ public class ConnectionManager : MonoBehaviour
         else
             _clientSelectionData.Add(request.ClientNetworkId, charId);
 
-        Debug.Log($"3. [Server] ÉóÅúÍ¨¹ı: ¿Í»§¶ËID {request.ClientNetworkId} Ñ¡ÔñÁË½ÇÉ« {charId}");
+        Debug.Log($"3. [Server] å®¡æ‰¹é€šè¿‡: å®¢æˆ·ç«¯ID {request.ClientNetworkId} é€‰æ‹©äº†è§’è‰² {charId}");
 
         response.Approved = true;
         response.CreatePlayerObject = false;
     }
 
-    // ================= 3. Á¬½Ó³É¹¦ =================
+    // ================= 3. è¿æ¥æˆåŠŸ =================
     private void OnClientConnected(ulong clientId)
     {
         if (!NetworkManager.Singleton.IsServer) return;
 
-        Debug.Log($"4. [Server] ¿Í»§¶Ë {clientId} Á¬½Ó³É¹¦¡£µ±Ç°³¡¾°: {SceneManager.GetActiveScene().name}");
+        Debug.Log($"4. [Server] å®¢æˆ·ç«¯ {clientId} è¿æ¥æˆåŠŸã€‚å½“å‰åœºæ™¯: {SceneManager.GetActiveScene().name}");
 
-        // Èç¹ûÖĞÍ¾¼ÓÈë£¬ÇÒÒÑ¾­ÔÚÓÎÏ·³¡¾°£¬Ö±½ÓÉú³É
+        // å¦‚æœä¸­é€”åŠ å…¥ï¼Œä¸”å·²ç»åœ¨æ¸¸æˆåœºæ™¯ï¼Œç›´æ¥ç”Ÿæˆ
         if (SceneManager.GetActiveScene().name == gameSceneName)
         {
-            Debug.Log($"   -> ÒÑ¾­ÔÚÓÎÏ·³¡¾°£¬Ö±½ÓÉú³É½ÇÉ«¸ø {clientId}");
+            Debug.Log($"   -> å·²ç»åœ¨æ¸¸æˆåœºæ™¯ï¼Œç›´æ¥ç”Ÿæˆè§’è‰²ç»™ {clientId}");
             SpawnPlayer(clientId);
         }
         else
         {
-            Debug.Log($"   -> »¹ÔÚ {SceneManager.GetActiveScene().name}£¬Ôİ²»Éú³É£¬µÈ´ı³¡¾°¼ÓÔØ...");
+            Debug.Log($"   -> è¿˜åœ¨ {SceneManager.GetActiveScene().name}ï¼Œæš‚ä¸ç”Ÿæˆï¼Œç­‰å¾…åœºæ™¯åŠ è½½...");
         }
     }
 
-    // ================= 4. ³¡¾°¼ÓÔØÍê±Ï =================
+    // ================= 4. åœºæ™¯åŠ è½½å®Œæ¯• =================
     private void OnSceneLoadComplete(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if (!NetworkManager.Singleton.IsServer) return;
 
         if (!sceneName.Contains(gameSceneName)) return;
 
-        Debug.Log($"5. [Server] ³¡¾° {sceneName} ¼ÓÔØÍê±Ï£¡¿ªÊ¼¼ì²é²¢Éú³É½ÇÉ«...");
+        Debug.Log($"5. [Server] åœºæ™¯ {sceneName} åŠ è½½å®Œæ¯•ï¼å¼€å§‹æ£€æŸ¥å¹¶ç”Ÿæˆè§’è‰²...");
 
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
             if (NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject == null)
             {
-                Debug.Log($"   -> ÎªÍæ¼Ò {clientId} ²¹·¢½ÇÉ«");
+                Debug.Log($"   -> ä¸ºç©å®¶ {clientId} è¡¥å‘è§’è‰²");
                 SpawnPlayer(clientId);
             }
         }
     }
 
-    // ================= 5. Éú³ÉÂß¼­ =================
+    // ================= 5. ç”Ÿæˆé€»è¾‘ =================
     private void SpawnPlayer(ulong clientId)
     {
         int charId = _clientSelectionData.ContainsKey(clientId) ? _clientSelectionData[clientId] : 0;
@@ -182,7 +182,7 @@ public class ConnectionManager : MonoBehaviour
 
         netObj.SpawnAsPlayerObject(clientId, true);
 
-        Debug.Log($"6. [Server] ³É¹¦Éú³É½ÇÉ« {charId} ¸øÍæ¼Ò {clientId}");
+        Debug.Log($"6. [Server] æˆåŠŸç”Ÿæˆè§’è‰² {charId} ç»™ç©å®¶ {clientId}");
     }
 
     private void OnClientDisconnect(ulong clientId)

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -8,27 +8,27 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class ConeLaserEffect : SkillEffect
 {
-    [Header("¼¤¹âÔ¤ÖÆÌå (Ğè¹Ò NetworkObject + LaserVisual)")]
+    [Header("æ¿€å…‰é¢„åˆ¶ä½“ (éœ€æŒ‚ NetworkObject + LaserVisual)")]
     [SerializeField] private NetworkObject _laserPrefab;
 
-    [Header("·¶Î§ÉèÖÃ")]
-    [Range(0, 180)] public float coneAngle = 60f; // ×¶ĞÎ½Ç¶È
-    public int rayCount = 5; // ÉäÏßÊıÁ¿
+    [Header("èŒƒå›´è®¾ç½®")]
+    [Range(0, 180)] public float coneAngle = 60f; // é”¥å½¢è§’åº¦
+    public int rayCount = 5; // å°„çº¿æ•°é‡
 
-    [Header("Éú³¤ÉèÖÃ")]
+    [Header("ç”Ÿé•¿è®¾ç½®")]
     public float startLength = 0.5f;
     public float maxLength = 20f;
-    public float growthTime = 1.0f; // ´ïµ½×î³¤ËùĞèÊ±¼ä
-    public float totalDuration = 3.0f; // ¼¼ÄÜ×Ü³ÖĞøÊ±¼ä
+    public float growthTime = 1.0f; // è¾¾åˆ°æœ€é•¿æ‰€éœ€æ—¶é—´
+    public float totalDuration = 3.0f; // æŠ€èƒ½æ€»æŒç»­æ—¶é—´
 
-    [Header("Õ½¶·²ÎÊı")]
+    [Header("æˆ˜æ–—å‚æ•°")]
     public float rayWidth = 0.2f;
     public int damagePerTick = 10;
-    public float damageInterval = 0.5f; // Ã¿0.5ÃëÔì³ÉÒ»´ÎÉËº¦£¬·ÀÖ¹ÃëÉ±
+    public float damageInterval = 0.5f; // æ¯0.5ç§’é€ æˆä¸€æ¬¡ä¼¤å®³ï¼Œé˜²æ­¢ç§’æ€
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // Æô¶¯Ö÷Ğ­³Ì£¬¹ÜÀíËùÓĞÉäÏßµÄÉúÃüÖÜÆÚ
+        // å¯åŠ¨ä¸»åç¨‹ï¼Œç®¡ç†æ‰€æœ‰å°„çº¿çš„ç”Ÿå‘½å‘¨æœŸ
         caster.GetComponent<NetworkBehaviour>().StartCoroutine(
             LaserBarrageRoutine(caster)
         );
@@ -39,66 +39,66 @@ public class ConeLaserEffect : SkillEffect
         List<NetworkObject> activeLasers = new List<NetworkObject>();
         List<Vector3> laserDirections = new List<Vector3>();
 
-        // 1. Éú³ÉËùÓĞÉäÏß
+        // 1. ç”Ÿæˆæ‰€æœ‰å°„çº¿
         for (int i = 0; i < rayCount; i++)
         {
-            // --- ÊıÑ§²¿·Ö£ºËæ»úÉú³É×¶ĞÎÄÚµÄ·½Ïò ---
-            // ¼ÙÉè Boss ÃæÏò transform.forward
-            // ÎÒÃÇÔÚ Y ÖáÉÏËæ»úÆ«×ª (-angle/2 µ½ angle/2)
+            // --- æ•°å­¦éƒ¨åˆ†ï¼šéšæœºç”Ÿæˆé”¥å½¢å†…çš„æ–¹å‘ ---
+            // å‡è®¾ Boss é¢å‘ transform.forward
+            // æˆ‘ä»¬åœ¨ Y è½´ä¸Šéšæœºåè½¬ (-angle/2 åˆ° angle/2)
             float randomYAngle = Random.Range(-coneAngle / 2f, coneAngle / 2f);
 
-            // ÕâÊÇÒ»¸öÆ½ÃæµÄÉÈĞÎ¡£Èç¹ûÄãÏëÒª 3D Ô²×¶£¬»¹ĞèÒªÔÚ X ÖáÎ¢µ÷£¬ÕâÀï¼ÙÉèÊÇµØÃæµÄÉÈĞÎÉ¨Éä
+            // è¿™æ˜¯ä¸€ä¸ªå¹³é¢çš„æ‰‡å½¢ã€‚å¦‚æœä½ æƒ³è¦ 3D åœ†é”¥ï¼Œè¿˜éœ€è¦åœ¨ X è½´å¾®è°ƒï¼Œè¿™é‡Œå‡è®¾æ˜¯åœ°é¢çš„æ‰‡å½¢æ‰«å°„
             Quaternion rotation = Quaternion.Euler(0, randomYAngle, 0);
             Vector3 finalDir = rotation * caster.transform.forward;
 
-            // --- Éú³ÉÎïÌå ---
-            // Éú³ÉÎ»ÖÃ£ºÉÔÎ¢Ì§¸ßÒ»µã£¬±ğ²åÔÚµØÀï
+            // --- ç”Ÿæˆç‰©ä½“ ---
+            // ç”Ÿæˆä½ç½®ï¼šç¨å¾®æŠ¬é«˜ä¸€ç‚¹ï¼Œåˆ«æ’åœ¨åœ°é‡Œ
             Vector3 spawnPos = caster.transform.position + Vector3.up * 1.0f;
 
-            // Ğı×ª£ºÈÃ¼¤¹âÎïÌåµÄ Z Öá³¯Ïò finalDir
+            // æ—‹è½¬ï¼šè®©æ¿€å…‰ç‰©ä½“çš„ Z è½´æœå‘ finalDir
             Quaternion laserRot = Quaternion.LookRotation(finalDir);
 
             var laserInstance = GameObject.Instantiate(_laserPrefab, spawnPos, laserRot);
             laserInstance.Spawn();
 
-            // ´æÏÂÀ´ÓÃÓÚºóĞøÂß¼­
+            // å­˜ä¸‹æ¥ç”¨äºåç»­é€»è¾‘
             activeLasers.Add(laserInstance);
             laserDirections.Add(finalDir);
 
-            // ³õÊ¼»¯¿Í»§¶ËÊÓ¾õ
+            // åˆå§‹åŒ–å®¢æˆ·ç«¯è§†è§‰
             if (laserInstance.TryGetComponent<LaserVisual>(out var visual))
             {
                 visual.InitializeLaserClientRpc(startLength, maxLength, growthTime, rayWidth);
             }
         }
 
-        // 2. Ñ­»·¼ì²âÂß¼­ (³ÖĞø totalDuration)
+        // 2. å¾ªç¯æ£€æµ‹é€»è¾‘ (æŒç»­ totalDuration)
         float timer = 0f;
 
-        // ÓÃ×Öµä¼ÇÂ¼Ã¿¸ö¼¤¹â¶ÔÃ¿¸öÍæ¼ÒµÄ¡°ÉÏÒ»´ÎÉËº¦Ê±¼ä¡±
-        // Key: LaserµÄNetworkObjectId + PlayerµÄNetworkObjectId (×éºÏKey)
-        // Value: ÉÏ´ÎÊÜÉËÊ±¼ä
+        // ç”¨å­—å…¸è®°å½•æ¯ä¸ªæ¿€å…‰å¯¹æ¯ä¸ªç©å®¶çš„â€œä¸Šä¸€æ¬¡ä¼¤å®³æ—¶é—´â€
+        // Key: Laserçš„NetworkObjectId + Playerçš„NetworkObjectId (ç»„åˆKey)
+        // Value: ä¸Šæ¬¡å—ä¼¤æ—¶é—´
         Dictionary<string, float> hitRecords = new Dictionary<string, float>();
 
         while (timer < totalDuration)
         {
             timer += Time.deltaTime;
 
-            // ¼ÆËãµ±Ç°µÄÎïÀíÉäÏß³¤¶È
+            // è®¡ç®—å½“å‰çš„ç‰©ç†å°„çº¿é•¿åº¦
             float progress = Mathf.Clamp01(timer / growthTime);
             float currentLogicLen = Mathf.Lerp(startLength, maxLength, progress);
 
-            // ±éÀúÃ¿Ò»Ìõ¼¤¹â½øĞĞ¼ì²â
+            // éå†æ¯ä¸€æ¡æ¿€å…‰è¿›è¡Œæ£€æµ‹
             for (int i = 0; i < activeLasers.Count; i++)
             {
                 var laserObj = activeLasers[i];
                 if (laserObj == null || !laserObj.IsSpawned) continue;
 
                 Vector3 origin = laserObj.transform.position;
-                Vector3 dir = laserObj.transform.forward; // ÒòÎªÎÒÃÇÉú³ÉÊ±Ğı×ªÁËÎïÌå£¬ËùÒÔÖ±½ÓÓÃ forward
+                Vector3 dir = laserObj.transform.forward; // å› ä¸ºæˆ‘ä»¬ç”Ÿæˆæ—¶æ—‹è½¬äº†ç‰©ä½“ï¼Œæ‰€ä»¥ç›´æ¥ç”¨ forward
 
-                // Ê¹ÓÃ SphereCast ´úÌæ Raycast£¬Ä£Äâ¡°´Ö¡±¼¤¹â
-                // °ë¾¶ÉèÎª rayWidthµÄÒ»°ë
+                // ä½¿ç”¨ SphereCast ä»£æ›¿ Raycastï¼Œæ¨¡æ‹Ÿâ€œç²—â€æ¿€å…‰
+                // åŠå¾„è®¾ä¸º rayWidthçš„ä¸€åŠ
                 RaycastHit[] hits = Physics.SphereCastAll(origin, rayWidth / 2f, dir, currentLogicLen);
 
                 foreach (var hit in hits)
@@ -107,30 +107,30 @@ public class ConeLaserEffect : SkillEffect
 
                     if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
                     {
-                        // --- ÉËº¦ÆµÂÊ¿ØÖÆ (Tick Logic) ---
+                        // --- ä¼¤å®³é¢‘ç‡æ§åˆ¶ (Tick Logic) ---
                         ulong targetId = hit.collider.GetComponent<NetworkObject>().NetworkObjectId;
                         ulong laserId = laserObj.NetworkObjectId;
                         string key = $"{laserId}_{targetId}";
 
                         if (!hitRecords.ContainsKey(key) || (Time.time - hitRecords[key] > damageInterval))
                         {
-                            // Ôì³ÉÉËº¦
+                            // é€ æˆä¼¤å®³
                             damageable.TakeDamage(damagePerTick, caster.GetComponent<NetworkObject>().NetworkObjectId);
 
-                            // ¼ÇÂ¼Ê±¼ä
+                            // è®°å½•æ—¶é—´
                             hitRecords[key] = Time.time;
 
-                            // »¹¿ÉÒÔ¼Ó¸ö»÷ÍË£¿
+                            // è¿˜å¯ä»¥åŠ ä¸ªå‡»é€€ï¼Ÿ
                             // if (hit.collider.TryGetComponent<IKnockBackable>(out var kb)) ...
                         }
                     }
                 }
             }
 
-            yield return null; // µÈ´ıÏÂÒ»Ö¡
+            yield return null; // ç­‰å¾…ä¸‹ä¸€å¸§
         }
 
-        // 3. ÇåÀí
+        // 3. æ¸…ç†
         foreach (var laser in activeLasers)
         {
             if (laser != null && laser.IsSpawned)

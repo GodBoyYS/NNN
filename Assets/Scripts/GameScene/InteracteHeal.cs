@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class InteracteHeal : NetworkBehaviour, IInteractable
@@ -10,12 +10,12 @@ public class InteracteHeal : NetworkBehaviour, IInteractable
         ulong sourceId = source.GetComponent<NetworkObject>().NetworkObjectId;
         RequestInteractServerRpc(sourceId);
     }
-    [ServerRpc(RequireOwnership = false)] // ÔÊÐíÈÎºÎÈËµ÷ÓÃ£¬²»½ö½öÊÇÎïÌåµÄOwner
+    [ServerRpc(RequireOwnership = false)] // å…è®¸ä»»ä½•äººè°ƒç”¨ï¼Œä¸ä»…ä»…æ˜¯ç‰©ä½“çš„Owner
     private void RequestInteractServerRpc(ulong sourceId)
     {
         if(NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(sourceId, out var sourceObject))
         {
-            // ÑéÖ¤¾àÀë£¨·ÀÖ¹×÷±×£¬Ç§ÀïÖ®Íâ³ÔÒ©£©
+            // éªŒè¯è·ç¦»ï¼ˆé˜²æ­¢ä½œå¼Šï¼Œåƒé‡Œä¹‹å¤–åƒè¯ï¼‰
             if (Vector3.Distance(transform.position, sourceObject.transform.position) > 3.0f) return;
             if(sourceObject.TryGetComponent<PlayerNetworkHealth>(out var health))
             {

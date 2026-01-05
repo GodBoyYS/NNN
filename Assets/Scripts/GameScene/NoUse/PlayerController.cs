@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.Rendering; // 如果使用的是 Mirror，请改为 using Mirror;
+using UnityEngine.Rendering; // 濡傛灉浣跨敤鐨勬槸 Mirror锛岃鏀逛负 using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -26,20 +26,20 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private float attackDistance = 20f;
 
-    [SerializeField] private LayerMask groundLayer; // 务必设置这个层级，防止点到玩家自己
-    [SerializeField] private LayerMask interactLayer;   // 该层级用于交互
+    [SerializeField] private LayerMask groundLayer; // 鍔″繀璁剧疆杩欎釜灞傜骇锛岄槻姝㈢偣鍒扮帺瀹惰嚜宸?
+    [SerializeField] private LayerMask interactLayer;   // 璇ュ眰绾х敤浜庝氦浜?
 
 
     private IPlayerState currentState;
 
-    // 服务器权威
+    // 鏈嶅姟鍣ㄦ潈濞?
     private Vector3 _serverTargetPosition;
-    // 获取主相机缓存
+    // 鑾峰彇涓荤浉鏈虹紦瀛?
     public Camera MainCamera { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public CapsuleCollider CapsuleCollider { get; private set; }
 
-    // 供state类访问的属性
+    // 渚泂tate绫昏闂殑灞炴€?
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotateSpeed;
     public Vector3 ServerTargetPosition => _serverTargetPosition;
@@ -48,10 +48,10 @@ public class PlayerController : NetworkBehaviour
 
     public LayerMask GroundLayer => groundLayer;
     public LayerMask InteractLayer => interactLayer;
-    // 建议改为 Awake 获取引用，确保不论是 Server 还是 Client，组件引用一定存在
+    // 寤鸿鏀逛负 Awake 鑾峰彇寮曠敤锛岀‘淇濅笉璁烘槸 Server 杩樻槸 Client锛岀粍浠跺紩鐢ㄤ竴瀹氬瓨鍦?
     private void Awake()
     {
-        MainCamera = Camera.main; // 注意：MainCamera 在非本地玩家身上可能不需要，但在 Awake 获取也没事
+        MainCamera = Camera.main; // 娉ㄦ剰锛歁ainCamera 鍦ㄩ潪鏈湴鐜╁韬笂鍙兘涓嶉渶瑕侊紝浣嗗湪 Awake 鑾峰彇涔熸病浜?
         Rigidbody = GetComponent<Rigidbody>();
         CapsuleCollider = GetComponent<CapsuleCollider>();
         _healthComponent = GetComponent<PlayerNetworkHealth>();
@@ -67,9 +67,9 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             BindLocalPlayerUI();
-            // 只让 owner 监听并驱动自己的状态机
+            // 鍙 owner 鐩戝惉骞堕┍鍔ㄨ嚜宸辩殑鐘舵€佹満
             _motionState.OnValueChanged += OnMotionStateChanged;
-            // 初始化一次：用当前状态驱动本地 FSM
+            // 鍒濆鍖栦竴娆★細鐢ㄥ綋鍓嶇姸鎬侀┍鍔ㄦ湰鍦?FSM
             AppyMotionState(_motionState.Value);
         }
     }
@@ -91,9 +91,9 @@ public class PlayerController : NetworkBehaviour
                 //ChangeState(new PlayerStateMove(this));
                 break;
         }
-        //意义：
-        //你的 FSM 不再被 RPC/ Server / Client 多点驱动，而是被 一个确定的下行状态 驱动。
-        //入口从“恶心的多”变成“一个”。
+        //鎰忎箟锛?
+        //浣犵殑 FSM 涓嶅啀琚?RPC/ Server / Client 澶氱偣椹卞姩锛岃€屾槸琚?涓€涓‘瀹氱殑涓嬭鐘舵€?椹卞姩銆?
+        //鍏ュ彛浠庘€滄伓蹇冪殑澶氣€濆彉鎴愨€滀竴涓€濄€?
     }
     public override void OnNetworkDespawn()
     {
@@ -117,7 +117,6 @@ public class PlayerController : NetworkBehaviour
         {
             ProcessMovement();
         }
-        // 意义：Server 不再执行你的输入状态逻辑，避免“Host 掩盖问题”。
     }
     public void ChangeState(IPlayerState nextState)
     {
@@ -128,16 +127,16 @@ public class PlayerController : NetworkBehaviour
 
     private void BindLocalPlayerUI()
     {
-        // 1. 获取 View (通过单例或 FindObject)
+        // 1. 鑾峰彇 View (閫氳繃鍗曚緥鎴?FindObject)
         var ui = HealthBarUI.Instance;
-        // 卫语句：防止场景里没放 UI 报错
+        // 鍗鍙ワ細闃叉鍦烘櫙閲屾病鏀?UI 鎶ラ敊
         if (ui == null)
         {
             Debug.LogError("Scene creates Player but HealthBarUI is missing!");
             return;
         }
 
-        // 2. 绑定事件 (M -> V)
+        // 2. 缁戝畾浜嬩欢 (M -> V)
         _healthComponent.OnHealthChanged += ui.UpdateViewHealth;
         ui.UpdateViewHealth(_healthComponent.MaxHealth, _healthComponent.MaxHealth);
     }
@@ -167,7 +166,7 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     private void RequestMoveServerRpc(Vector3 pos)
     {
-        // 验证逻辑（防作弊）
+        // 楠岃瘉閫昏緫锛堥槻浣滃紛锛?
         _serverTargetPosition = new Vector3(pos.x, transform.position.y, pos.z);
         _motionState.Value = MotionState.Moving;
     }
@@ -214,25 +213,25 @@ public class PlayerController : NetworkBehaviour
     #endregion
 
     #region death
-    // 检查是否死亡 (Server only)
+    // 妫€鏌ユ槸鍚︽浜?(Server only)
     private void CheckDeath(int currentHealth, int maxHealth)
     {
-        // 如果已经死了，或者正在死，就不处理
+        // 濡傛灉宸茬粡姝讳簡锛屾垨鑰呮鍦ㄦ锛屽氨涓嶅鐞?
         if (currentHealth <= 0 && !(currentState is PlayerStateDie))
         {
-            // 广播给所有人：切换到 Die 状态
+            // 骞挎挱缁欐墍鏈変汉锛氬垏鎹㈠埌 Die 鐘舵€?
             BroadcastDeathClientRpc();
         }
     }
 
     [ClientRpc]
-    private void BroadcastDeathClientRpc()  // 也要改成让 networkvar来驱动
+    private void BroadcastDeathClientRpc()  // 涔熻鏀规垚璁?networkvar鏉ラ┍鍔?
     {
-        // 所有客户端（包括 host）都会收到这个消息
+        // 鎵€鏈夊鎴风锛堝寘鎷?host锛夐兘浼氭敹鍒拌繖涓秷鎭?
         //ChangeState(new PlayerStateDie(this));
     }
 
-    // 别忘了在 OnNetworkDespawn 里取消订阅 CheckDeath
+    // 鍒繕浜嗗湪 OnNetworkDespawn 閲屽彇娑堣闃?CheckDeath
     #endregion
     private void OnCollisionEnter(Collision collision)
     {
@@ -248,10 +247,10 @@ public class PlayerController : NetworkBehaviour
         switch (hit.collider.gameObject.tag)
         {
             case "Player":
-                Debug.Log("点击到了玩家");
+                Debug.Log("碰到玩家");
                 break;
             default:
-                Debug.Log("点击到了无法交互的物体");
+                Debug.Log("其他物体");
                 break;
         }
     }
@@ -262,7 +261,7 @@ public class PlayerController : NetworkBehaviour
  * using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.Rendering; // 如果使用的是 Mirror，请改为 using Mirror;
+using UnityEngine.Rendering; // 濡傛灉浣跨敤鐨勬槸 Mirror锛岃鏀逛负 using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -286,20 +285,20 @@ public class PlayerController : NetworkBehaviour
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotateSpeed = 10f;
-    [SerializeField] private LayerMask groundLayer; // 务必设置这个层级，防止点到玩家自己
-    [SerializeField] private LayerMask interactLayer;   // 该层级用于交互
+    [SerializeField] private LayerMask groundLayer; // 鍔″繀璁剧疆杩欎釜灞傜骇锛岄槻姝㈢偣鍒扮帺瀹惰嚜宸?
+    [SerializeField] private LayerMask interactLayer;   // 璇ュ眰绾х敤浜庝氦浜?
 
     private IPlayerState currentState;
 
-    // 服务器权威
+    // 鏈嶅姟鍣ㄦ潈濞?
     private Vector3 _serverTargetPosition;
     private bool _isMoving = false;
-    // 获取主相机缓存
+    // 鑾峰彇涓荤浉鏈虹紦瀛?
     public Camera MainCamera { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public CapsuleCollider CapsuleCollider { get; private set; }
 
-    // 供state类访问的属性
+    // 渚泂tate绫昏闂殑灞炴€?
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotateSpeed;
     public bool IsMoving => _isMoving;
@@ -309,10 +308,10 @@ public class PlayerController : NetworkBehaviour
 
     public LayerMask GroundLayer => groundLayer;
     public LayerMask InteractLayer => interactLayer;
-    // 建议改为 Awake 获取引用，确保不论是 Server 还是 Client，组件引用一定存在
+    // 寤鸿鏀逛负 Awake 鑾峰彇寮曠敤锛岀‘淇濅笉璁烘槸 Server 杩樻槸 Client锛岀粍浠跺紩鐢ㄤ竴瀹氬瓨鍦?
     private void Awake()
     {
-        MainCamera = Camera.main; // 注意：MainCamera 在非本地玩家身上可能不需要，但在 Awake 获取也没事
+        MainCamera = Camera.main; // 娉ㄦ剰锛歁ainCamera 鍦ㄩ潪鏈湴鐜╁韬笂鍙兘涓嶉渶瑕侊紝浣嗗湪 Awake 鑾峰彇涔熸病浜?
         Rigidbody = GetComponent<Rigidbody>();
         CapsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -329,9 +328,9 @@ public class PlayerController : NetworkBehaviour
         if (IsOwner)
         {
             BindLocalPlayerUI();
-            // 只让 owner 监听并驱动自己的状态机
+            // 鍙 owner 鐩戝惉骞堕┍鍔ㄨ嚜宸辩殑鐘舵€佹満
             _motionState.OnValueChanged += OnMotionStateChanged;
-            // 初始化一次：用当前状态驱动本地 FSM
+            // 鍒濆鍖栦竴娆★細鐢ㄥ綋鍓嶇姸鎬侀┍鍔ㄦ湰鍦?FSM
             AppyMotionState(_motionState.Value);
 
         }
@@ -356,9 +355,9 @@ public class PlayerController : NetworkBehaviour
                 ChangeState(new PlayerStateMove(this));
                 break;
         }
-        //意义：
-        //你的 FSM 不再被 RPC/ Server / Client 多点驱动，而是被 一个确定的下行状态 驱动。
-        //入口从“恶心的多”变成“一个”。
+        //鎰忎箟锛?
+        //浣犵殑 FSM 涓嶅啀琚?RPC/ Server / Client 澶氱偣椹卞姩锛岃€屾槸琚?涓€涓‘瀹氱殑涓嬭鐘舵€?椹卞姩銆?
+        //鍏ュ彛浠庘€滄伓蹇冪殑澶氣€濆彉鎴愨€滀竴涓€濄€?
     }
     public override void OnNetworkDespawn()
     {
@@ -383,7 +382,7 @@ public class PlayerController : NetworkBehaviour
         {
             ProcessMovement();
         }
-        // 意义：Server 不再执行你的输入状态逻辑，避免“Host 掩盖问题”。
+        // 鎰忎箟锛歋erver 涓嶅啀鎵ц浣犵殑杈撳叆鐘舵€侀€昏緫锛岄伩鍏嶁€淗ost 鎺╃洊闂鈥濄€?
     }
 
     public void ChangeState(IPlayerState nextState)
@@ -395,16 +394,16 @@ public class PlayerController : NetworkBehaviour
 
     private void BindLocalPlayerUI()
     {
-        // 1. 获取 View (通过单例或 FindObject)
+        // 1. 鑾峰彇 View (閫氳繃鍗曚緥鎴?FindObject)
         var ui = HealthBarUI.Instance;
-        // 卫语句：防止场景里没放 UI 报错
+        // 鍗鍙ワ細闃叉鍦烘櫙閲屾病鏀?UI 鎶ラ敊
         if (ui == null)
         {
             Debug.LogError("Scene creates Player but HealthBarUI is missing!");
             return;
         }
 
-        // 2. 绑定事件 (M -> V)
+        // 2. 缁戝畾浜嬩欢 (M -> V)
         _healthComponent.OnHealthChanged += ui.UpdateViewHealth;
         ui.UpdateViewHealth(_healthComponent.MaxHealth, _healthComponent.MaxHealth);
     }
@@ -412,17 +411,17 @@ public class PlayerController : NetworkBehaviour
     //[Rpc(SendTo.Everyone)]
     //public void ChangeStateToIdleClientRpc()
     //{
-    //    if (!IsServer) // 避免服务器重复切换
+    //    if (!IsServer) // 閬垮厤鏈嶅姟鍣ㄩ噸澶嶅垏鎹?
     //    {
-    //        Debug.Log("客户端收到状态切换指令");
+    //        Debug.Log("瀹㈡埛绔敹鍒扮姸鎬佸垏鎹㈡寚浠?);
     //        ChangeState(new PlayerStateIdle(this));
     //    }
     //}
 
     #region movement
-    // -- 核心修复：rpc必须在此
+    // -- 鏍稿績淇锛歳pc蹇呴』鍦ㄦ
     /// <summary>
-    /// 供state调用的公共方法，发起移动请求
+    /// 渚泂tate璋冪敤鐨勫叕鍏辨柟娉曪紝鍙戣捣绉诲姩璇锋眰
     /// </summary>
     public void RequestMove(Vector3 position)
     {
@@ -434,7 +433,7 @@ public class PlayerController : NetworkBehaviour
     [ServerRpc]
     private void RequestMoveServerRpc(Vector3 pos)
     {
-        // 验证逻辑（防作弊）
+        // 楠岃瘉閫昏緫锛堥槻浣滃紛锛?
         _serverTargetPosition = new Vector3(pos.x, transform.position.y, pos.z);
         _motionState.Value = BossMotionState.Moving;
         //_isMoving = true;
@@ -442,7 +441,7 @@ public class PlayerController : NetworkBehaviour
     //[Rpc(SendTo.ClientsAndHost)]
     //public void SwitchToIdleClientRpc()
     //{
-    //    Debug.Log($"[Client]{NetworkObjectId} 收到服务器指令，切换回 Idle 状态");
+    //    Debug.Log($"[Client]{NetworkObjectId} 鏀跺埌鏈嶅姟鍣ㄦ寚浠わ紝鍒囨崲鍥?Idle 鐘舵€?);
     //    ChangeState(new PlayerStateIdle(this));
     //}
     //[Rpc(SendTo.ClientsAndHost)]
@@ -451,7 +450,7 @@ public class PlayerController : NetworkBehaviour
     //    ChangeState(new PlayerStateMove(this, pos));
     //}
     /// <summary>
-    /// 供server在update中调用的实际移动逻辑
+    /// 渚泂erver鍦╱pdate涓皟鐢ㄧ殑瀹為檯绉诲姩閫昏緫
     /// </summary>
     private void ProcessMovement()
     {
@@ -513,7 +512,7 @@ public class PlayerController : NetworkBehaviour
     //{
     //    if (!_isMoving) return;
     //    _isMoving = false;
-    //    // 服务器判定停止后，通知拥有者切回idle
+    //    // 鏈嶅姟鍣ㄥ垽瀹氬仠姝㈠悗锛岄€氱煡鎷ユ湁鑰呭垏鍥瀒dle
     //    NotifyOwnerEnterIdle();
     //}
     private void NotifyOwnerEnterIdle()
@@ -528,13 +527,13 @@ public class PlayerController : NetworkBehaviour
     #endregion
 
     #region death
-    // 检查是否死亡 (Server only)
+    // 妫€鏌ユ槸鍚︽浜?(Server only)
     private void CheckDeath(int currentHealth, int _maxHealth)
     {
-        // 如果已经死了，或者正在死，就不处理
+        // 濡傛灉宸茬粡姝讳簡锛屾垨鑰呮鍦ㄦ锛屽氨涓嶅鐞?
         if (currentHealth <= 0 && !(currentState is PlayerStateDie))
         {
-            // 广播给所有人：切换到 Die 状态
+            // 骞挎挱缁欐墍鏈変汉锛氬垏鎹㈠埌 Die 鐘舵€?
             BroadcastDeathClientRpc();
         }
     }
@@ -542,11 +541,11 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     private void BroadcastDeathClientRpc()
     {
-        // 所有客户端（包括 host）都会收到这个消息
+        // 鎵€鏈夊鎴风锛堝寘鎷?host锛夐兘浼氭敹鍒拌繖涓秷鎭?
         ChangeState(new PlayerStateDie(this));
     }
 
-    // 别忘了在 OnNetworkDespawn 里取消订阅 CheckDeath
+    // 鍒繕浜嗗湪 OnNetworkDespawn 閲屽彇娑堣闃?CheckDeath
     #endregion
     private void OnCollisionEnter(Collision collision)
     {

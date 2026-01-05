@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class DestructableCrate : NetworkBehaviour, IDamageable
@@ -14,7 +14,7 @@ public class DestructableCrate : NetworkBehaviour, IDamageable
         _hp.Value -= amount;
         if( _hp.Value <= 0)
         {
-            // Éú³ÉµòÂäÎï£¨¾ÍÏñµ¥»úÓÎÏ·Ò»ÑùÊµÀý»¯£©
+            // ç”Ÿæˆå‡‹è½ç‰©ï¼ˆå°±åƒå•æœºæ¸¸æˆä¸€æ ·å®žä¾‹åŒ–ï¼‰
             if(_lootPrefab != null)
             {
                 var lootInstance = Instantiate(_lootPrefab, transform.position, Quaternion.identity);

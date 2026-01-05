@@ -1,4 +1,4 @@
-// GameLifecycleManager.cs
+ï»¿// GameLifecycleManager.cs
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -15,7 +15,7 @@ public class GameLifecycleManager : NetworkBehaviour
 
     public void Awake()
     {
-        // È·±£µ¥Àı¼´Ê¹ÔÚÇĞ»»³¡¾°ºóÒ²ÄÜ¸üĞÂÒıÓÃ
+        // ç¡®ä¿å•ä¾‹å³ä½¿åœ¨åˆ‡æ¢åœºæ™¯åä¹Ÿèƒ½æ›´æ–°å¼•ç”¨
         Instance = this;
     }
 
@@ -23,11 +23,11 @@ public class GameLifecycleManager : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        // 1. ¼àÌıĞÂÁ¬½ÓµÄ¿Í»§¶Ë
+        // 1. ç›‘å¬æ–°è¿æ¥çš„å®¢æˆ·ç«¯
         NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
-        NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect; // ½¨Òé¼àÌı¶ÏÏß
+        NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect; // å»ºè®®ç›‘å¬æ–­çº¿
 
-        // 2. ¡¾¹Ø¼üĞŞ¸´¡¿´¦ÀíÒÑ¾­´æÔÚµÄÍæ¼Ò (±ÈÈç Host ×Ô¼º£¬»òÕß Manager Éú³É½ÏÍíµÄÇé¿ö)
+        // 2. ã€å…³é”®ä¿®å¤ã€‘å¤„ç†å·²ç»å­˜åœ¨çš„ç©å®¶ (æ¯”å¦‚ Host è‡ªå·±ï¼Œæˆ–è€… Manager ç”Ÿæˆè¾ƒæ™šçš„æƒ…å†µ)
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
             if (client.PlayerObject != null)
@@ -37,7 +37,7 @@ public class GameLifecycleManager : NetworkBehaviour
             }
         }
 
-        // 3. Boss ¶©ÔÄ
+        // 3. Boss è®¢é˜…
         if (bossInstance != null)
         {
             bossInstance.OnBossDied += HandleBossDefeat;
@@ -76,7 +76,7 @@ public class GameLifecycleManager : NetworkBehaviour
             activePlayers.Remove(player);
             Debug.Log($"[Manager] Player Unregistered. ID: {player.OwnerClientId}. Remaining: {activePlayers.Count}");
 
-            // ¿ÉÑ¡£ºÈç¹ûÍæ¼ÒÖĞÍ¾ÍË³ö£¬ÊÇ·ñÒª¼ì²éÊ£ÓàÈËÊıµ¼ÖÂÓÎÏ·½áÊø£¿
+            // å¯é€‰ï¼šå¦‚æœç©å®¶ä¸­é€”é€€å‡ºï¼Œæ˜¯å¦è¦æ£€æŸ¥å‰©ä½™äººæ•°å¯¼è‡´æ¸¸æˆç»“æŸï¼Ÿ
             // CheckGameOverCondition(); 
         }
     }
@@ -90,7 +90,7 @@ public class GameLifecycleManager : NetworkBehaviour
         int aliveCount = 0;
         foreach (var p in activePlayers)
         {
-            // È·±£Ö»Í³¼ÆÎ´ËÀÍöÇÒ¶ÔÏó»¹´æÔÚµÄÍæ¼Ò
+            // ç¡®ä¿åªç»Ÿè®¡æœªæ­»äº¡ä¸”å¯¹è±¡è¿˜å­˜åœ¨çš„ç©å®¶
             if (p != null && !p.DataContainer.IsDead)
             {
                 aliveCount++;
@@ -105,7 +105,7 @@ public class GameLifecycleManager : NetworkBehaviour
         }
     }
 
-    // ¡¾ĞŞ¸´¡¿²ÎÊıÊÇ clientId
+    // ã€ä¿®å¤ã€‘å‚æ•°æ˜¯ clientId
     private void HandleClientConnected(ulong clientId)
     {
         if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
@@ -119,8 +119,8 @@ public class GameLifecycleManager : NetworkBehaviour
 
     private void HandleClientDisconnect(ulong clientId)
     {
-        // Èç¹ûÄãĞèÒª´¦ÀíÍæ¼Ò¶ÏÏßËã×÷ËÀÍö/ÒÆ³ı£¬¿ÉÒÔÔÚÕâÀï´¦Àí
-        // ÕâÀïÔİÊ±²»ĞèÒª²Ù×÷£¬ÒòÎªPlayerNetworkCoreµÄOnNetworkDespawn»áµ÷ÓÃUnregister
+        // å¦‚æœä½ éœ€è¦å¤„ç†ç©å®¶æ–­çº¿ç®—ä½œæ­»äº¡/ç§»é™¤ï¼Œå¯ä»¥åœ¨è¿™é‡Œå¤„ç†
+        // è¿™é‡Œæš‚æ—¶ä¸éœ€è¦æ“ä½œï¼Œå› ä¸ºPlayerNetworkCoreçš„OnNetworkDespawnä¼šè°ƒç”¨Unregister
     }
 
     private void HandleBossDefeat()

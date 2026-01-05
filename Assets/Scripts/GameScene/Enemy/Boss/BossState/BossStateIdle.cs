@@ -1,40 +1,40 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BossStateIdle : BossBaseState
 {
     public BossStateIdle(BossController controller, BossStateMachine sm) : base(controller, sm) { }
 
-    public override void Enter()
+    public override void OnEnter()
     {
-        // [±íÏÖ]
-        _view.PlayAnimation("Idle");
+        PlayAnimation("Idle");
 
-        // [Âß¼­ - Server]
         if (_controller.IsServer)
         {
-            if (_controller.Agent.isOnNavMesh) _controller.Agent.ResetPath();
+            if (_controller.Agent.isOnNavMesh)
+                _controller.Agent.ResetPath();
         }
     }
 
-    public override void Update()
+    public override void OnUpdate()
     {
         if (!_controller.IsServer) return;
 
-        // [Âß¼­ - Server] ¼ì²âÍæ¼Ò
         if (_controller.Target != null)
         {
             float dist = Vector3.Distance(_controller.transform.position, _controller.Target.transform.position);
+
+            // æ£€æŸ¥æ˜¯å¦è¿›å…¥æ”»å‡»èŒƒå›´
             if (dist <= _controller.BasicAttackRange)
             {
-                // ³¢ÊÔ¹¥»÷
+                // å°è¯•æ”»å‡»ï¼Œå¦‚æœ CD å¥½äº†å°±ä¼šåˆ‡æ¢åˆ° Charge çŠ¶æ€
                 if (!_controller.TrySelectAndStartAttack())
                 {
-                    // CDÃ»ºÃ£¬¼ÌĞø·¢´ô»òµ÷ÕûÎ»ÖÃ
+                    // CD æ²¡å¥½ï¼Œæˆ–è€…æ²¡æŠ€èƒ½å¯ç”¨ï¼Œä¿æŒ Idle æˆ–è€…åšç‚¹åˆ«çš„ï¼ˆæ¯”å¦‚ä¾§å‘ç§»åŠ¨ï¼‰
                 }
             }
             else
             {
-                // ¾àÀëÔ¶£¬×·»÷
+                // è·ç¦»å¤ªè¿œï¼Œè¿›å…¥è¿½é€
                 _controller.SetState(BossController.BossMotionState.Chase);
             }
         }
@@ -57,28 +57,3 @@ public class BossStateIdle : BossBaseState
         }
     }
 }
-
-//using UnityEngine;
-
-//public class BossStateIdle : IEnemyState
-//{
-//    private BossPresentation _view;
-//    public BossStateIdle(BossPresentation view)
-//    {
-//        _view = view;
-//    }
-//    public void Enter()
-//    {
-//        _view.Animator.Play("Idle");
-//    }
-
-//    public void Exit()
-//    {
-
-//    }
-
-//    public void Update()
-//    {
-
-//    }
-//}

@@ -1,4 +1,4 @@
-
+ï»¿
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class EnemyStateMove : IEnemyState
 
     public void Enter()
     {
-        Debug.Log("¹ÖÎï½øÈë×·Öð×´Ì¬");
+        Debug.Log("æ€ªç‰©è¿›å…¥è¿½é€çŠ¶æ€");
         _view.Animator.Play("WalkFWD");
     }
 
@@ -35,7 +35,7 @@ public class EnemyStateMove : IEnemyState
 {
     ////private EnemyController _enemy;
     ////private NetworkObject _target;
-    //// ÓÅ»¯£º¼ÆÊ±Æ÷£¬±ÜÃâÃ¿Ö¡ÖØ¸´¼ÆËãÂ·¾¶
+    //// ä¼˜åŒ–ï¼šè®¡æ—¶å™¨ï¼Œé¿å…æ¯å¸§é‡å¤è®¡ç®—è·¯å¾„
     //private float _repathTimer = 0f;
     //private float _repathInterval = 0.2f;
 
@@ -48,18 +48,18 @@ public class EnemyStateMove : IEnemyState
 
     public void Enter()
     {
-        Debug.Log("¹ÖÎï½øÈë×·Öð×´Ì¬");
-        //// ½øÈë×´Ì¬Á¢¼´½øÐÐÒ»´ÎÒÆ¶¯
+        Debug.Log("æ€ªç‰©è¿›å…¥è¿½é€çŠ¶æ€");
+        //// è¿›å…¥çŠ¶æ€ç«‹å³è¿›è¡Œä¸€æ¬¡ç§»åŠ¨
         //if (_target != null && _enemy.NavMeshAgent.isOnNavMesh)
         //{
-        //    _enemy.NavMeshAgent.isStopped = false;  // È·±£agentÊÇ¿ªÆôÒÆ¶¯µÄ
+        //    _enemy.NavMeshAgent.isStopped = false;  // ç¡®ä¿agentæ˜¯å¼€å¯ç§»åŠ¨çš„
         //    _enemy.NavMeshAgent.SetDestination(_target.transform.position);
         //}
     }
 
     public void Exit()
     {
-        // Àë¿ª×·Öð£¨±ÈÈç½øÈë¹¥»÷»òÕßËÀÍö£©Ê±£¬Í£Ö¹ÒÆ¶¯
+        // ç¦»å¼€è¿½é€ï¼ˆæ¯”å¦‚è¿›å…¥æ”»å‡»æˆ–è€…æ­»äº¡ï¼‰æ—¶ï¼Œåœæ­¢ç§»åŠ¨
         //if (_enemy.NavMeshAgent.isOnNavMesh)
         //{
         //    _enemy.NavMeshAgent.isStopped = true;
@@ -76,19 +76,19 @@ public class EnemyStateMove : IEnemyState
     }
     //private void ChasePlayer()
     //{
-    //    // ³ÖÐø×·ÖðµÐÈË
+    //    // æŒç»­è¿½é€æ•Œäºº
     //    // todo
-    //    // ×·Öðplayer£ºË¼Â·-->»ñÈ¡Íæ¼ÒÎ»ÖÃ£¬navmeshagent.settarget()£¬networktransform¸üÐÂÎ»ÖÃ
+    //    // è¿½é€playerï¼šæ€è·¯-->èŽ·å–çŽ©å®¶ä½ç½®ï¼Œnavmeshagent.settarget()ï¼Œnetworktransformæ›´æ–°ä½ç½®
     //    if (_target == null) return;
-    //    // ¼òµ¥µÄ¼ÆÊ±Âß¼­
+    //    // ç®€å•çš„è®¡æ—¶é€»è¾‘
     //    _repathTimer += Time.deltaTime;
     //    if (_repathTimer > _repathInterval)
     //    {
     //        _repathTimer = 0f;
-    //        // ¡¾ºËÐÄÒÆ¶¯´úÂë¡¿
-    //        // Ö»ÐèÒªÕâÒ»ÐÐ£¬NavMeshAgent ¾Í»áÍÆ¶¯ GameObject ÒÆ¶¯
-    //        // NetworkTransform »á×Ô¶¯°ÑÕâ¸öÒÆ¶¯Í¬²½¸ø¿Í»§¶Ë
-    //        if (_enemy.NavMeshAgent.isOnNavMesh)    // ¼ÓÉÏÐ£Ñé·ÀÖ¹±¨´í
+    //        // ã€æ ¸å¿ƒç§»åŠ¨ä»£ç ã€‘
+    //        // åªéœ€è¦è¿™ä¸€è¡Œï¼ŒNavMeshAgent å°±ä¼šæŽ¨åŠ¨ GameObject ç§»åŠ¨
+    //        // NetworkTransform ä¼šè‡ªåŠ¨æŠŠè¿™ä¸ªç§»åŠ¨åŒæ­¥ç»™å®¢æˆ·ç«¯
+    //        if (_enemy.NavMeshAgent.isOnNavMesh)    // åŠ ä¸Šæ ¡éªŒé˜²æ­¢æŠ¥é”™
     //        {
     //            _enemy.NavMeshAgent.SetDestination(_target.transform.position);
     //        }
@@ -96,11 +96,11 @@ public class EnemyStateMove : IEnemyState
     //}
     //// chase -> idle / attack
     //private bool ChangeStateToSkill()
-    //{   // 1.Íæ¼Ò½øÈë¹¥»÷·¶Î§£¬ÇÐ»»µ½¹¥»÷×´Ì¬
+    //{   // 1.çŽ©å®¶è¿›å…¥æ”»å‡»èŒƒå›´ï¼Œåˆ‡æ¢åˆ°æ”»å‡»çŠ¶æ€
     //    return false;
     //}
     //private bool ChangeStateToIdle()
-    //{   // 2.Íæ¼ÒÌÓÍÑ×·Öð·¶Î§£¬ÇÐ»»µ½idle×´Ì¬
+    //{   // 2.çŽ©å®¶é€ƒè„±è¿½é€èŒƒå›´ï¼Œåˆ‡æ¢åˆ°idleçŠ¶æ€
     //    if (_target == null || Vector3.Distance(_target.transform.position, _enemy.transform.position) > _enemy.ChaseRange)
     //    {
     //        _enemy.ChangeState(new EnemyStateIdle(_enemy));

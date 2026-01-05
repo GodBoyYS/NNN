@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class GateController : NetworkBehaviour
@@ -8,11 +8,11 @@ public class GateController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Ä¬ÈÏ×´Ì¬£ºÈç¹ûÊÇĞÂµÄÇøÓò£¬ÃÅÊÇ¹Ø×ÅµÄ
+        // é»˜è®¤çŠ¶æ€ï¼šå¦‚æœæ˜¯æ–°çš„åŒºåŸŸï¼Œé—¨æ˜¯å…³ç€çš„
         SetGateState(true);
     }
 
-    // Server ¾ö¶¨ÃÅÊÇ·ñ¹Ø±Õ
+    // Server å†³å®šé—¨æ˜¯å¦å…³é—­
     public void SetLocked(bool isLocked)
     {
         if (!IsServer) return;
@@ -29,7 +29,7 @@ public class GateController : NetworkBehaviour
 
         //if (!isLocked)
         //{
-        //    // ÕâÀï¿ÉÒÔ¼Ó¸öÒôĞ§£ºÃÅ´ò¿ªµÄÉùÒô
+        //    // è¿™é‡Œå¯ä»¥åŠ ä¸ªéŸ³æ•ˆï¼šé—¨æ‰“å¼€çš„å£°éŸ³
         //    Debug.Log("Gate Opened!");
         //}
     }

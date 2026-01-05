@@ -1,16 +1,16 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 [Serializable]
 public class TeleportEffect : SkillEffect
 {
-    [Header("Î»ÒÆÅäÖÃ")] 
+    [Header("ä½ç§»é…ç½®")] 
     public float distance = 5f; 
-    public bool isDash = true; // ´Ë²ÎÊı¿ÉÓÃÓÚÀ©Õ¹Çø·ÖË²ÒÆ»¹ÊÇ³å·æ£¬Ä¿Ç°¾ù×÷ÎªË²ÒÆ´¦Àí»òĞèÒªmovementÖ§³Ödash public float duration = 0.2f;
+    public bool isDash = true; // æ­¤å‚æ•°å¯ç”¨äºæ‰©å±•åŒºåˆ†ç¬ç§»è¿˜æ˜¯å†²é”‹ï¼Œç›®å‰å‡ä½œä¸ºç¬ç§»å¤„ç†æˆ–éœ€è¦movementæ”¯æŒdash public float duration = 0.2f;
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // ³¢ÊÔ»ñÈ¡ ITeleportable ½Ó¿Ú
+        // å°è¯•è·å– ITeleportable æ¥å£
         if (!caster.TryGetComponent<ITeleportable>(out var teleportable))
         {
             Debug.LogWarning($"[Effect] {caster.name} does not implement ITeleportable!");
@@ -20,12 +20,12 @@ public class TeleportEffect : SkillEffect
         Vector3 direction = (position - caster.transform.position).normalized;
         direction.y = 0;
 
-        // Èç¹ûµã»÷µÄÊÇ½ÅÏÂ£¬Ä¬ÈÏÏòÇ°
+        // å¦‚æœç‚¹å‡»çš„æ˜¯è„šä¸‹ï¼Œé»˜è®¤å‘å‰
         if (direction == Vector3.zero) direction = caster.transform.forward;
 
         Vector3 targetPos = caster.transform.position + direction * distance;
 
-        // Ê¹ÓÃ½Ó¿Ú·½·¨½øĞĞË²ÒÆ
+        // ä½¿ç”¨æ¥å£æ–¹æ³•è¿›è¡Œç¬ç§»
         teleportable.TeleportServer(targetPos);
 
         Debug.Log($"[Effect] Teleport: {caster.name} to {targetPos}");

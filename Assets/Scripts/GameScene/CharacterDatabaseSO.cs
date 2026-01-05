@@ -1,21 +1,21 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Unity.Netcode;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "CharacterDatabase", menuName = "Game/Character Database")]
 public class CharacterDatabaseSO : ScriptableObject
 {
-    // ÕâÀï´æ·ÅËùÓĞµÄ½ÇÉ«Ô¤ÖÆÌå
+    // è¿™é‡Œå­˜æ”¾æ‰€æœ‰çš„è§’è‰²é¢„åˆ¶ä½“
     public List<NetworkObject> characterPrefabs;
 
-    // ¸¨Öú·½·¨£ºÈ·±£Ë÷Òı²»Ô½½ç
+    // è¾…åŠ©æ–¹æ³•ï¼šç¡®ä¿ç´¢å¼•ä¸è¶Šç•Œ
     public NetworkObject GetPrefabById(int id)
     {
         if (id >= 0 && id < characterPrefabs.Count)
         {
             return characterPrefabs[id];
         }
-        Debug.Log("»ñÈ¡Ä¬ÈÏ½ÇÉ«");
-        return characterPrefabs[0]; // Ä¬ÈÏ·µ»ØµÚÒ»¸ö£¬·ÀÖ¹±¨´í
+        Debug.Log("è·å–é»˜è®¤è§’è‰²");
+        return characterPrefabs[0]; // é»˜è®¤è¿”å›ç¬¬ä¸€ä¸ªï¼Œé˜²æ­¢æŠ¥é”™
     }
 }

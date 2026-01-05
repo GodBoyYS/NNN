@@ -1,29 +1,29 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Unity.Cinemachine;
 
 public class TestShake : MonoBehaviour
 {
-    // °ÑÄãµÄĞéÄâÏà»ú(´øÓĞListenerµÄ)ÍÏ½øÈ¥
+    // æŠŠä½ çš„è™šæ‹Ÿç›¸æœº(å¸¦æœ‰Listenerçš„)æ‹–è¿›å»
     public CinemachineCamera targetCamera;
-    // °ÑÄãµÄ Noise Settings ÎÄ¼şÍÏ½øÈ¥
+    // æŠŠä½ çš„ Noise Settings æ–‡ä»¶æ‹–è¿›å»
     public NoiseSettings noiseProfile;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("Ç¿ÖÆ²âÊÔÕğ¶¯£¡");
-            // ¼ÈÈ»ÊÇ CM 3.0£¬ÎÒÃÇÖ±½ÓÉú³ÉÒ»¸öÂö³å
+            Debug.Log("å¼ºåˆ¶æµ‹è¯•éœ‡åŠ¨ï¼");
+            // æ—¢ç„¶æ˜¯ CM 3.0ï¼Œæˆ‘ä»¬ç›´æ¥ç”Ÿæˆä¸€ä¸ªè„‰å†²
             if (targetCamera != null && noiseProfile != null)
             {
-                //// ·¢ËÍÒ»¸öÈ«¾ÖÂö³å£¬¿´Ïà»úÓĞÃ»ÓĞ·´Ó¦
+                //// å‘é€ä¸€ä¸ªå…¨å±€è„‰å†²ï¼Œçœ‹ç›¸æœºæœ‰æ²¡æœ‰ååº”
                 //CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
                 //CinemachineImpulseManager.Instance.EnvelopeShake(
                 //    noiseProfile,
-                //    1.0f, // Á¦¶È
-                //    0.2f, // ¹¥»÷Ê±¼ä
-                //    0.5f, // Î¬³ÖÊ±¼ä
-                //    0.5f, // Ë¥¼õÊ±¼ä
+                //    1.0f, // åŠ›åº¦
+                //    0.2f, // æ”»å‡»æ—¶é—´
+                //    0.5f, // ç»´æŒæ—¶é—´
+                //    0.5f, // è¡°å‡æ—¶é—´
                 //    Vector3.up,
                 //    Quaternion.identity
                 //);

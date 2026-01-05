@@ -1,18 +1,18 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using Unity.Netcode;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    [SerializeField] private GameHUDView hudView; // 拖拽引用场景里的 HUD
+    [SerializeField] private GameHUDView hudView; // 鎷栨嫿寮曠敤鍦烘櫙閲岀殑 HUD
 
     private void Awake()
     {
         Instance = this;
     }
 
-    // 当本地玩家生成时调用这个方法
+    // 褰撴湰鍦扮帺瀹剁敓鎴愭椂璋冪敤杩欎釜鏂规硶
     public void OnLocalPlayerSpawned(PlayerNetworkHealth health, PlayerNetworkCombat combat)
     {
     }

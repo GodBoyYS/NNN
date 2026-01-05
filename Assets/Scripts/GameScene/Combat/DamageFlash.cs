@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class DamageFlash : MonoBehaviour
@@ -13,7 +13,7 @@ public class DamageFlash : MonoBehaviour
 
     private void Awake()
     {
-        // »ñÈ¡ËùÓĞµÄ Mesh Renderer (ÊÊÓÃÓÚ½ÇÉ«Ä£ĞÍ)
+        // è·å–æ‰€æœ‰çš„ Mesh Renderer (é€‚ç”¨äºè§’è‰²æ¨¡å‹)
         _renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         _propBlock = new MaterialPropertyBlock();
     }
@@ -26,24 +26,24 @@ public class DamageFlash : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
-        // 1. ÉèÖÃÎªÉÁ¹âÑÕÉ« (ÀûÓÃ Emission ×Ô·¢¹â×îÈİÒ×ÊµÏÖ¡°È«°×¡±)
+        // 1. è®¾ç½®ä¸ºé—ªå…‰é¢œè‰² (åˆ©ç”¨ Emission è‡ªå‘å…‰æœ€å®¹æ˜“å®ç°â€œå…¨ç™½â€)
         foreach (var r in _renderers)
         {
             r.GetPropertyBlock(_propBlock);
-            // Èç¹ûÊÇ URP »ò Standard£¬Í¨³£¿ÉÒÔÍ¨¹ı _EmissionColor ÈÃËü±äÁÁ±ä°×
-            // Èç¹ûÄãµÄ Shader Ã»ÓĞ Emission£¬¿ÉÒÔÓÃ _BaseColor »ò _Color£¬µ«Ğ§¹û¿ÉÄÜÖ»ÊÇ±äÉ«¶ø²»ÊÇ±äÁÁ
-            _propBlock.SetColor("_EmissionColor", flashColor * 5f); // *5 ÎªÁË¸üÁÁ
-            // ±¸Ñ¡£º_propBlock.SetColor("_BaseColor", flashColor); 
+            // å¦‚æœæ˜¯ URP æˆ– Standardï¼Œé€šå¸¸å¯ä»¥é€šè¿‡ _EmissionColor è®©å®ƒå˜äº®å˜ç™½
+            // å¦‚æœä½ çš„ Shader æ²¡æœ‰ Emissionï¼Œå¯ä»¥ç”¨ _BaseColor æˆ– _Colorï¼Œä½†æ•ˆæœå¯èƒ½åªæ˜¯å˜è‰²è€Œä¸æ˜¯å˜äº®
+            _propBlock.SetColor("_EmissionColor", flashColor * 5f); // *5 ä¸ºäº†æ›´äº®
+            // å¤‡é€‰ï¼š_propBlock.SetColor("_BaseColor", flashColor); 
             r.SetPropertyBlock(_propBlock);
         }
 
         yield return new WaitForSeconds(duration);
 
-        // 2. »Ö¸´ (Çå³ı PropertyBlock ¼´¿É£¬Ëü»á»ØÍËµ½²ÄÖÊÄ¬ÈÏÖµ)
+        // 2. æ¢å¤ (æ¸…é™¤ PropertyBlock å³å¯ï¼Œå®ƒä¼šå›é€€åˆ°æè´¨é»˜è®¤å€¼)
         foreach (var r in _renderers)
         {
             r.GetPropertyBlock(_propBlock);
-            _propBlock.SetColor("_EmissionColor", Color.black); // ºÚÉ« Emission = ²»·¢¹â
+            _propBlock.SetColor("_EmissionColor", Color.black); // é»‘è‰² Emission = ä¸å‘å…‰
             r.SetPropertyBlock(_propBlock);
         }
 

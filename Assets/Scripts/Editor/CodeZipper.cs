@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Text;
@@ -15,14 +15,14 @@ public class CodeZipper : EditorWindow
     private void OnGUI()
     {
         GUILayout.Space(20);
-        GUILayout.Label("ÏîÄ¿´úÂëÌáÈ¡¹¤¾ß", EditorStyles.boldLabel);
+        GUILayout.Label("é¡¹ç›®ä»£ç æå–å·¥å…·", EditorStyles.boldLabel);
         GUILayout.Space(10);
 
-        EditorGUILayout.HelpBox("¸Ã¹¤¾ß½«ÌáÈ¡ Assets/Scripts ÏÂËùÓĞ .cs ÎÄ¼ş£¬ÒÆ³ı×¢ÊÍÓë»»ĞĞ£¬²¢´ò°ü³ÉÒ»¸öÎÄ±¾ÎÄ¼ş¡£\n\nÎÄ¼ş½«±£´æÔÚ£º\nÏîÄ¿¸ùÄ¿Â¼/ProjectAllCodesList/", MessageType.Info);
+        EditorGUILayout.HelpBox("è¯¥å·¥å…·å°†æå– Assets/Scripts ä¸‹æ‰€æœ‰ .cs æ–‡ä»¶ï¼Œç§»é™¤æ³¨é‡Šä¸æ¢è¡Œï¼Œå¹¶æ‰“åŒ…æˆä¸€ä¸ªæ–‡æœ¬æ–‡ä»¶ã€‚\n\næ–‡ä»¶å°†ä¿å­˜åœ¨ï¼š\né¡¹ç›®æ ¹ç›®å½•/ProjectAllCodesList/", MessageType.Info);
 
         GUILayout.Space(20);
 
-        if (GUILayout.Button("Start Zip (ÌáÈ¡²¢Ñ¹Ëõ)", GUILayout.Height(40)))
+        if (GUILayout.Button("Start Zip (æå–å¹¶å‹ç¼©)", GUILayout.Height(40)))
         {
             ZipCodes();
         }
@@ -34,7 +34,7 @@ public class CodeZipper : EditorWindow
 
         if (!Directory.Exists(scriptsFolder))
         {
-            EditorUtility.DisplayDialog("´íÎó", "Î´ÕÒµ½ 'Assets/Scripts' ÎÄ¼ş¼Ğ£¡\nÇëÈ·ÈÏÄãµÄ´úÂë¶¼ÔÚ Scripts Ä¿Â¼ÏÂ¡£", "È·¶¨");
+            EditorUtility.DisplayDialog("é”™è¯¯", "æœªæ‰¾åˆ° 'Assets/Scripts' æ–‡ä»¶å¤¹ï¼\nè¯·ç¡®è®¤ä½ çš„ä»£ç éƒ½åœ¨ Scripts ç›®å½•ä¸‹ã€‚", "ç¡®å®š");
             return;
         }
 
@@ -45,11 +45,16 @@ public class CodeZipper : EditorWindow
 
         foreach (string path in scriptPaths)
         {
-            // ÅÅ³ı Editor ÎÄ¼ş¼Ğ´úÂë£¨¿ÉÑ¡£©
+            // æ’é™¤ Editor æ–‡ä»¶å¤¹ä»£ç ï¼ˆå»ºè®®å¼€å¯ï¼‰
             // if (path.Contains("Editor")) continue; 
 
-            // [ĞŞ¸Ä¹Ø¼üµã] Ç¿ÖÆÊ¹ÓÃ UTF8 ¶ÁÈ¡£¬½â¾ö¶ÁÈ¡Ê±µÄÂÒÂë
-            string content = File.ReadAllText(path, Encoding.UTF8);
+            // [ä¿®æ”¹å¤„] ä½¿ç”¨ StreamReader é…åˆ Encoding.Default + detectEncodingFromByteOrderMarks
+            // è¿™æ ·æ—¢èƒ½è¯»æ‡‚ UTF-8ï¼Œä¹Ÿèƒ½è¯»æ‡‚ GBK (ä¸­æ–‡é»˜è®¤)
+            string content;
+            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default, true))
+            {
+                content = sr.ReadToEnd();
+            }
 
             string compressedContent = CompressCode(content);
 
@@ -72,23 +77,23 @@ public class CodeZipper : EditorWindow
         string outputFileName = GetNextVersionFileName(targetDir);
         string finalPath = Path.Combine(targetDir, outputFileName);
 
-        // [ĞŞ¸Ä¹Ø¼üµã] Ç¿ÖÆÊ¹ÓÃ UTF8 Ğ´Èë£¬½â¾ö±£´æÊ±µÄÂÒÂë
+        // å†™å…¥æ—¶ä¿æŒ UTF-8 æ˜¯å¯¹çš„ï¼Œè¿™æ˜¯é€šç”¨çš„è¾“å‡ºæ ¼å¼
         File.WriteAllText(finalPath, sb.ToString(), Encoding.UTF8);
 
-        EditorUtility.DisplayDialog("Íê³É",
-            $"³É¹¦ÌáÈ¡ {fileCount} ¸ö½Å±¾ÎÄ¼ş¡£\n(À´Ô´: Assets/Scripts)\n\nÒÑ±£´æÖÁ:\n{finalPath}",
-            "È·¶¨");
+        EditorUtility.DisplayDialog("å®Œæˆ",
+            $"æˆåŠŸæå– {fileCount} ä¸ªè„šæœ¬æ–‡ä»¶ã€‚\n(æ¥æº: Assets/Scripts)\n\nå·²ä¿å­˜è‡³:\n{finalPath}",
+            "ç¡®å®š");
 
         EditorUtility.RevealInFinder(finalPath);
     }
 
     private string CompressCode(string source)
     {
-        // ÒÆ³ı¿é×¢ÊÍ /* ... */
+        // ç§»é™¤å—æ³¨é‡Š /* ... */
         string noBlockComments = Regex.Replace(source, @"/\*[\s\S]*?\*/", "");
-        // ÒÆ³ıĞĞ×¢ÊÍ // ...
+        // ç§»é™¤è¡Œæ³¨é‡Š // ...
         string noLineComments = Regex.Replace(noBlockComments, @"//.*", "");
-        // ½«ËùÓĞ¿Õ°××Ö·û£¨»»ĞĞ¡¢ÖÆ±í·û¡¢¶àÓà¿Õ¸ñ£©Ìæ»»Îªµ¥¸ö¿Õ¸ñ
+        // å°†æ‰€æœ‰ç©ºç™½å­—ç¬¦ï¼ˆæ¢è¡Œã€åˆ¶è¡¨ç¬¦ã€å¤šä½™ç©ºæ ¼ï¼‰æ›¿æ¢ä¸ºå•ä¸ªç©ºæ ¼
         string singleLine = Regex.Replace(noLineComments, @"\s+", " ");
         return singleLine.Trim();
     }

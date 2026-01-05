@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class PickupItem : NetworkBehaviour, IInteractable
@@ -13,22 +13,22 @@ public class PickupItem : NetworkBehaviour, IInteractable
     [ServerRpc(RequireOwnership = false)]
     private void RequestPickupServerRpc(ulong sourceId)
     {
-        // 2. ·şÎñÆ÷¸ºÔğ£ºÑéÖ¤¡¢¼Ó·Ö¡¢Ïú»Ù
+        // 2. æœåŠ¡å™¨è´Ÿè´£ï¼šéªŒè¯ã€åŠ åˆ†ã€é”€æ¯
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(sourceId, out var sourceNetObj))
         {
-            // ÑéÖ¤¾àÀë
+            // éªŒè¯è·ç¦»
             if (Vector3.Distance(transform.position, sourceNetObj.transform.position) > 3.0f) return;
-            // »ñÈ¡Íæ¼ÒºËĞÄ×é¼ş
-            // Ôö¼Ó·ÖÊı + ÎïÆ·Èë±³°ü
+            // è·å–ç©å®¶æ ¸å¿ƒç»„ä»¶
+            // å¢åŠ åˆ†æ•° + ç‰©å“å…¥èƒŒåŒ…
             //if (sourceNetObj.TryGetComponent<PlayerNetworkCore>(out var playerdata))
             if (sourceNetObj.TryGetComponent<PlayerDataContainer>(out var playerdata))
             {
-            // Ö±½Óµ÷ÓÃ Server ¶Ë·½·¨¼Ó·Ö
+            // ç›´æ¥è°ƒç”¨ Server ç«¯æ–¹æ³•åŠ åˆ†
             playerdata.AddPointsServer(points);
-            // µ÷ÓÃ server ¶Ë·½·¨Èë±³°ü
+            // è°ƒç”¨ server ç«¯æ–¹æ³•å…¥èƒŒåŒ…
             playerdata.AddItemServer(gameObject.name);
 
-            // Ïú»ÙÒ©Ë®
+            // é”€æ¯è¯æ°´
             GetComponent<NetworkObject>().Despawn();
             }
         }

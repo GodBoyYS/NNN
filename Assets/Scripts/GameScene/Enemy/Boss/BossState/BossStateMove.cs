@@ -1,29 +1,26 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BossStateMove : BossBaseState
 {
-    private float _repathTimer = 0f;
-    private float _repathInterval = 0.2f;
+    private float _repathTimer = 0f; private float _repathInterval = 0.2f;
 
     public BossStateMove(BossController controller, BossStateMachine sm) : base(controller, sm) { }
 
-    public override void Enter()
+    public override void OnEnter()
     {
-        // [±íÏÖ]
-        _view.PlayAnimation("Walk");
+        PlayAnimation("Walk");
 
-        // [Âß¼­ - Server]
         if (_controller.IsServer)
         {
-            if (_controller.Agent.isOnNavMesh) _controller.Agent.isStopped = false;
+            if (_controller.Agent.isOnNavMesh)
+                _controller.Agent.isStopped = false;
         }
     }
 
-    public override void Update()
+    public override void OnUpdate()
     {
         if (!_controller.IsServer) return;
 
-        // [Âß¼­ - Server]
         if (_controller.Target == null)
         {
             _controller.SetState(BossController.BossMotionState.Idle);
@@ -32,20 +29,22 @@ public class BossStateMove : BossBaseState
 
         float dist = Vector3.Distance(_controller.transform.position, _controller.Target.transform.position);
 
-        // ³¬³ö×·»÷·¶Î§
+        // å¦‚æœè·ç¦»è¿‡è¿œï¼Œæ”¾å¼ƒè¿½é€
         if (dist > _controller.ChaseRange * 1.5f)
         {
+            _controller.SetTarget(null);
             _controller.SetState(BossController.BossMotionState.Idle);
             return;
         }
 
-        // ½øÈë¹¥»÷·¶Î§
+        // å¦‚æœè·ç¦»è¶³å¤Ÿè¿‘ï¼Œå°è¯•è¿›å…¥æ”»å‡»
         if (dist <= _controller.BasicAttackRange)
         {
-            if (_controller.TrySelectAndStartAttack()) return;
+            if (_controller.TrySelectAndStartAttack())
+                return; // æˆåŠŸåˆ‡æ¢åˆ° Charge
         }
 
-        // Ñ°Â·Âß¼­
+        // æ‰§è¡Œå¯»è·¯
         _repathTimer += Time.deltaTime;
         if (_repathTimer > _repathInterval)
         {
@@ -55,43 +54,3 @@ public class BossStateMove : BossBaseState
         }
     }
 }
-
-//using UnityEngine;
-//using UnityEngine.AI;
-
-//public class BossStateMove : IEnemyState
-//{
-//    private BossPresentation _view;
-//    private NavMeshAgent _agent;
-
-//    public BossStateMove(BossPresentation view)
-//    {
-//        _view = view;
-//        _agent = view.GetComponent<NavMeshAgent>();
-//    }
-
-//    public void Enter()
-//    {
-//        _view.Animator.Play("Walk");
-//    }
-
-//    public void Exit() { }
-
-//    public void Update()
-//    {
-//        // ¼òµ¥µÄ·À»¬²½¼ì²â
-//        if (_agent != null)
-//        {
-//            // Èç¹ûËÙ¶ÈºÜÂı£¬¿ÉÄÜÊÇ±»µ²×¡»òÕßÍ£Ö¹ÁË£¬ÁÙÊ±²¥ Idle
-//            if (_agent.velocity.sqrMagnitude < 0.1f)
-//            {
-//                // _view.Animator.Play("Idle"); 
-//            }
-//            else
-//            {
-//                // È·±£¶¯»­×´Ì¬»úÔÚ Walk
-//                // _view.Animator.Play("Walk");
-//            }
-//        }
-//    }
-//}

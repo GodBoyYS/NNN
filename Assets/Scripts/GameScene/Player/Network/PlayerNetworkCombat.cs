@@ -35,7 +35,11 @@ public class PlayerNetworkCombat : NetworkBehaviour
         for (int i = 0; i < _skillSlots.Count; i++)
         {
             if (_skillSlots[i] != null)
+            {
+                _skillSlots[i].SetDurations();
                 _cooldownTimers[i] = _skillSlots[i].coolDown;
+            }
+                
         }
     }
 

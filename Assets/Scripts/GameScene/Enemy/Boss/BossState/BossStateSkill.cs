@@ -1,84 +1,59 @@
+Ôªøusing System.Collections;
 using UnityEngine;
 
 public class BossStateSkill : BossBaseState
 {
-    private float _timer;
-    private float _recoveryTime;
-    private bool _hasCast;
+    private Coroutine _skillCoroutine;
 
     public BossStateSkill(BossController controller, BossStateMachine sm) : base(controller, sm) { }
 
-    public override void Enter()
+    public override void OnEnter()
     {
-        var skillData = _controller.CurrentSkillData;
-        //string animName = skillData != null ? skillData.animationName : "Attack";
-        string animName = skillData != null ? skillData.activeAnimationName : "Attack";
+        int skillIndex = _stateMachine.PendingSkillIndex;
+        if (skillIndex == -1 || skillIndex >= _controller.Skills.Length)
+        {
+            if (_controller.IsServer) _controller.SetState(BossController.BossMotionState.Idle);
+            return;
+        }
 
-        // [±Ìœ÷]
-        _view.PlayAnimation(animName);
+        var skillData = _controller.Skills[skillIndex];
 
-        // [¬ﬂº≠ - Server]
+        // Êí≠Êîæ Active Âä®Áîª
+        string animName = !string.IsNullOrEmpty(skillData.activeAnimationName) ? skillData.activeAnimationName : "Attack";
+        PlayAnimation(animName, 0.05f);
+
         if (_controller.IsServer)
         {
-            _timer = 0f;
-            _hasCast = false;
-            // ”≤±‡¬Îµƒ∫Û“° ±º‰£¨“≤ø…“‘≈‰÷√‘⁄SkillData¿Ô
-            _recoveryTime = (_controller.CurrentSkillIdx == 0) ? 1.0f : 2.0f;
-            _controller.RotateTowardsTarget();
+            // ÊâßË°åÊäÄËÉΩÈÄªËæë (Cast)
+            Vector3 castPos = _controller.Target != null ? _controller.Target.transform.position : _controller.transform.position;
+            if (skillData.isSelfCentered) castPos = _controller.transform.position;
+
+            skillData.Cast(_controller.gameObject, _controller.Target != null ? _controller.Target.gameObject : null, castPos);
+
+            // ÂºÄÂêØËÆ°Êó∂
+            _skillCoroutine = _controller.StartCoroutine(EndSkillRoutine(skillData.activeDuration));
         }
     }
 
-    public override void Update()
+    public override void OnUpdate()
     {
         if (!_controller.IsServer) return;
+        // Active Èò∂ÊÆµÈÄöÂ∏∏ÈîÅÂÆöÊóãËΩ¨ÔºåÊàñËÄÖÊ†πÊçÆÈúÄÊ±Ç _controller.RotateTowardsTarget();
+    }
 
-        _timer += Time.deltaTime;
-
-        // ’‚¿Ôµƒ¬ﬂº≠ƒ£ƒ‚¡À‘≠±æCoroutine¿Ôµƒ Cast ¬ﬂº≠
-        if (!_hasCast)
+    public override void OnExit()
+    {
+        if (_skillCoroutine != null)
         {
-            _hasCast = true;
-            var skillData = _controller.CurrentSkillData;
-            if (skillData != null)
-            {
-                // æﬂÃÂµƒ…À∫¶/…˙≥…≈–∂®
-                Vector3 castPos = _controller.Target != null ? _controller.Target.transform.position : _controller.transform.position;
-                if (skillData.isSelfCentered) castPos = _controller.transform.position;
-
-                skillData.Cast(_controller.gameObject,
-                    _controller.Target != null ? _controller.Target.gameObject : null,
-                    castPos);
-            }
-        }
-
-        if (_timer >= _recoveryTime)
-        {
-            _controller.SetState(BossController.BossMotionState.Idle);
+            _controller.StopCoroutine(_skillCoroutine);
+            _skillCoroutine = null;
         }
     }
+
+    private IEnumerator EndSkillRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        // Active ÁªìÊùüÔºåÂàáÊç¢Âà∞ Recovery Áä∂ÊÄÅ
+        _controller.SetState(BossController.BossMotionState.Recovery);
+    }
 }
-
-//using UnityEngine;
-
-//public class BossStateSkill : IEnemyState
-//{
-//    private BossPresentation _view;
-//    public BossStateSkill(BossPresentation view)
-//    {
-//        _view = view;
-//    }
-
-//    public void Enter()
-//    {
-//        _view.Animator.Play(_view.SkillAnimationName);
-//    }
-
-//    public void Exit()
-//    {
-//    }
-
-//    // Update is called once per frame
-//    public void Update()
-//    {
-//    }
-//}

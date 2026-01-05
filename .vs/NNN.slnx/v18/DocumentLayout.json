@@ -3,44 +3,108 @@
   "WorkspaceRootPath": "C:\\UnityProjects\\NNN\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossbasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossbasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playerstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playerstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\level\\battlezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\level\\battlezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skilleffects\\damagereductioneffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skilleffects\\damagereductioneffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playerdatacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playerdatacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\interfaces\\idamagemitigator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\interfaces\\idamagemitigator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skilleffects\\followareadamageeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skilleffects\\followareadamageeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\damageauracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\damageauracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skilleffects\\damageeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skilleffects\\damageeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstateskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstateskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playerstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playerstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skillso\\skilldataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skillso\\skilldataso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playernetworkcombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playernetworkcombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstatecharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playernetworkmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playernetworkmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstatemove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstatemove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playernewstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playernetworkcombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playernetworkcombat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstatemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bosscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstaterecovery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstateskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstateskill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playermaincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playermaincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatedie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatedie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstateidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatemove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\enemy\\boss\\bossstate\\bossstatemove.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playernetworkmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playernetworkmovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playernewstatedie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,10 +113,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\playerstates\\playerbasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\playerstates\\playerbasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\level\\battlezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\level\\battlezone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\level\\gatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -97,10 +157,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\skills\\skilleffects\\areaeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\skills\\skilleffects\\areaeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\unityprojects\\nnn\\assets\\scripts\\gamescene\\player\\network\\playerdatacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamescene\\player\\network\\playerdatacontainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -110,7 +166,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -126,163 +182,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PlayerNewStateIdle.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:23:40.377Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PlayerNewStateCharge.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAIwB0AAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:28:01.294Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PlayerNewStateRecovery.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAcwEsAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:28:48.04Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PlayerNewStateSkill.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAIwBAAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T13:00:20.951Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "SkillDataSO.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAASwCAAAAASAAAAAAAAAA==",
+              "Title": "IDamageMitigator.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Interfaces\\IDamageMitigator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Interfaces\\IDamageMitigator.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Interfaces\\IDamageMitigator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Interfaces\\IDamageMitigator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:40:05.196Z",
+              "WhenOpened": "2026-01-05T07:53:48.366Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "PlayerNetworkMovement.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
-              "ViewState": "AgIAALkAAAAAAAAAAAAcwMQAAAAfAAAAAAAAAA==",
+              "Title": "DamageAuraController.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\DamageAuraController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\DamageAuraController.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\DamageAuraController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\DamageAuraController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:09:12.284Z",
+              "WhenOpened": "2026-01-05T07:48:30.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DamageReductionEffect.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageReductionEffect.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageReductionEffect.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageReductionEffect.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageReductionEffect.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAcwAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T07:37:43.569Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "PlayerNetworkCombat.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAEwI0AAAA1AAAAAAAAAA==",
+              "Title": "FollowAreaDamageEffect.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FollowAreaDamageEffect.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FollowAreaDamageEffect.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FollowAreaDamageEffect.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\FollowAreaDamageEffect.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAgwAkAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:22:44.567Z",
+              "WhenOpened": "2026-01-05T07:37:18.774Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PlayerDataContainer.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAgwFQAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T07:40:46.959Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "PlayerStateMachine.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:29:29.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PlayerNewStateMove.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAgwGAAAABbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:24:06.989Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "PlayerMainController.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAD4vz8AAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T12:49:37.562Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "PlayerNewStateDie.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T13:34:41.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "PlayerBaseState.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAADwvxcAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T13:33:08.649Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "BattleZone.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Level\\BattleZone.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Level\\BattleZone.cs",
@@ -295,7 +260,290 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BossStateCharge.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateCharge.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAQwE4AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:25:31.039Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BossBaseState.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossBaseState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossBaseState.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossBaseState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossBaseState.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAwwA0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:32:45.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DamageEffect.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageEffect.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageEffect.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageEffect.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\DamageEffect.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T06:58:15.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PlayerNewStateSkill.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateSkill.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAUwD8AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T13:00:20.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PlayerStateMachine.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerStateMachine.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:29:29.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PlayerNewStateIdle.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateIdle.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAcwD4AAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T07:23:40.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PlayerNewStateMove.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateMove.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAgwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T07:24:06.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 13,
+              "Title": "PlayerNewStateRecovery.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateRecovery.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAIwEsAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:28:48.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PlayerNewStateCharge.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateCharge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:28:01.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SkillDataSO.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Skills\\SkillSO\\SkillDataSO.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAADwvyYAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:40:05.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PlayerNetworkCombat.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkCombat.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T07:22:44.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "BossStateMachine.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossStateMachine.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossStateMachine.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossStateMachine.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossStateMachine.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAzwCAAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:32:45.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "BossController.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossController.cs",
+              "ViewState": "AgIAAPoAAAAAAAAAAAAawLkAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:25:10.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "BossStateRecovery.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateRecovery.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateRecovery.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateRecovery.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateRecovery.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAIwDAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:59:49.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "BossStateSkill.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateSkill.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateSkill.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateSkill.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateSkill.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAQwCEAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:59:24.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "PlayerMainController.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerMainController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAADwvz8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T12:49:37.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "BossStateDie.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateDie.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateDie.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateDie.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateDie.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:59:59.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "BossStateIdle.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateIdle.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateIdle.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateIdle.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateIdle.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:58:45.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "BossStateMove.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateMove.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateMove.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateMove.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\Boss\\BossState\\BossStateMove.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAiwDcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T05:59:00.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "PlayerNetworkMovement.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNetworkMovement.cs",
+              "ViewState": "AgIAALkAAAAAAAAAAAAcwMQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T07:09:12.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "PlayerNewStateDie.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerNewStateDie.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T13:34:41.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "PlayerBaseState.cs",
+              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
+              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\PlayerStates\\PlayerBaseState.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvxcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-04T13:33:08.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "GateController.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Level\\GateController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Level\\GateController.cs",
@@ -307,7 +555,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 33,
               "Title": "EnemyController.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
@@ -315,12 +563,11 @@
               "RelativeToolTip": "Assets\\Scripts\\GameScene\\Enemy\\NPC\\EnemyController.cs",
               "ViewState": "AgIAAEYAAAAAAAAAAAAUwE8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:45:02.2Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-04T07:45:02.2Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 34,
               "Title": "PlayerNewInputManager.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNewInputManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerNewInputManager.cs",
@@ -332,7 +579,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 32,
               "Title": "UIBillboard.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\UIBillboard.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\UIBillboard.cs",
@@ -344,7 +591,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 29,
               "Title": "NetworkObjectPool.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\System\\NetworkObjectPool.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\System\\NetworkObjectPool.cs",
@@ -356,7 +603,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 31,
               "Title": "BufferedHealthBar.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\BufferedHealthBar.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\BufferedHealthBar.cs",
@@ -368,7 +615,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 30,
               "Title": "UnitHealthBinder.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\UI\\UnitHealthBinder.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\UI\\UnitHealthBinder.cs",
@@ -380,7 +627,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 35,
               "Title": "TeleportEffect.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\TeleportEffect.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\TeleportEffect.cs",
@@ -392,7 +639,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 36,
               "Title": "ITeleportable.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Interfaces\\ITeleportable.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Interfaces\\ITeleportable.cs",
@@ -404,7 +651,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 37,
               "Title": "KnockbackEffect.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\KnockbackEffect.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\KnockbackEffect.cs",
@@ -416,7 +663,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 38,
               "Title": "AreaEffect.cs",
               "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\AreaEffect.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Skills\\SkillEffects\\AreaEffect.cs",
@@ -425,18 +672,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-04T07:03:44.692Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "PlayerDataContainer.cs",
-              "DocumentMoniker": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
-              "ToolTip": "C:\\UnityProjects\\NNN\\Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameScene\\Player\\Network\\PlayerDataContainer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T07:40:46.959Z"
             }
           ]
         }

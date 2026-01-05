@@ -1,24 +1,24 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 /// <summary>
-/// ¹ÒÔØÔÚÔ¤¾¯ Prefab (Canvas) ÉÏ£¬¸ºÔğ¿ØÖÆÔ¤¾¯È¦µÄ¶¯»­
+/// æŒ‚è½½åœ¨é¢„è­¦ Prefab (Canvas) ä¸Šï¼Œè´Ÿè´£æ§åˆ¶é¢„è­¦åœˆçš„åŠ¨ç”»
 /// </summary>
 public class SkillIndicator : MonoBehaviour
 {
-    [Header("UI ×é¼şÒıÓÃ")]
-    [SerializeField] private Image _fillImage; // ±ØĞëÉèÖÃ Image Type Îª "Filled"
+    [Header("UI ç»„ä»¶å¼•ç”¨")]
+    [SerializeField] private Image _fillImage; // å¿…é¡»è®¾ç½® Image Type ä¸º "Filled"
 
     /// <summary>
-    /// ³õÊ¼»¯²¢¿ªÊ¼²¥·ÅÔ¤¾¯¶¯»­
+    /// åˆå§‹åŒ–å¹¶å¼€å§‹æ’­æ”¾é¢„è­¦åŠ¨ç”»
     /// </summary>
-    /// <param name="duration">Ô¤¾¯³ÖĞøÊ±¼ä£¨Ãë£©</param>
-    /// <param name="diameter">Ô¤¾¯È¦Ö±¾¶£¨Ã×£©</param>
+    /// <param name="duration">é¢„è­¦æŒç»­æ—¶é—´ï¼ˆç§’ï¼‰</param>
+    /// <param name="diameter">é¢„è­¦åœˆç›´å¾„ï¼ˆç±³ï¼‰</param>
     public void Initialize(float duration, float diameter)
     {
-        // ÉèÖÃ Canvas µÄ´óĞ¡£¬Æ¥Åä¼¼ÄÜ·¶Î§
-        // ¶ÔÓÚ World Space Canvas£¬Scale 1 = 1Ã×£¬ËùÒÔÖ±½ÓÉèÖÃ LocalScale ¼´¿É
+        // è®¾ç½® Canvas çš„å¤§å°ï¼ŒåŒ¹é…æŠ€èƒ½èŒƒå›´
+        // å¯¹äº World Space Canvasï¼ŒScale 1 = 1ç±³ï¼Œæ‰€ä»¥ç›´æ¥è®¾ç½® LocalScale å³å¯
         transform.localScale = Vector3.one * diameter;
 
         StartCoroutine(PlayFillAnimationRoutine(duration));
@@ -33,16 +33,16 @@ public class SkillIndicator : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            // ºËĞÄÂß¼­£º¸ù¾İÊ±¼ä±ÈÀı¸üĞÂÌî³ä¶È (0 -> 1)
+            // æ ¸å¿ƒé€»è¾‘ï¼šæ ¹æ®æ—¶é—´æ¯”ä¾‹æ›´æ–°å¡«å……åº¦ (0 -> 1)
             _fillImage.fillAmount = timer / duration;
 
             yield return null;
         }
 
-        // È·±£ÌîÂú
+        // ç¡®ä¿å¡«æ»¡
         _fillImage.fillAmount = 1f;
 
-        // ÉÔÎ¢ÑÓ³ÙÏú»Ù£¬·ÀÖ¹ÊÓ¾õÉÏÏûÊ§µÃÌ«Í»Ø£
+        // ç¨å¾®å»¶è¿Ÿé”€æ¯ï¼Œé˜²æ­¢è§†è§‰ä¸Šæ¶ˆå¤±å¾—å¤ªçªå…€
         yield return new WaitForSeconds(0.1f);
 
         Destroy(gameObject);

@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerMainController : NetworkBehaviour
@@ -16,7 +16,7 @@ public class PlayerMainController : NetworkBehaviour
     public PlayerDataContainer DataContainer => _dataContainer;
     public Animator Animator => _animator;
 
-    // »ñÈ¡µ±Ç°Ö¡ÊäÈë (Èç¹ûÊÇOwner)
+    // è·å–å½“å‰å¸§è¾“å…¥ (å¦‚æœæ˜¯Owner)
     public FrameInput Input => _inputManager != null ? _inputManager.CurrentInput : new FrameInput();
 
     private PlayerStateMachine _stateMachine;
@@ -24,7 +24,7 @@ public class PlayerMainController : NetworkBehaviour
 
     private void Awake()
     {
-        // ×Ô¶¯»ñÈ¡×é¼ş
+        // è‡ªåŠ¨è·å–ç»„ä»¶
         if (_movement == null) _movement = GetComponent<PlayerNetworkMovement>();
         if (_combat == null) _combat = GetComponent<PlayerNetworkCombat>();
         if (_dataContainer == null) _dataContainer = GetComponent<PlayerDataContainer>();
@@ -35,7 +35,7 @@ public class PlayerMainController : NetworkBehaviour
 
         if (GameCameraManager.Instance != null)
         {
-            //Debug.Log("[Client Debug] ÕÒµ½ GameCameraManager£¬ÕıÔÚÉèÖÃ¸úËæÄ¿±ê...");
+            //Debug.Log("[Client Debug] æ‰¾åˆ° GameCameraManagerï¼Œæ­£åœ¨è®¾ç½®è·Ÿéšç›®æ ‡...");
             GameCameraManager.Instance.SetFollowTarget(transform);
         }
     }
@@ -60,7 +60,7 @@ public class PlayerMainController : NetworkBehaviour
 
     private void Update()
     {
-        // ×´Ì¬»úÃ¿Ö¡ÔËĞĞ
+        // çŠ¶æ€æœºæ¯å¸§è¿è¡Œ
         _stateMachine.Update();
     }
 }

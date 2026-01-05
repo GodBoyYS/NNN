@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,7 +8,7 @@ public class PlayerStateMove : IPlayerState
     public PlayerStateMove(PlayerPresentation view) => _view = view;
     public void Enter()
     {
-        //Debug.Log("½øÈë Move£¨Presentation£©");
+        //Debug.Log("è¿›å…¥ Moveï¼ˆPresentationï¼‰");
         //_view.Animator.SetBool("Moving", true);
         _view.Animator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
         // Animator.SetBool("Moving", true)
@@ -19,7 +19,7 @@ public class PlayerStateMove : IPlayerState
     }
     public void Update()
     {
-        // ´¿±íÏÖ£º½Å²½Éù¡¢ÒÆ¶¯¶¯»­
+        // çº¯è¡¨ç°ï¼šè„šæ­¥å£°ã€ç§»åŠ¨åŠ¨ç”»
     }
 }
 
@@ -36,7 +36,7 @@ public class PlayerStateMove : IPlayerState
 //    }
 //    public void Enter()
 //    {
-//        Debug.Log("½øÈëmove×´Ì¬");
+//        Debug.Log("è¿›å…¥moveçŠ¶æ€");
 //    }
 //    public void Exit(){}
 //    public void Update()
@@ -82,7 +82,7 @@ public class PlayerStateMove : IPlayerState
     }
     public void Enter()
     {
-        Debug.Log("½øÈëmove×´Ì¬");
+        Debug.Log("è¿›å…¥moveçŠ¶æ€");
         _player.RequestMove(_initialTarget);
     }
 
@@ -109,26 +109,26 @@ public class PlayerStateMove : IPlayerState
 
 
 
-        //// 1. ¿Í»§¶ËÂß¼­£º¼ì²âÊäÈë²¢·¢ËÍÇëÇó
+        //// 1. å®¢æˆ·ç«¯é€»è¾‘ï¼šæ£€æµ‹è¾“å…¥å¹¶å‘é€è¯·æ±‚
         //if (_player.IsOwner)
         //{
         //    HandleInput();
         //}
-        //// 2. ·şÎñÆ÷Âß¼­£ºÖ´ĞĞÊµ¼ÊÒÆ¶¯
-        //// ×¢Òâ£ºÒòÎªÓĞ NetworkTransform£¬·şÎñÆ÷ÒÆ¶¯ºó»á×Ô¶¯Í¬²½¸ø¿Í»§¶Ë
-        //if (_player.IsServer) // --> ÎÒµÄĞŞ¸Ä
+        //// 2. æœåŠ¡å™¨é€»è¾‘ï¼šæ‰§è¡Œå®é™…ç§»åŠ¨
+        //// æ³¨æ„ï¼šå› ä¸ºæœ‰ NetworkTransformï¼ŒæœåŠ¡å™¨ç§»åŠ¨åä¼šè‡ªåŠ¨åŒæ­¥ç»™å®¢æˆ·ç«¯
+        //if (_player.IsServer) // --> æˆ‘çš„ä¿®æ”¹
         //{
         //    if (!_player.IsMoving)
         //    {
-        //        Debug.Log("Í£Ö¹ÒÆ¶¯ÁË£¡£¡£¡");
-        //        // ×¢Òâ£ºÕâÀïÀûÓÃÁË NetworkTransform Í¬²½¹ıÀ´µÄ position
-        //        // ¿Í»§¶Ë·¢ÏÖ×Ô¼ºµ½ÁË£¬ÇĞ Idle¡£
-        //        // ·şÎñÆ÷·¢ÏÖÍæ¼Òµ½ÁË£¬Ò²ÇĞ Idle¡£
-        //        // ´ó¼Ò´ï³É"Âß¼­ÉÏµÄÄ¬Æõ"£¬¶ø²»ĞèÒª·¢ RPC »¥ÏàÍ¨Öª¡£
-        //        _player.ChangeState(new PlayerStateIdle(_player));  // µÚÒ»²½£¬·şÎñÆ÷µÄ¸´ÖÆÌåÏÈÇĞ»»×´Ì¬
+        //        Debug.Log("åœæ­¢ç§»åŠ¨äº†ï¼ï¼ï¼");
+        //        // æ³¨æ„ï¼šè¿™é‡Œåˆ©ç”¨äº† NetworkTransform åŒæ­¥è¿‡æ¥çš„ position
+        //        // å®¢æˆ·ç«¯å‘ç°è‡ªå·±åˆ°äº†ï¼Œåˆ‡ Idleã€‚
+        //        // æœåŠ¡å™¨å‘ç°ç©å®¶åˆ°äº†ï¼Œä¹Ÿåˆ‡ Idleã€‚
+        //        // å¤§å®¶è¾¾æˆ"é€»è¾‘ä¸Šçš„é»˜å¥‘"ï¼Œè€Œä¸éœ€è¦å‘ RPC äº’ç›¸é€šçŸ¥ã€‚
+        //        _player.ChangeState(new PlayerStateIdle(_player));  // ç¬¬ä¸€æ­¥ï¼ŒæœåŠ¡å™¨çš„å¤åˆ¶ä½“å…ˆåˆ‡æ¢çŠ¶æ€
 
         //        _player.ChangeStateToIdleClientRpc();
-        //        //_player.SwitchToIdleClientRpc();//  µÚ¶ş²½£¬¿Í»§¶ËÍ¬²½Ö´ĞĞ --> ²»ĞèÒªÕâÀï
+        //        //_player.SwitchToIdleClientRpc();//  ç¬¬äºŒæ­¥ï¼Œå®¢æˆ·ç«¯åŒæ­¥æ‰§è¡Œ --> ä¸éœ€è¦è¿™é‡Œ
         //    }
         //}
     }
@@ -142,24 +142,24 @@ public class PlayerStateMove : IPlayerState
             //_player.ChangeState(new PlayerStateIdle(_player));
             return;
         }
-        // Êó±êÓÒ¼üµã»÷ (0ÊÇ×ó¼ü, 1ÊÇÓÒ¼ü, 2ÊÇÖĞ¼ü)
+        // é¼ æ ‡å³é”®ç‚¹å‡» (0æ˜¯å·¦é”®, 1æ˜¯å³é”®, 2æ˜¯ä¸­é”®)
         if (Input.GetMouseButtonDown(1))
         {
             if (_player.IsServer)
             {
-                Debug.Log("·şÎñÆ÷ÊµÀıÊäÈë");
+                Debug.Log("æœåŠ¡å™¨å®ä¾‹è¾“å…¥");
             }
             else if (_player.IsClient)
             {
-                Debug.Log("¿Í»§¶ËÊµÀıÊäÈë");
+                Debug.Log("å®¢æˆ·ç«¯å®ä¾‹è¾“å…¥");
             }
             Ray ray = _player.MainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            // ÉäÏß¼ì²â£¬Ö»¼ì²â Ground ²ã
+            // å°„çº¿æ£€æµ‹ï¼Œåªæ£€æµ‹ Ground å±‚
             if (Physics.Raycast(ray, out hit, 1000f, _player.GroundLayer))
             {
-                // ·¢ËÍ RPC ¸ø·şÎñÆ÷£¬ÇëÇóÒÆ¶¯
-                // ×¢Òâ£ºÖ»·¢ËÍµã»÷µÄ×ø±êµã£¬²»Ö±½ÓÒÆ¶¯
+                // å‘é€ RPC ç»™æœåŠ¡å™¨ï¼Œè¯·æ±‚ç§»åŠ¨
+                // æ³¨æ„ï¼šåªå‘é€ç‚¹å‡»çš„åæ ‡ç‚¹ï¼Œä¸ç›´æ¥ç§»åŠ¨
                 _player.RequestMove(hit.point);
             }
         }

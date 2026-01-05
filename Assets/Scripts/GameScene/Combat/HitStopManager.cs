@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class HitStopManager : MonoBehaviour
@@ -13,13 +13,13 @@ public class HitStopManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ´¥·¢¶ÙÖ¡
+    /// è§¦å‘é¡¿å¸§
     /// </summary>
-    /// <param name="duration">³ÖĞøÊ±¼ä (Ãë)</param>
-    /// <param name="timeScale">Ê±¼äËõ·Å±ÈÀı (0.0 ~ 1.0)</param>
+    /// <param name="duration">æŒç»­æ—¶é—´ (ç§’)</param>
+    /// <param name="timeScale">æ—¶é—´ç¼©æ”¾æ¯”ä¾‹ (0.0 ~ 1.0)</param>
     public void TriggerHitStop(float duration = 0.05f, float timeScale = 0.1f)
     {
-        if (_isWaiting) return; // Èç¹ûÕıÔÚ¶ÙÖ¡£¬ºöÂÔĞÂµÄÇëÇó£¨·ÀÖ¹¹íĞó£©
+        if (_isWaiting) return; // å¦‚æœæ­£åœ¨é¡¿å¸§ï¼Œå¿½ç•¥æ–°çš„è¯·æ±‚ï¼ˆé˜²æ­¢é¬¼ç•œï¼‰
         StartCoroutine(HitStopRoutine(duration, timeScale));
     }
 
@@ -27,16 +27,16 @@ public class HitStopManager : MonoBehaviour
     {
         _isWaiting = true;
 
-        // ¼ÇÂ¼Ô­Ê¼ TimeScale (Í¨³£ÊÇ 1)
+        // è®°å½•åŸå§‹ TimeScale (é€šå¸¸æ˜¯ 1)
         float original = Time.timeScale;
 
-        // Ë²¼ä¼õËÙ
+        // ç¬é—´å‡é€Ÿ
         Time.timeScale = targetScale;
 
-        // µÈ´ıÕæÊµÊ±¼ä (²»ÊÜ timeScale Ó°Ïì)
+        // ç­‰å¾…çœŸå®æ—¶é—´ (ä¸å— timeScale å½±å“)
         yield return new WaitForSecondsRealtime(duration);
 
-        // »Ö¸´
+        // æ¢å¤
         Time.timeScale = original;
         _isWaiting = false;
     }

@@ -1,4 +1,4 @@
-using Unity.Netcode;
+ï»¿using Unity.Netcode;
 using UnityEngine;
 
 public class testBossSkill : NetworkBehaviour
@@ -24,17 +24,17 @@ public class testBossSkill : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Debug.Log("bossÊÍ·Å¼¼ÄÜ2");
+            Debug.Log("bossé‡Šæ”¾æŠ€èƒ½2");
             skills[0].Cast(gameObject, null, transform.position);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log("bossÊÍ·Å´óÕÐ");
+            Debug.Log("bossé‡Šæ”¾å¤§æ‹›");
             skills[1].Cast(gameObject, null, transform.position);
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log("bossÊÍ·ÅÀØÉä");
+            Debug.Log("bossé‡Šæ”¾é•­å°„");
             skills[2].Cast(gameObject, null, transform.position);
         }
     }

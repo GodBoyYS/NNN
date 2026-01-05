@@ -1,27 +1,27 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 
 [Serializable]
 public class CameraShakeEffect : SkillEffect
 {
-    [Header("ÆÁÄ»Õğ¶¯ÅäÖÃ")]
-    [Tooltip("Õğ¶¯Á¦¶È (0.1 - 5.0)")]
+    [Header("å±å¹•éœ‡åŠ¨é…ç½®")]
+    [Tooltip("éœ‡åŠ¨åŠ›åº¦ (0.1 - 5.0)")]
     public float shakeForce = 1.0f;
 
-    [Tooltip("Ö»ÓĞÊÍ·ÅÕß×Ô¼ºÄÜ¸ĞÊÜµ½Õğ¶¯Âğ£¿")]
+    [Tooltip("åªæœ‰é‡Šæ”¾è€…è‡ªå·±èƒ½æ„Ÿå—åˆ°éœ‡åŠ¨å—ï¼Ÿ")]
     public bool onlyLocalPlayer = true;
 
     public override void Execute(GameObject caster, GameObject target, Vector3 position)
     {
-        // Ö»ÓĞÔÚ¿Í»§¶Ë²Å´¦ÀíÊÓ¾õ±íÏÖ
+        // åªæœ‰åœ¨å®¢æˆ·ç«¯æ‰å¤„ç†è§†è§‰è¡¨ç°
         if (GameCameraManager.Instance == null) return;
 
         bool shouldShake = false;
 
         if (onlyLocalPlayer)
         {
-            // Ö»ÓĞµ±ÊÍ·ÅÕßÊÇ±¾»úÍæ¼ÒÊ±£¬²ÅÕğ¶¯
-            // ×¢Òâ£ºÎÒÃÇĞèÒª¼ì²é Caster µÄ NetworkObject ÊÇ·ñÊÇ IsOwner
+            // åªæœ‰å½“é‡Šæ”¾è€…æ˜¯æœ¬æœºç©å®¶æ—¶ï¼Œæ‰éœ‡åŠ¨
+            // æ³¨æ„ï¼šæˆ‘ä»¬éœ€è¦æ£€æŸ¥ Caster çš„ NetworkObject æ˜¯å¦æ˜¯ IsOwner
             if (caster.TryGetComponent<Unity.Netcode.NetworkObject>(out var netObj))
             {
                 if (netObj.IsOwner) shouldShake = true;
@@ -29,9 +29,9 @@ public class CameraShakeEffect : SkillEffect
         }
         else
         {
-            // È«¾ÖÕğ¶¯ (ÀıÈç Boss ÔÒµØ£¬ËùÓĞÈË¶¼Ó¦¸Ã¸Ğ¾õµ½)
-            // ÕâÀï¿ÉÒÔ¼òµ¥´¦ÀíÎªÖ»ÒªÖ´ĞĞ¾ÍÕğ¶¯£¬
-            // ½ø½××ö·¨ÊÇ¼ÆËã Camera ºÍ position µÄ¾àÀë£¬Ì«Ô¶¾Í²»Õğ
+            // å…¨å±€éœ‡åŠ¨ (ä¾‹å¦‚ Boss ç ¸åœ°ï¼Œæ‰€æœ‰äººéƒ½åº”è¯¥æ„Ÿè§‰åˆ°)
+            // è¿™é‡Œå¯ä»¥ç®€å•å¤„ç†ä¸ºåªè¦æ‰§è¡Œå°±éœ‡åŠ¨ï¼Œ
+            // è¿›é˜¶åšæ³•æ˜¯è®¡ç®— Camera å’Œ position çš„è·ç¦»ï¼Œå¤ªè¿œå°±ä¸éœ‡
             shouldShake = true;
         }
 
